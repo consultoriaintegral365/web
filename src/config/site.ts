@@ -15,8 +15,8 @@ export const site = {
   name: 'Consultoría Integral 365',
   shortName: 'CI365',
 
-  /** REVISAR — Razón social exacta inscrita en SUNARP / SUNAT. */
-  legalName: 'Consultoría Integral 365 S.A.C.',
+  /** Razón social inscrita en SUNAT. Confirmada por el usuario el 2026-09-18. */
+  legalName: 'Consultoría Integral 365 E.I.R.L.',
 
   /** REVISAR — RUC de 11 dígitos. Obligatorio para identificar al titular del banco de datos. */
   taxId: '20XXXXXXXXX',
