@@ -32,11 +32,17 @@ export const site = {
     countryCode: 'PE',
   },
 
+  /**
+   * Todas las direcciones apuntan hoy al mismo buzón real, por decisión del
+   * usuario (2026-09-18): es preferible publicar una dirección que funciona a
+   * varias que rebotan. La estructura se mantiene separada para que, si algún
+   * día se crean alias en Microsoft 365, baste con cambiar cada línea aquí.
+   */
   email: {
-    general: 'contacto@consultoriaintegral365.com',
-    privacy: 'privacidad@consultoriaintegral365.com',
-    legal: 'legal@consultoriaintegral365.com',
-    support: 'soporte@consultoriaintegral365.com',
+    general: 'jorab@consultoriaintegral365.com',
+    privacy: 'jorab@consultoriaintegral365.com',
+    legal: 'jorab@consultoriaintegral365.com',
+    support: 'jorab@consultoriaintegral365.com',
   },
 
   /** REVISAR — Teléfono de contacto en formato internacional. */
