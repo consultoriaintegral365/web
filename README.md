@@ -76,17 +76,16 @@ en `routes.ts` y en `ui.ts`. No hay nada más que tocar.
 > siguiente empieza por `<a`, `<strong>`, `<time>` o `{`, hay que cerrar la
 > línea con `{' '}` explícito o las palabras aparecerán pegadas.
 
-## Pendiente antes de considerarlo definitivo
+## Datos de la empresa
 
-Los datos registrales son marcadores de posición. Buscarlos con:
+Razón social, RUC, domicilio, teléfono y contacto viven en `src/config/site.ts`
+y están confirmados. Cambiar cualquiera de ellos es editar ese único archivo: se
+propaga a los tres idiomas, a los seis documentos legales, al pie de página y a
+los datos estructurados.
 
-```bash
-grep -rn "REVISAR" src/
-```
-
-Hay que completar en `src/config/site.ts`: razón social exacta, RUC, domicilio
-fiscal, teléfono y URL de LinkedIn. Son obligatorios en la política de
-privacidad conforme a la Ley N° 29733.
+El domicilio se publica solo como distrito, ciudad y país. Para incluir la
+dirección completa basta con rellenar `address.street`; la línea se compone sola
+en `addressLine` y omite los campos vacíos.
 
 ## Documentos legales
 

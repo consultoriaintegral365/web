@@ -5,9 +5,10 @@
  * estructurados y metadatos) lee de aquí. Cambiar un dato en este archivo
  * lo actualiza en los tres idiomas a la vez.
  *
- * ⚠️  Los campos marcados con «REVISAR» son obligatorios legalmente en Perú
- *     (Ley N° 29733) y deben completarse con los datos reales antes de
- *     publicar. Búscalos con: grep -rn "REVISAR" src/
+ * Todos los datos están confirmados por el usuario (2026-09-18). La razón
+ * social, el RUC y el domicilio son obligatorios en la política de privacidad
+ * conforme a la Ley N° 29733: si cambian, hay que actualizarlos aquí y volver a
+ * desplegar, no dejarlos desactualizados.
  */
 
 export const site = {
@@ -18,8 +19,8 @@ export const site = {
   /** Razón social inscrita en SUNAT. Confirmada por el usuario el 2026-09-18. */
   legalName: 'Consultoría Integral 365 E.I.R.L.',
 
-  /** REVISAR — RUC de 11 dígitos. Obligatorio para identificar al titular del banco de datos. */
-  taxId: '20XXXXXXXXX',
+  /** RUC. Confirmado por el usuario el 2026-09-18 y validado por dígito verificador. */
+  taxId: '20610886770',
 
   /**
    * Domicilio. `street` se omite deliberadamente (decisión del usuario,
