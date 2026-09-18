@@ -71,6 +71,21 @@ export const site = {
 export type Site = typeof site;
 
 /**
+ * Stack tecnológico, en dos niveles deliberados.
+ *
+ * `deep` es donde CI365 tiene mayor profundidad; `broad` demuestra que somos
+ * ingenieros y no revendedores de licencias de un solo fabricante. La jerarquía
+ * es el mensaje: destacar Microsoft sin que Microsoft sea la identidad.
+ *
+ * Los nombres no se traducen. Máximo seis por fila: una lista más larga se lee
+ * como súplica, no como criterio.
+ */
+export const stack = {
+  deep: ['Power BI', 'Power Platform', 'Azure', 'Microsoft 365'],
+  broad: ['Python', 'TypeScript', 'React', '.NET', 'PostgreSQL', 'APIs REST'],
+} as const;
+
+/**
  * Línea de domicilio ya compuesta, omitiendo las partes sin valor. Evita que
  * las páginas legales tengan que saber qué campos están rellenos y que
  * aparezcan comas sueltas cuando falta alguno.

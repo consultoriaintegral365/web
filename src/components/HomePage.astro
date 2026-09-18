@@ -1,5 +1,5 @@
 ---
-import { site } from '../config/site';
+import { site, stack } from '../config/site';
 import { t } from '../i18n/ui';
 import type { Locale } from '../i18n/config';
 
@@ -39,11 +39,52 @@ const serviceIcons = [
       <p class="mt-6 max-w-2xl text-lg leading-relaxed text-ink-600">
         {strings.hero.subtitle}
       </p>
+
+      <!-- La frase que resuelve la tensión entre especializarse y no encasillarse:
+           va destacada porque es el diferenciador, no un adorno. -->
+      <p class="mt-6 max-w-2xl border-l-[3px] border-brand-500 pl-4 text-lg font-semibold text-ink-900">
+        {strings.hero.principle}
+      </p>
+
       <div class="mt-9 flex flex-wrap gap-3">
         <a href="#contacto" class="btn-primary">{strings.hero.ctaPrimary}</a>
         <a href="#servicios" class="btn-secondary">{strings.hero.ctaSecondary}</a>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- ── Franja de tecnología ─────────────────────────────────────────────── -->
+<section class="border-b border-ink-100 bg-white py-10" aria-label={strings.stack.label}>
+  <div class="container-page space-y-5">
+    {
+      (
+        [
+          { label: strings.stack.deep, items: stack.deep, primary: true },
+          { label: strings.stack.broad, items: stack.broad, primary: false },
+        ] as const
+      ).map((row) => (
+        <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-6">
+          <h2 class="w-52 shrink-0 text-xs font-semibold uppercase tracking-widest text-ink-400">
+            {row.label}
+          </h2>
+          <ul class="flex flex-wrap gap-x-2 gap-y-2">
+            {row.items.map((tech) => (
+              <li
+                class:list={[
+                  'rounded-lg px-3 py-1.5 text-sm font-semibold',
+                  row.primary
+                    ? 'bg-brand-50 text-brand-800 ring-1 ring-brand-100'
+                    : 'bg-ink-50 text-ink-700 ring-1 ring-ink-100',
+                ]}
+              >
+                {tech}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))
+    }
   </div>
 </section>
 

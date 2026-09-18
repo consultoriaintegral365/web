@@ -5,9 +5,9 @@ import type { Locale } from './config';
 export const ui = {
   es: {
     meta: {
-      homeTitle: 'Consultoría Integral 365 — Consultoría tecnológica',
+      homeTitle: 'Consultoría Integral 365 — Software a medida, BI y automatización',
       homeDescription:
-        'Consultoría tecnológica especializada en inteligencia de negocios, automatización de procesos y soluciones sobre el ecosistema Microsoft. Convertimos datos dispersos en decisiones.',
+        'Consultoría tecnológica en software a medida, inteligencia de negocios y automatización de procesos. Especialistas en Power BI y Power Platform, con capacidad para construir en Python, TypeScript, .NET y más.',
       termsTitle: 'Términos de Servicio',
       termsDescription:
         'Términos y condiciones que rigen el uso del sitio web y los servicios de Consultoría Integral 365.',
@@ -27,11 +27,17 @@ export const ui = {
     },
     hero: {
       eyebrow: 'Consultoría tecnológica',
-      title: 'Tecnología que ordena la operación y sostiene la decisión',
+      title: 'Software a medida, inteligencia de negocios y automatización',
       subtitle:
-        'Acompañamos a las empresas a convertir datos dispersos en información confiable, a eliminar el trabajo manual repetitivo y a construir soluciones que se integran con lo que ya usan.',
+        'Especialistas en Power BI y Power Platform, e ingenieros capaces de construir con Python, .NET o lo que el problema exija.',
+      principle: 'La herramienta se elige después del problema, nunca antes.',
       ctaPrimary: 'Conversemos',
       ctaSecondary: 'Ver servicios',
+    },
+    stack: {
+      label: 'Tecnologías',
+      deep: 'Mayor profundidad',
+      broad: 'También construimos con',
     },
     services: {
       title: 'Servicios',
@@ -40,17 +46,17 @@ export const ui = {
         {
           title: 'Inteligencia de negocios y analítica',
           description:
-            'Modelos semánticos, tableros e indicadores en Power BI. Diseñamos la capa de datos —modelo, relaciones, métricas— para que los números cuadren y el reporte sobreviva al crecimiento.',
+            'Modelos semánticos, tableros e indicadores en Power BI. Diseñamos la capa de datos —modelo, relaciones, métricas— para que los números cuadren y el reporte sobreviva al crecimiento. Cuando el volumen lo exige, sumamos SQL y Python en la preparación.',
         },
         {
           title: 'Automatización de procesos',
           description:
-            'Identificamos el trabajo repetitivo y lo eliminamos con flujos automatizados, integraciones y scripts. Menos tareas manuales, menos errores, más tiempo del equipo en lo que importa.',
+            'Identificamos el trabajo repetitivo y lo eliminamos con Power Automate, integraciones y scripts en Python. Menos tareas manuales, menos errores, más tiempo del equipo en lo que importa.',
         },
         {
           title: 'Desarrollo de software e integraciones',
           description:
-            'Aplicaciones a medida, APIs y conectores entre sistemas que hoy no se hablan. Desarrollamos sobre estándares abiertos y documentamos para que el código no dependa de nosotros.',
+            'Aplicaciones a medida, APIs y conectores entre sistemas que hoy no se hablan. Construimos con Python, TypeScript, React, .NET y PostgreSQL, sobre estándares abiertos y documentado para que el código no dependa de nosotros.',
         },
         {
           title: 'Ecosistema Microsoft 365 y Azure',
@@ -74,9 +80,9 @@ export const ui = {
             'Avanzamos en incrementos que se pueden usar y medir desde temprano, en vez de un gran entregable final que llega tarde y sorprende.',
         },
         {
-          title: 'Sin dependencia del proveedor',
+          title: 'Sin dependencia, ni de nosotros ni de un fabricante',
           description:
-            'Documentamos, transferimos conocimiento y dejamos el control en manos del cliente. El éxito es que puedan seguir sin nosotros.',
+            'Documentamos, transferimos conocimiento y dejamos el control en manos del cliente. Y como no vendemos licencias de nadie, elegimos la tecnología que resuelve el problema, no la que nos conviene.',
         },
       ],
     },
@@ -114,9 +120,9 @@ export const ui = {
 
   en: {
     meta: {
-      homeTitle: 'Consultoría Integral 365 — Technology consulting',
+      homeTitle: 'Consultoría Integral 365 — Custom software, BI and automation',
       homeDescription:
-        'Technology consulting specialised in business intelligence, process automation and solutions built on the Microsoft ecosystem. We turn scattered data into decisions.',
+        'Technology consulting in custom software, business intelligence and process automation. Specialists in Power BI and Power Platform, with the engineering depth to build in Python, TypeScript, .NET and more.',
       termsTitle: 'Terms of Service',
       termsDescription:
         'Terms and conditions governing the use of the Consultoría Integral 365 website and services.',
@@ -136,11 +142,17 @@ export const ui = {
     },
     hero: {
       eyebrow: 'Technology consulting',
-      title: 'Technology that organises operations and supports decisions',
+      title: 'Custom software, business intelligence and automation',
       subtitle:
-        'We help companies turn scattered data into reliable information, eliminate repetitive manual work, and build solutions that integrate with what they already use.',
+        'Specialists in Power BI and Power Platform, and engineers able to build with Python, .NET or whatever the problem demands.',
+      principle: 'The tool is chosen after the problem, never before.',
       ctaPrimary: 'Let us talk',
       ctaSecondary: 'See services',
+    },
+    stack: {
+      label: 'Technologies',
+      deep: 'Deepest expertise',
+      broad: 'We also build with',
     },
     services: {
       title: 'Services',
@@ -149,17 +161,17 @@ export const ui = {
         {
           title: 'Business intelligence and analytics',
           description:
-            'Semantic models, dashboards and KPIs in Power BI. We design the data layer — model, relationships, metrics — so the numbers reconcile and the reporting survives growth.',
+            'Semantic models, dashboards and KPIs in Power BI. We design the data layer — model, relationships, metrics — so the numbers reconcile and the reporting survives growth. Where volume demands it, we bring SQL and Python into the preparation.',
         },
         {
           title: 'Process automation',
           description:
-            'We identify repetitive work and remove it with automated flows, integrations and scripts. Fewer manual tasks, fewer errors, more of your team on what matters.',
+            'We identify repetitive work and remove it with Power Automate, integrations and Python scripts. Fewer manual tasks, fewer errors, more of your team on what matters.',
         },
         {
           title: 'Software development and integrations',
           description:
-            'Custom applications, APIs and connectors between systems that do not talk to each other today. We build on open standards and document so the code never depends on us.',
+            'Custom applications, APIs and connectors between systems that do not talk to each other today. We build with Python, TypeScript, React, .NET and PostgreSQL, on open standards and documented so the code never depends on us.',
         },
         {
           title: 'Microsoft 365 and Azure ecosystem',
@@ -183,9 +195,9 @@ export const ui = {
             'We progress in increments you can use and measure early, instead of one large final deliverable that arrives late and surprises everyone.',
         },
         {
-          title: 'No vendor lock-in',
+          title: 'No lock-in, to us or to a vendor',
           description:
-            'We document, transfer knowledge and leave control with the client. Success means they can carry on without us.',
+            'We document, transfer knowledge and leave control with the client. And since we resell nobody’s licences, we choose the technology that solves the problem, not the one that suits us.',
         },
       ],
     },
@@ -222,9 +234,9 @@ export const ui = {
 
   pt: {
     meta: {
-      homeTitle: 'Consultoría Integral 365 — Consultoria de tecnologia',
+      homeTitle: 'Consultoría Integral 365 — Software sob medida, BI e automação',
       homeDescription:
-        'Consultoria de tecnologia especializada em inteligência de negócios, automação de processos e soluções no ecossistema Microsoft. Transformamos dados dispersos em decisões.',
+        'Consultoria de tecnologia em software sob medida, inteligência de negócios e automação de processos. Especialistas em Power BI e Power Platform, com capacidade para construir em Python, TypeScript, .NET e mais.',
       termsTitle: 'Termos de Serviço',
       termsDescription:
         'Termos e condições que regem o uso do site e dos serviços da Consultoría Integral 365.',
@@ -244,11 +256,17 @@ export const ui = {
     },
     hero: {
       eyebrow: 'Consultoria de tecnologia',
-      title: 'Tecnologia que organiza a operação e sustenta a decisão',
+      title: 'Software sob medida, inteligência de negócios e automação',
       subtitle:
-        'Ajudamos empresas a transformar dados dispersos em informação confiável, a eliminar o trabalho manual repetitivo e a construir soluções que se integram ao que já utilizam.',
+        'Especialistas em Power BI e Power Platform, e engenheiros capazes de construir com Python, .NET ou o que o problema exigir.',
+      principle: 'A ferramenta se escolhe depois do problema, nunca antes.',
       ctaPrimary: 'Vamos conversar',
       ctaSecondary: 'Ver serviços',
+    },
+    stack: {
+      label: 'Tecnologias',
+      deep: 'Maior profundidade',
+      broad: 'Também construímos com',
     },
     services: {
       title: 'Serviços',
@@ -257,17 +275,17 @@ export const ui = {
         {
           title: 'Inteligência de negócios e analytics',
           description:
-            'Modelos semânticos, painéis e indicadores em Power BI. Desenhamos a camada de dados — modelo, relacionamentos, métricas — para que os números fechem e o relatório sobreviva ao crescimento.',
+            'Modelos semânticos, painéis e indicadores em Power BI. Desenhamos a camada de dados — modelo, relacionamentos, métricas — para que os números fechem e o relatório sobreviva ao crescimento. Quando o volume exige, somamos SQL e Python na preparação.',
         },
         {
           title: 'Automação de processos',
           description:
-            'Identificamos o trabalho repetitivo e o eliminamos com fluxos automatizados, integrações e scripts. Menos tarefas manuais, menos erros, mais tempo da equipe no que importa.',
+            'Identificamos o trabalho repetitivo e o eliminamos com Power Automate, integrações e scripts em Python. Menos tarefas manuais, menos erros, mais tempo da equipe no que importa.',
         },
         {
           title: 'Desenvolvimento de software e integrações',
           description:
-            'Aplicações sob medida, APIs e conectores entre sistemas que hoje não se comunicam. Desenvolvemos sobre padrões abertos e documentamos para que o código nunca dependa de nós.',
+            'Aplicações sob medida, APIs e conectores entre sistemas que hoje não se comunicam. Construímos com Python, TypeScript, React, .NET e PostgreSQL, sobre padrões abertos e documentado para que o código nunca dependa de nós.',
         },
         {
           title: 'Ecossistema Microsoft 365 e Azure',
@@ -291,9 +309,9 @@ export const ui = {
             'Avançamos em incrementos que podem ser usados e medidos desde cedo, em vez de uma grande entrega final que chega tarde e surpreende.',
         },
         {
-          title: 'Sem dependência do fornecedor',
+          title: 'Sem dependência, nem de nós nem de um fabricante',
           description:
-            'Documentamos, transferimos conhecimento e deixamos o controle com o cliente. O sucesso é que possam seguir sem nós.',
+            'Documentamos, transferimos conhecimento e deixamos o controle com o cliente. E como não vendemos licenças de ninguém, escolhemos a tecnologia que resolve o problema, não a que nos convém.',
         },
       ],
     },
