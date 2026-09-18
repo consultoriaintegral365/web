@@ -21,13 +21,20 @@ export const site = {
   /** REVISAR — RUC de 11 dígitos. Obligatorio para identificar al titular del banco de datos. */
   taxId: '20XXXXXXXXX',
 
-  /** REVISAR — Domicilio fiscal completo. Obligatorio en la política de privacidad. */
+  /**
+   * Domicilio. `street` se omite deliberadamente (decisión del usuario,
+   * 2026-09-18): la E.I.R.L. opera desde domicilio particular y no se quiere
+   * publicar la calle. La entidad queda identificada por el RUC, y el domicilio
+   * fiscal completo es consultable en el portal público de SUNAT.
+   *
+   * Para publicar la dirección completa, basta con rellenar `street`: la línea
+   * de domicilio se compone sola en `addressLine`.
+   */
   address: {
-    street: 'Av. [Calle y número]',
-    district: '[Distrito]',
+    street: null as string | null,
+    district: 'Ate',
     city: 'Lima',
     region: 'Lima',
-    postalCode: '[Código postal]',
     country: 'Perú',
     countryCode: 'PE',
   },
@@ -45,15 +52,14 @@ export const site = {
     support: 'jorab@consultoriaintegral365.com',
   },
 
-  /** REVISAR — Teléfono de contacto en formato internacional. */
-  phone: '+51 999 999 999',
+  phone: '+51 947 148 320',
 
   url: 'https://consultoriaintegral365.com',
   foundedYear: 2024,
 
   social: {
-    /** REVISAR — Reemplazar por la URL real o dejar en null para ocultar el enlace. */
-    linkedin: 'https://www.linkedin.com/company/consultoriaintegral365',
+    /** Perfil del fundador: la E.I.R.L. no tiene página de empresa propia. */
+    linkedin: 'https://www.linkedin.com/in/pjhonaob/',
     github: null as string | null,
   },
 
@@ -62,3 +68,17 @@ export const site = {
 } as const;
 
 export type Site = typeof site;
+
+/**
+ * Línea de domicilio ya compuesta, omitiendo las partes sin valor. Evita que
+ * las páginas legales tengan que saber qué campos están rellenos y que
+ * aparezcan comas sueltas cuando falta alguno.
+ */
+export const addressLine: string = [
+  site.address.street,
+  site.address.district,
+  site.address.city,
+  site.address.country,
+]
+  .filter(Boolean)
+  .join(', ');

@@ -1,6 +1,6 @@
 ---
 import Legal from '../../layouts/Legal.astro';
-import { site } from '../../config/site';
+import { site, addressLine } from '../../config/site';
 import { localizedPath } from '../../i18n/utils';
 import { t } from '../../i18n/ui';
 
@@ -29,8 +29,7 @@ const strings = t(locale);
     <li><strong>Razão social:</strong> {site.legalName}</li>
     <li><strong>RUC (inscrição fiscal):</strong> {site.taxId}</li>
     <li>
-      <strong>Endereço:</strong> {site.address.street}, {site.address.district}, {site.address.city},{' '}
-      {site.address.country}
+      <strong>Endereço:</strong> {addressLine}
     </li>
     <li>
       <strong>E-mail de contato:</strong>{' '}
