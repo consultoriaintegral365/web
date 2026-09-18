@@ -20,7 +20,7 @@ const options = alternates(routeKey);
 ---
 
 <nav aria-label={strings.nav.language} class={className}>
-  <ul class="flex items-center gap-0.5 rounded-lg bg-ink-100 p-0.5">
+  <ul class="flex items-center gap-0.5 rounded-lg p-0.5" style="background: var(--ci-canvas-soft); border: 1px solid var(--ci-line);">
     {
       options.map(({ locale: l, path }) => {
         const isCurrent = l === locale;
@@ -35,8 +35,8 @@ const options = alternates(routeKey);
               class:list={[
                 'block rounded-[0.3rem] px-2.5 py-1 text-xs font-semibold transition-colors',
                 isCurrent
-                  ? 'bg-white text-ink-900 shadow-sm'
-                  : 'text-ink-500 hover:text-ink-900',
+                  ? 'bg-card text-strong shadow-soft'
+                  : 'text-muted hover:text-strong',
               ]}
             >
               <span class="sr-only">{strings.nav.changeLanguage}: </span>

@@ -25,9 +25,9 @@ const updated = new Date(`${site.legalLastUpdated}T00:00:00Z`).toLocaleDateStrin
 
 <Base locale={locale} routeKey={routeKey} title={title} description={description}>
   <article class="container-page max-w-3xl py-16 sm:py-20">
-    <header class="border-b border-ink-100 pb-8">
-      <h1 class="text-3xl font-bold sm:text-4xl">{title}</h1>
-      <p class="mt-4 text-sm text-ink-500">
+    <header class="border-b border-line pb-8">
+      <h1 class="text-3xl font-bold tracking-tight sm:text-4xl">{title}</h1>
+      <p class="mt-4 text-sm text-muted">
         {strings.legal.lastUpdated}:{' '}
         <time datetime={site.legalLastUpdated}>{updated}</time>
       </p>
@@ -37,10 +37,10 @@ const updated = new Date(`${site.legalLastUpdated}T00:00:00Z`).toLocaleDateStrin
       <slot />
     </div>
 
-    <footer class="mt-14 border-t border-ink-100 pt-8">
+    <footer class="mt-14 border-t border-line pt-8">
       <a
         href={localizedPath('home', locale)}
-        class="text-sm font-semibold text-brand-700 hover:text-brand-800"
+        class="text-sm font-semibold transition-colors hover:opacity-80" style="color: var(--ci-brand-ink);"
       >
         &larr; {strings.legal.backHome}
       </a>

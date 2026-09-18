@@ -1,0 +1,132 @@
+---
+/**
+ * Visual del hero: un panel de datos dibujado a medida.
+ *
+ * No es decoración genérica ni una foto de stock: muestra literalmente lo que
+ * CI365 vende —un modelo de datos convertido en indicadores— y se construye con
+ * los mismos tokens del tema, así que responde al modo claro y oscuro sin
+ * duplicar recursos. Es puramente ornamental para un lector de pantalla.
+ */
+
+/** Serie de la curva. Valores fijos y deliberados: sugieren una tendencia
+ *  creíble, con un retroceso intermedio, en vez de una línea perfecta. */
+const points = [8, 22, 18, 34, 30, 46, 58, 54, 70, 86];
+
+const W = 420;
+const H = 150;
+const max = 100;
+const step = W / (points.length - 1);
+const coords = points.map((v, i) => [i * step, H - (v / max) * H] as const);
+
+/** Curva suavizada por Catmull-Rom convertido a Bézier: una polilínea recta
+ *  delataría el truco y rompería la sensación de suavidad. */
+const curve = coords
+  .map(([x, y], i) => {
+    if (i === 0) return `M ${x.toFixed(1)} ${y.toFixed(1)}`;
+    const [px, py] = coords[i - 1];
+    const cx = px + (x - px) / 2;
+    return `C ${cx.toFixed(1)} ${py.toFixed(1)}, ${cx.toFixed(1)} ${y.toFixed(1)}, ${x.toFixed(1)} ${y.toFixed(1)}`;
+  })
+  .join(' ');
+
+const area = `${curve} L ${W} ${H} L 0 ${H} Z`;
+
+const bars = [38, 62, 46, 78, 56, 88];
+---
+
+<div class="relative select-none" aria-hidden="true">
+  <!-- Halo difuso: da profundidad sin introducir un borde duro. -->
+  <div
+    class="pointer-events-none absolute -inset-10 rounded-[3rem] opacity-70 blur-3xl"
+    style="background: radial-gradient(60% 60% at 60% 35%, var(--ci-brand-soft), transparent 70%);"
+  >
+  </div>
+
+  <div class="surface relative rounded-3xl p-5 shadow-deep sm:p-6">
+    <div class="flex items-center justify-between">
+      <div>
+        <p class="eyebrow">Ingresos por línea</p>
+        <p class="mt-1.5 text-2xl font-bold tracking-tight text-strong">S/ 4.82M</p>
+      </div>
+      <span
+        class="rounded-lg px-2.5 py-1 text-xs font-semibold"
+        style="background: var(--ci-brand-soft); color: var(--ci-brand-ink);"
+      >
+        +18,4%
+      </span>
+    </div>
+
+    <svg
+      class="mt-5 w-full"
+      viewBox={`0 0 ${W} ${H}`}
+      fill="none"
+      preserveAspectRatio="none"
+      style="height: 8.5rem;"
+    >
+      <defs>
+        <linearGradient id="ci-area" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="var(--ci-brand)" stop-opacity="0.26"></stop>
+          <stop offset="100%" stop-color="var(--ci-brand)" stop-opacity="0"></stop>
+        </linearGradient>
+      </defs>
+
+      {
+        [0.25, 0.5, 0.75].map((f) => (
+          <line
+            x1="0"
+            y1={H * f}
+            x2={W}
+            y2={H * f}
+            stroke="var(--ci-line)"
+            stroke-width="1"
+            stroke-dasharray="3 6"
+          />
+        ))
+      }
+
+      <path d={area} fill="url(#ci-area)"></path>
+      <path
+        d={curve}
+        stroke="var(--ci-brand)"
+        stroke-width="2.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      ></path>
+      <circle
+        cx={coords[coords.length - 1][0]}
+        cy={coords[coords.length - 1][1]}
+        r="4.5"
+        fill="var(--ci-brand)"
+        stroke="var(--ci-card)"
+        stroke-width="3"
+      ></circle>
+    </svg>
+
+    <div class="mt-5 flex items-end justify-between gap-2 border-t border-line pt-5">
+      {
+        bars.map((h) => (
+          <span
+            class="w-full rounded-t-[3px]"
+            style={`height: ${(h / 100) * 2.75}rem; background: linear-gradient(to top, var(--ci-brand-soft), var(--ci-brand)); opacity: 0.55;`}
+          />
+        ))
+      }
+    </div>
+  </div>
+
+  <!-- Dos fichas flotantes: rompen el rectángulo y dan sensación de capas.
+       Describen el propio artefacto (un modelo semántico y su refresco), no
+       resultados de cliente: inventar métricas de casos sería publicidad
+       engañosa mientras no existan casos reales que respalden un número. -->
+  <div
+    class="surface absolute -left-4 bottom-10 hidden rounded-2xl px-3.5 py-2.5 shadow-lift sm:block"
+  >
+    <p class="text-[0.65rem] font-semibold uppercase tracking-widest text-muted">Modelo semántico</p>
+    <p class="mt-0.5 text-sm font-bold text-strong">12 tablas</p>
+  </div>
+
+  <div class="surface absolute -right-3 top-8 hidden rounded-2xl px-3.5 py-2.5 shadow-lift sm:block">
+    <p class="text-[0.65rem] font-semibold uppercase tracking-widest text-muted">Actualización</p>
+    <p class="mt-0.5 text-sm font-bold text-strong">cada 4 h</p>
+  </div>
+</div>

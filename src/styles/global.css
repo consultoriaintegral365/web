@@ -1,40 +1,105 @@
 @import 'tailwindcss';
 
+/* El tema se fija con data-theme en <html> desde un script inline en el <head>,
+   antes del primer pintado. Por eso el CSS solo necesita contemplar el atributo
+   explícito: nunca hay un estado intermedio sin resolver. */
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
 /* ---------------------------------------------------------------------------
-   Design tokens de CI365.
-   Tailwind v4 genera utilidades a partir de estas variables: --color-brand-600
-   habilita bg-brand-600, text-brand-600, border-brand-600, etc.
+   Tokens semánticos.
+
+   Se nombran por función (canvas, card, line, body) y no por color, de modo que
+   el mismo utilitario sirva en claro y en oscuro sin duplicar clases en cada
+   componente. Los valores crudos viven en :root y [data-theme='dark'].
    --------------------------------------------------------------------------- */
-@theme {
+:root {
+  --ci-canvas: #ffffff;
+  --ci-canvas-soft: #f7f9fc;
+  --ci-card: #ffffff;
+  --ci-line: #e8edf5;
+  --ci-line-strong: #d8e0ed;
+
+  --ci-strong: #0d1526;
+  --ci-body: #46536b;
+  --ci-muted: #78869e;
+
+  --ci-brand: #1c5ef5;
+  --ci-brand-hover: #1749e1;
+  --ci-brand-ink: #1749e1;
+  --ci-brand-soft: #eef4ff;
+  --ci-brand-line: #d8e6ff;
+  --ci-on-brand: #ffffff;
+
+  /* Sombras en capas: una difusa para el volumen y otra corta para el apoyo.
+     Es lo que separa una superficie «suave» de una caja con borde. */
+  --ci-shadow-sm: 0 1px 2px rgb(13 21 38 / 0.04), 0 2px 8px rgb(13 21 38 / 0.04);
+  --ci-shadow-md: 0 2px 4px rgb(13 21 38 / 0.04), 0 12px 28px rgb(13 21 38 / 0.07);
+  --ci-shadow-lg: 0 4px 8px rgb(13 21 38 / 0.05), 0 24px 56px rgb(13 21 38 / 0.10);
+  --ci-glow: 0 18px 40px rgb(28 94 245 / 0.18);
+}
+
+[data-theme='dark'] {
+  /* Azul muy oscuro en lugar de negro: menos fatiga y más carácter. */
+  --ci-canvas: #0b1020;
+  --ci-canvas-soft: #0e1426;
+  --ci-card: #121a2f;
+  --ci-line: #1f2941;
+  --ci-line-strong: #2b364f;
+
+  --ci-strong: #f2f5fb;
+  --ci-body: #aab6cc;
+  --ci-muted: #7c8aa5;
+
+  /* El azul se aclara para mantener el contraste sobre fondo oscuro. */
+  --ci-brand: #4d8dff;
+  --ci-brand-hover: #6ba0ff;
+  --ci-brand-ink: #8fb9ff;
+  --ci-brand-soft: #16233f;
+  --ci-brand-line: #24375e;
+  --ci-on-brand: #07101f;
+
+  --ci-shadow-sm: 0 1px 2px rgb(0 0 0 / 0.30), 0 2px 8px rgb(0 0 0 / 0.24);
+  --ci-shadow-md: 0 2px 4px rgb(0 0 0 / 0.30), 0 12px 28px rgb(0 0 0 / 0.35);
+  --ci-shadow-lg: 0 4px 8px rgb(0 0 0 / 0.35), 0 24px 56px rgb(0 0 0 / 0.45);
+  --ci-glow: 0 18px 40px rgb(77 141 255 / 0.22);
+}
+
+@theme inline {
   --font-sans:
     'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue',
     sans-serif;
 
-  /* Azul corporativo: el acento de la marca. */
-  --color-brand-50: #eef6ff;
-  --color-brand-100: #d9ebff;
-  --color-brand-200: #bcdcff;
-  --color-brand-300: #8ec6ff;
-  --color-brand-400: #59a5ff;
-  --color-brand-500: #337fff;
-  --color-brand-600: #1c5ef5;
-  --color-brand-700: #1749e1;
-  --color-brand-800: #193db6;
-  --color-brand-900: #1a388f;
-  --color-brand-950: #142357;
+  --color-canvas: var(--ci-canvas);
+  --color-canvas-soft: var(--ci-canvas-soft);
+  --color-card: var(--ci-card);
+  --color-line: var(--ci-line);
+  --color-line-strong: var(--ci-line-strong);
 
-  /* Tinta: grises fríos para texto y superficies oscuras. */
-  --color-ink-50: #f6f7f9;
-  --color-ink-100: #ecedf1;
-  --color-ink-200: #d4d8e0;
-  --color-ink-300: #aeb5c4;
-  --color-ink-400: #818ca3;
-  --color-ink-500: #626e88;
-  --color-ink-600: #4d576f;
-  --color-ink-700: #40475b;
-  --color-ink-800: #383d4d;
-  --color-ink-900: #0f1524;
-  --color-ink-950: #080c16;
+  --color-strong: var(--ci-strong);
+  --color-body: var(--ci-body);
+  --color-muted: var(--ci-muted);
+
+  --color-brand: var(--ci-brand);
+  --color-brand-hover: var(--ci-brand-hover);
+  --color-brand-ink: var(--ci-brand-ink);
+  --color-brand-soft: var(--ci-brand-soft);
+  --color-brand-line: var(--ci-brand-line);
+  --color-on-brand: var(--ci-on-brand);
+
+  --shadow-soft: var(--ci-shadow-sm);
+  --shadow-lift: var(--ci-shadow-md);
+  --shadow-deep: var(--ci-shadow-lg);
+
+  /* Escala tipográfica con rango real: el salto entre niveles es lo que
+     produce jerarquía. Sin él, todo pesa igual y nada destaca. */
+  --text-display: 4.25rem;
+  --text-display--line-height: 1.04;
+  --text-display--letter-spacing: -0.035em;
+  --text-title: 2.5rem;
+  --text-title--line-height: 1.12;
+  --text-title--letter-spacing: -0.028em;
+  --text-lead: 1.1875rem;
+  --text-lead--line-height: 1.65;
 }
 
 /* ---------------------------------------------------------------------------
@@ -43,84 +108,125 @@
 @layer base {
   html {
     scroll-behavior: smooth;
-    /* Compensa la cabecera fija al saltar a un ancla. */
-    scroll-padding-top: 5rem;
+    scroll-padding-top: 5.5rem;
     -webkit-text-size-adjust: 100%;
+    color-scheme: light;
+  }
+
+  [data-theme='dark'] {
+    color-scheme: dark;
   }
 
   body {
-    background-color: var(--color-white);
-    color: var(--color-ink-800);
+    background-color: var(--ci-canvas);
+    color: var(--ci-body);
     font-family: var(--font-sans);
     text-wrap: pretty;
     -webkit-font-smoothing: antialiased;
+    transition: background-color 0.25s ease, color 0.25s ease;
   }
 
   h1,
   h2,
   h3,
   h4 {
-    color: var(--color-ink-900);
+    color: var(--ci-strong);
     text-wrap: balance;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.022em;
+  }
+
+  ::selection {
+    background: var(--ci-brand);
+    color: var(--ci-on-brand);
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-brand-600);
+    outline: 2px solid var(--ci-brand);
     outline-offset: 3px;
-    border-radius: 2px;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    html {
-      scroll-behavior: auto;
-    }
-
-    *,
-    *::before,
-    *::after {
-      animation-duration: 0.01ms !important;
-      transition-duration: 0.01ms !important;
-    }
+    border-radius: 4px;
   }
 }
 
 /* ---------------------------------------------------------------------------
-   Componentes reutilizables
+   Componentes
    --------------------------------------------------------------------------- */
 @layer components {
-  /* Ancho de lectura consistente en todas las secciones. */
   .container-page {
-    @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
+    @apply mx-auto w-full max-w-6xl px-5 sm:px-6 lg:px-8;
   }
 
-  /* Tailwind v4 no permite @apply de clases propias, así que las variantes
-     comparten la base mediante un selector agrupado. */
+  /* Tailwind v4 no permite @apply de clases propias: las variantes comparten
+     la base mediante un selector agrupado. */
   .btn,
   .btn-primary,
   .btn-secondary {
-    @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 text-sm font-semibold transition-colors;
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold;
+    transition:
+      background-color 0.18s ease,
+      border-color 0.18s ease,
+      color 0.18s ease,
+      box-shadow 0.18s ease,
+      transform 0.18s ease;
   }
 
   .btn-primary {
-    @apply bg-brand-600 text-white hover:bg-brand-700;
+    background-color: var(--ci-brand);
+    color: var(--ci-on-brand);
+    box-shadow: var(--ci-glow);
+  }
+
+  .btn-primary:hover {
+    background-color: var(--ci-brand-hover);
+    transform: translateY(-1px);
   }
 
   .btn-secondary {
-    @apply border border-ink-200 bg-white text-ink-800 hover:border-ink-300 hover:bg-ink-50;
+    background-color: var(--ci-card);
+    color: var(--ci-strong);
+    border: 1px solid var(--ci-line);
+    box-shadow: var(--ci-shadow-sm);
   }
 
-  /* Cuerpo de los documentos legales: jerarquía y ritmo vertical. */
+  .btn-secondary:hover {
+    border-color: var(--ci-line-strong);
+    transform: translateY(-1px);
+  }
+
+  /* Superficie suave: profundidad por sombra, no por borde duro. */
+  .surface {
+    background-color: var(--ci-card);
+    border: 1px solid var(--ci-line);
+    box-shadow: var(--ci-shadow-sm);
+    transition:
+      box-shadow 0.25s ease,
+      border-color 0.25s ease,
+      transform 0.25s ease;
+  }
+
+  .surface-hover:hover {
+    box-shadow: var(--ci-shadow-md);
+    border-color: var(--ci-brand-line);
+    transform: translateY(-2px);
+  }
+
+  /* Etiqueta pequeña en mayúsculas: separa secciones sin añadir peso visual. */
+  .eyebrow {
+    @apply text-xs font-semibold uppercase tracking-[0.16em];
+    color: var(--ci-muted);
+  }
+
+  /* Cuerpo de los documentos legales. */
   .prose-legal {
-    @apply text-[0.975rem] leading-relaxed text-ink-700;
+    @apply text-[0.975rem] leading-relaxed;
+    color: var(--ci-body);
   }
 
   .prose-legal h2 {
-    @apply mt-12 scroll-mt-24 text-xl font-semibold text-ink-900 sm:text-2xl;
+    @apply mt-12 scroll-mt-28 text-xl font-semibold sm:text-2xl;
   }
 
   .prose-legal h3 {
-    @apply mt-8 text-base font-semibold text-ink-900;
+    @apply mt-8 text-base font-semibold;
   }
 
   .prose-legal p {
@@ -128,18 +234,69 @@
   }
 
   .prose-legal ul {
-    @apply mt-4 list-disc space-y-2 pl-6 marker:text-ink-300;
+    @apply mt-4 list-disc space-y-2 pl-6;
+    &::marker {
+      color: var(--ci-muted);
+    }
   }
 
   .prose-legal ol {
-    @apply mt-4 list-decimal space-y-2 pl-6 marker:text-ink-400;
+    @apply mt-4 list-decimal space-y-2 pl-6;
   }
 
   .prose-legal a {
-    @apply font-medium text-brand-700 underline decoration-brand-200 underline-offset-2 hover:decoration-brand-500;
+    @apply font-medium underline underline-offset-2;
+    color: var(--ci-brand-ink);
+    text-decoration-color: var(--ci-brand-line);
+  }
+
+  .prose-legal a:hover {
+    text-decoration-color: var(--ci-brand);
   }
 
   .prose-legal strong {
-    @apply font-semibold text-ink-900;
+    @apply font-semibold;
+    color: var(--ci-strong);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Movimiento: una sola aparición discreta al entrar en pantalla.
+   Sin librerías y sin saltos de layout; si no hay JavaScript, el contenido
+   simplemente se ve, porque el estado por defecto es visible.
+   --------------------------------------------------------------------------- */
+@layer utilities {
+  .reveal {
+    opacity: 1;
+  }
+
+  html.js .reveal {
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 0.6s cubic-bezier(0.2, 0.7, 0.3, 1), transform 0.6s cubic-bezier(0.2, 0.7, 0.3, 1);
+  }
+
+  html.js .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  html.js .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
   }
 }

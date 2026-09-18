@@ -1,4 +1,5 @@
 ---
+import HeroVisual from './HeroVisual.astro';
 import { site, stack } from '../config/site';
 import { t } from '../i18n/ui';
 import type { Locale } from '../i18n/config';
@@ -10,53 +11,72 @@ interface Props {
 const { locale } = Astro.props;
 const strings = t(locale);
 
-/* Un icono por servicio, en el mismo orden que ui.ts. Son trazos SVG
-   inline: sin peticiones extra ni dependencias de iconos. */
+/* Un icono por servicio, en el mismo orden que ui.ts. Trazos SVG inline:
+   sin peticiones extra ni dependencias de iconos. */
 const serviceIcons = [
   'M3 3v18h18M7 15l3.5-4 3 3L21 7', // analítica: línea de tendencia
-  'M12 3v3m0 12v3M3 12h3m12 0h3M5.6 5.6l2.1 2.1m8.6 8.6l2.1 2.1m0-12.8l-2.1 2.1M7.7 16.3l-2.1 2.1M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0', // automatización: engranaje
-  'M8 6l-5 6 5 6M16 6l5 6-5 6M13.5 4l-3 16', // desarrollo: código
-  'M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z', // Microsoft: cuadrantes
+  'M12 3v3m0 12v3M3 12h3m12 0h3M5.6 5.6l2.1 2.1m8.6 8.6l2.1 2.1m0-12.8l-2.1 2.1M7.7 16.3l-2.1 2.1M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0', // automatización
+  'M8 6l-5 6 5 6M16 6l5 6-5 6M13.5 4l-3 16', // desarrollo
+  'M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z', // Microsoft
 ];
 ---
 
 <!-- ── Hero ─────────────────────────────────────────────────────────────── -->
-<section class="relative overflow-hidden border-b border-ink-100 bg-ink-50">
-  <div
-    class="pointer-events-none absolute inset-0 bg-[radial-gradient(60rem_30rem_at_70%_-10%,var(--color-brand-100),transparent)]"
-    aria-hidden="true"
-  >
+<section class="relative overflow-hidden">
+  <!-- Dos halos muy difusos en lugar de una banda de color plana: dan
+       profundidad sin marcar un borde entre secciones. -->
+  <div class="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
+    <div
+      class="absolute -top-40 right-[-10%] h-[38rem] w-[38rem] rounded-full opacity-60 blur-3xl"
+      style="background: radial-gradient(circle, var(--ci-brand-soft), transparent 65%);"
+    >
+    </div>
+    <div
+      class="absolute -left-40 top-40 h-[30rem] w-[30rem] rounded-full opacity-50 blur-3xl"
+      style="background: radial-gradient(circle, var(--ci-canvas-soft), transparent 70%);"
+    >
+    </div>
   </div>
 
-  <div class="container-page relative py-20 sm:py-28">
-    <div class="max-w-3xl">
-      <p class="text-sm font-semibold uppercase tracking-[0.18em] text-brand-700">
-        {strings.hero.eyebrow}
-      </p>
-      <h1 class="mt-5 text-4xl font-bold leading-[1.1] sm:text-5xl lg:text-6xl">
-        {strings.hero.title}
-      </h1>
-      <p class="mt-6 max-w-2xl text-lg leading-relaxed text-ink-600">
-        {strings.hero.subtitle}
-      </p>
+  <div class="container-page py-20 sm:py-24 lg:py-28">
+    <div class="grid items-center gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
+      <div class="reveal">
+        <p class="eyebrow" style="color: var(--ci-brand-ink);">{strings.hero.eyebrow}</p>
 
-      <!-- La frase que resuelve la tensión entre especializarse y no encasillarse:
-           va destacada porque es el diferenciador, no un adorno. -->
-      <p class="mt-6 max-w-2xl border-l-[3px] border-brand-500 pl-4 text-lg font-semibold text-ink-900">
-        {strings.hero.principle}
-      </p>
+        <h1 class="mt-5 text-[2.6rem] leading-[1.06] tracking-[-0.03em] font-bold sm:text-[3.25rem] lg:text-display">
+          {strings.hero.title}
+        </h1>
 
-      <div class="mt-9 flex flex-wrap gap-3">
-        <a href="#contacto" class="btn-primary">{strings.hero.ctaPrimary}</a>
-        <a href="#servicios" class="btn-secondary">{strings.hero.ctaSecondary}</a>
+        <p class="mt-6 max-w-xl text-lead text-body">{strings.hero.subtitle}</p>
+
+        <!-- La frase que resuelve la tensión entre especializarse y no
+             encasillarse: destacada porque es el diferenciador, no un adorno. -->
+        <p
+          class="mt-6 max-w-xl rounded-r-xl py-2.5 pl-4 pr-3 text-base font-semibold text-strong"
+          style="border-left: 3px solid var(--ci-brand); background: var(--ci-brand-soft);"
+        >
+          {strings.hero.principle}
+        </p>
+
+        <div class="mt-9 flex flex-wrap gap-3">
+          <a href="#contacto" class="btn-primary">{strings.hero.ctaPrimary}</a>
+          <a href="#servicios" class="btn-secondary">{strings.hero.ctaSecondary}</a>
+        </div>
+      </div>
+
+      <div class="reveal lg:pl-4">
+        <HeroVisual />
       </div>
     </div>
   </div>
 </section>
 
 <!-- ── Franja de tecnología ─────────────────────────────────────────────── -->
-<section class="border-b border-ink-100 bg-white py-10" aria-label={strings.stack.label}>
-  <div class="container-page space-y-5">
+<section
+  class="border-y border-line bg-canvas-soft py-9"
+  aria-label={strings.stack.label}
+>
+  <div class="container-page space-y-4 reveal">
     {
       (
         [
@@ -64,19 +84,17 @@ const serviceIcons = [
           { label: strings.stack.broad, items: stack.broad, primary: false },
         ] as const
       ).map((row) => (
-        <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-6">
-          <h2 class="w-52 shrink-0 text-xs font-semibold uppercase tracking-widest text-ink-400">
-            {row.label}
-          </h2>
-          <ul class="flex flex-wrap gap-x-2 gap-y-2">
+        <div class="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:gap-6">
+          <h2 class="eyebrow w-52 shrink-0">{row.label}</h2>
+          <ul class="flex flex-wrap gap-2">
             {row.items.map((tech) => (
               <li
-                class:list={[
-                  'rounded-lg px-3 py-1.5 text-sm font-semibold',
+                class="rounded-lg px-3 py-1.5 text-sm font-semibold"
+                style={
                   row.primary
-                    ? 'bg-brand-50 text-brand-800 ring-1 ring-brand-100'
-                    : 'bg-ink-50 text-ink-700 ring-1 ring-ink-100',
-                ]}
+                    ? 'background: var(--ci-brand-soft); color: var(--ci-brand-ink); border: 1px solid var(--ci-brand-line);'
+                    : 'background: var(--ci-card); color: var(--ci-body); border: 1px solid var(--ci-line);'
+                }
               >
                 {tech}
               </li>
@@ -89,23 +107,27 @@ const serviceIcons = [
 </section>
 
 <!-- ── Servicios ────────────────────────────────────────────────────────── -->
-<section id="servicios" class="container-page scroll-mt-24 py-20 sm:py-24">
-  <div class="max-w-2xl">
-    <h2 class="text-3xl font-bold sm:text-4xl">{strings.services.title}</h2>
-    <p class="mt-4 text-lg text-ink-600">{strings.services.subtitle}</p>
+<section id="servicios" class="container-page scroll-mt-24 py-20 sm:py-28">
+  <div class="max-w-2xl reveal">
+    <p class="eyebrow">{strings.nav.services}</p>
+    <h2 class="mt-3 text-title">{strings.services.title}</h2>
+    <p class="mt-4 text-lead text-body">{strings.services.subtitle}</p>
   </div>
 
-  <ul class="mt-12 grid gap-6 sm:grid-cols-2">
+  <ul class="mt-14 grid gap-5 sm:grid-cols-2">
     {
       strings.services.items.map((item, i) => (
-        <li class="rounded-2xl border border-ink-100 bg-white p-7 transition-colors hover:border-brand-200">
-          <span class="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-50 text-brand-700">
+        <li class="surface surface-hover reveal rounded-2xl p-7">
+          <span
+            class="flex h-11 w-11 items-center justify-center rounded-xl"
+            style="background: var(--ci-brand-soft); color: var(--ci-brand-ink); border: 1px solid var(--ci-brand-line);"
+          >
             <svg
               class="h-5 w-5"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              stroke-width="1.8"
+              stroke-width="1.7"
               stroke-linecap="round"
               stroke-linejoin="round"
               aria-hidden="true"
@@ -114,7 +136,7 @@ const serviceIcons = [
             </svg>
           </span>
           <h3 class="mt-5 text-lg font-semibold">{item.title}</h3>
-          <p class="mt-3 text-[0.95rem] leading-relaxed text-ink-600">{item.description}</p>
+          <p class="mt-3 text-[0.95rem] leading-relaxed text-body">{item.description}</p>
         </li>
       ))
     }
@@ -122,22 +144,26 @@ const serviceIcons = [
 </section>
 
 <!-- ── Cómo trabajamos ──────────────────────────────────────────────────── -->
-<section id="metodo" class="scroll-mt-24 border-y border-ink-100 bg-ink-50 py-20 sm:py-24">
+<section id="metodo" class="scroll-mt-24 border-y border-line bg-canvas-soft py-20 sm:py-28">
   <div class="container-page">
-    <div class="max-w-2xl">
-      <h2 class="text-3xl font-bold sm:text-4xl">{strings.approach.title}</h2>
-      <p class="mt-4 text-lg text-ink-600">{strings.approach.subtitle}</p>
+    <div class="max-w-2xl reveal">
+      <p class="eyebrow">{strings.nav.approach}</p>
+      <h2 class="mt-3 text-title">{strings.approach.title}</h2>
+      <p class="mt-4 text-lead text-body">{strings.approach.subtitle}</p>
     </div>
 
-    <ol class="mt-12 grid gap-8 sm:grid-cols-3">
+    <ol class="mt-14 grid gap-10 sm:grid-cols-3 sm:gap-8">
       {
         strings.approach.items.map((item, i) => (
-          <li>
-            <span class="text-sm font-bold tabular-nums text-brand-600">
+          <li class="reveal">
+            <span
+              class="block text-3xl font-bold tabular-nums"
+              style="color: var(--ci-brand); opacity: 0.35;"
+            >
               {String(i + 1).padStart(2, '0')}
             </span>
             <h3 class="mt-3 text-lg font-semibold">{item.title}</h3>
-            <p class="mt-2.5 text-[0.95rem] leading-relaxed text-ink-600">{item.description}</p>
+            <p class="mt-2.5 text-[0.95rem] leading-relaxed text-body">{item.description}</p>
           </li>
         ))
       }
@@ -146,54 +172,61 @@ const serviceIcons = [
 </section>
 
 <!-- ── Nosotros ─────────────────────────────────────────────────────────── -->
-<section id="nosotros" class="container-page scroll-mt-24 py-20 sm:py-24">
-  <div class="grid gap-10 lg:grid-cols-[1fr_1.4fr] lg:gap-16">
-    <h2 class="text-3xl font-bold sm:text-4xl">{strings.about.title}</h2>
-    <div class="space-y-5 text-lg leading-relaxed text-ink-600">
+<section id="nosotros" class="container-page scroll-mt-24 py-20 sm:py-28">
+  <div class="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
+    <div class="reveal">
+      <p class="eyebrow">{strings.nav.about}</p>
+      <h2 class="mt-3 text-title">{strings.about.title}</h2>
+    </div>
+    <div class="reveal space-y-5 text-lead text-body">
       {strings.about.body.map((paragraph) => <p>{paragraph}</p>)}
     </div>
   </div>
 </section>
 
 <!-- ── Contacto ─────────────────────────────────────────────────────────── -->
-<section id="contacto" class="container-page scroll-mt-24 pb-4">
-  <div class="rounded-3xl bg-ink-900 px-7 py-14 sm:px-14">
-    <div class="max-w-2xl">
-      <h2 class="text-3xl font-bold text-white sm:text-4xl">{strings.contact.title}</h2>
-      <p class="mt-4 text-lg leading-relaxed text-ink-300">{strings.contact.subtitle}</p>
+<section id="contacto" class="container-page scroll-mt-24 pb-24">
+  <div
+    class="surface reveal relative overflow-hidden rounded-3xl px-7 py-14 shadow-deep sm:px-14"
+  >
+    <div
+      class="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full opacity-70 blur-3xl"
+      style="background: radial-gradient(circle, var(--ci-brand-soft), transparent 70%);"
+      aria-hidden="true"
+    >
     </div>
 
-    <dl class="mt-10 grid gap-8 sm:grid-cols-3">
+    <div class="relative max-w-2xl">
+      <h2 class="text-title">{strings.contact.title}</h2>
+      <p class="mt-4 text-lead text-body">{strings.contact.subtitle}</p>
+    </div>
+
+    <dl class="relative mt-10 grid gap-8 sm:grid-cols-3">
       <div>
-        <dt class="text-xs font-semibold uppercase tracking-widest text-ink-400">
-          {strings.contact.emailLabel}
-        </dt>
+        <dt class="eyebrow">{strings.contact.emailLabel}</dt>
         <dd class="mt-2">
           <a
             href={`mailto:${site.email.general}`}
-            class="text-[0.95rem] font-medium text-white underline decoration-ink-600 underline-offset-4 hover:decoration-white"
+            class="text-[0.95rem] font-semibold underline decoration-line underline-offset-4 transition-colors hover:decoration-current"
+            style="color: var(--ci-brand-ink);"
           >
             {site.email.general}
           </a>
         </dd>
       </div>
       <div>
-        <dt class="text-xs font-semibold uppercase tracking-widest text-ink-400">
-          {strings.contact.phoneLabel}
-        </dt>
-        <dd class="mt-2 text-[0.95rem] font-medium text-white">{site.phone}</dd>
+        <dt class="eyebrow">{strings.contact.phoneLabel}</dt>
+        <dd class="mt-2 text-[0.95rem] font-semibold text-strong">{site.phone}</dd>
       </div>
       <div>
-        <dt class="text-xs font-semibold uppercase tracking-widest text-ink-400">
-          {strings.contact.locationLabel}
-        </dt>
-        <dd class="mt-2 text-[0.95rem] font-medium text-white">
+        <dt class="eyebrow">{strings.contact.locationLabel}</dt>
+        <dd class="mt-2 text-[0.95rem] font-semibold text-strong">
           {site.address.city}, {site.address.country}
         </dd>
       </div>
     </dl>
 
-    <a href={`mailto:${site.email.general}`} class="btn mt-10 bg-white text-ink-900 hover:bg-ink-100">
+    <a href={`mailto:${site.email.general}`} class="btn-primary relative mt-10">
       {strings.contact.cta}
     </a>
   </div>

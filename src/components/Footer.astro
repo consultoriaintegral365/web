@@ -17,19 +17,22 @@ const home = localizedPath('home', locale);
 const base = home === '/' ? '' : home;
 ---
 
-<footer class="mt-24 bg-ink-900 text-ink-300">
+<!-- El pie ya no es un bloque oscuro: con la sección de contacto encima, dos
+     masas oscuras seguidas se fundían en una sola. Ahora se apoya en la
+     superficie suave del tema y funciona igual en claro y en oscuro. -->
+<footer class="border-t border-line bg-canvas-soft">
   <div class="container-page py-14">
     <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
       <div class="lg:col-span-2">
-        <Logo variant="light" />
-        <p class="mt-4 max-w-sm text-sm leading-relaxed text-ink-400">
+        <Logo />
+        <p class="mt-4 max-w-sm text-sm leading-relaxed text-muted">
           {strings.footer.tagline}
         </p>
         {
           site.social.linkedin && (
             <a
               href={site.social.linkedin}
-              class="mt-5 inline-flex items-center gap-2 text-sm font-medium text-ink-300 transition-colors hover:text-white"
+              class="mt-5 inline-flex items-center gap-2 text-sm font-medium text-body transition-colors hover:text-strong"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -43,27 +46,28 @@ const base = home === '/' ? '' : home;
       </div>
 
       <div>
-        <h2 class="text-xs font-semibold uppercase tracking-widest text-white">
-          {strings.footer.company}
-        </h2>
+        <h2 class="eyebrow">{strings.footer.company}</h2>
         <ul class="mt-4 space-y-3 text-sm">
           <li>
-            <a href={`${base}/#servicios`} class="transition-colors hover:text-white">
+            <a href={`${base}/#servicios`} class="text-body transition-colors hover:text-strong">
               {strings.nav.services}
             </a>
           </li>
           <li>
-            <a href={`${base}/#nosotros`} class="transition-colors hover:text-white">
+            <a href={`${base}/#nosotros`} class="text-body transition-colors hover:text-strong">
               {strings.nav.about}
             </a>
           </li>
           <li>
-            <a href={`${base}/#contacto`} class="transition-colors hover:text-white">
+            <a href={`${base}/#contacto`} class="text-body transition-colors hover:text-strong">
               {strings.nav.contact}
             </a>
           </li>
           <li>
-            <a href={`mailto:${site.email.general}`} class="transition-colors hover:text-white">
+            <a
+              href={`mailto:${site.email.general}`}
+              class="text-body transition-colors hover:text-strong"
+            >
               {site.email.general}
             </a>
           </li>
@@ -71,17 +75,21 @@ const base = home === '/' ? '' : home;
       </div>
 
       <div>
-        <h2 class="text-xs font-semibold uppercase tracking-widest text-white">
-          {strings.footer.legal}
-        </h2>
+        <h2 class="eyebrow">{strings.footer.legal}</h2>
         <ul class="mt-4 space-y-3 text-sm">
           <li>
-            <a href={localizedPath('terms', locale)} class="transition-colors hover:text-white">
+            <a
+              href={localizedPath('terms', locale)}
+              class="text-body transition-colors hover:text-strong"
+            >
               {strings.footer.terms}
             </a>
           </li>
           <li>
-            <a href={localizedPath('privacy', locale)} class="transition-colors hover:text-white">
+            <a
+              href={localizedPath('privacy', locale)}
+              class="text-body transition-colors hover:text-strong"
+            >
               {strings.footer.privacy}
             </a>
           </li>
@@ -90,10 +98,12 @@ const base = home === '/' ? '' : home;
     </div>
 
     <div
-      class="mt-12 flex flex-col gap-2 border-t border-ink-800 pt-6 text-xs text-ink-400 sm:flex-row sm:items-center sm:justify-between"
+      class="mt-12 flex flex-col gap-2 border-t border-line pt-6 text-xs text-muted sm:flex-row sm:items-center sm:justify-between"
     >
       <p>&copy; {year} {site.legalName}. {strings.footer.rights}</p>
-      <p>{strings.footer.taxIdLabel} {site.taxId} &middot; {site.address.city}, {site.address.country}</p>
+      <p>
+        {strings.footer.taxIdLabel} {site.taxId} &middot; {site.address.city}, {site.address.country}
+      </p>
     </div>
   </div>
 </footer>
