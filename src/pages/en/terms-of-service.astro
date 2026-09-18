@@ -1,0 +1,179 @@
+---
+import Legal from '../../layouts/Legal.astro';
+import { site } from '../../config/site';
+import { localizedPath } from '../../i18n/utils';
+import { t } from '../../i18n/ui';
+
+const locale = 'en' as const;
+const strings = t(locale);
+---
+
+<Legal
+  locale={locale}
+  routeKey="terms"
+  title={strings.meta.termsTitle}
+  description={strings.meta.termsDescription}
+>
+  <p>
+    These Terms of Service (the “Terms”) govern access to and use of the website{' '}
+    <strong>{site.url.replace('https://', '')}</strong> (the “Site”), as well as the relationship
+    between {site.legalName} and the people who visit it or contact us through it.
+  </p>
+  <p>
+    By accessing the Site you confirm that you have read, understood and accepted these Terms. If
+    you do not agree with them, please refrain from using the Site.
+  </p>
+
+  <h2 id="owner">1. Owner identification</h2>
+  <ul>
+    <li><strong>Legal name:</strong> {site.legalName}</li>
+    <li><strong>Tax ID (RUC):</strong> {site.taxId}</li>
+    <li>
+      <strong>Registered address:</strong> {site.address.street}, {site.address.district},{' '}
+      {site.address.city}, {site.address.country}
+    </li>
+    <li>
+      <strong>Contact email:</strong>{' '}
+      <a href={`mailto:${site.email.legal}`}>{site.email.legal}</a>
+    </li>
+  </ul>
+
+  <h2 id="purpose">2. Purpose and scope</h2>
+  <p>
+    The Site is informational and institutional in nature. It describes the technology consulting
+    services offered by {site.shortName} and provides a contact channel.
+  </p>
+  <p>
+    The content of the Site <strong>does not constitute a binding offer</strong> nor professional
+    advice applicable to any specific case. The actual delivery of any service is governed by the
+    contract, proposal or services agreement signed separately between {site.legalName} and the
+    client. In the event of a conflict between these Terms and that contract, the contract prevails
+    with respect to the contracted services.
+  </p>
+
+  <h2 id="use">3. Conditions of use</h2>
+  <p>
+    You agree to use the Site in accordance with the law, good faith and these Terms. In
+    particular, you agree not to:
+  </p>
+  <ul>
+    <li>Use the Site for unlawful or fraudulent purposes, or in ways that harm third-party rights.</li>
+    <li>
+      Introduce or distribute malicious software, or carry out actions that damage, overload or
+      impair the Site or prevent its normal use by others.
+    </li>
+    <li>
+      Attempt to gain unauthorised access to restricted areas, systems or networks connected to the
+      Site, or circumvent its security measures.
+    </li>
+    <li>
+      Systematically extract the Site’s content by automated means for commercial purposes without
+      our prior written authorisation.
+    </li>
+    <li>Impersonate {site.shortName} or any other individual or legal entity.</li>
+  </ul>
+
+  <h2 id="ip">4. Intellectual property</h2>
+  <p>
+    The text, design, graphics, logos, source code and other elements of the Site are owned by{' '}
+    {site.legalName} or by third parties who have authorised their use, and are protected by
+    Peruvian and international copyright and industrial property law.
+  </p>
+  <p>
+    Viewing and reproducing extracts of the content for personal, non-commercial use is permitted
+    provided the source is cited. Any other use — reproduction, distribution, public communication
+    or transformation — requires prior written authorisation.
+  </p>
+
+  <h2 id="links">5. Third-party links and content</h2>
+  <p>
+    The Site may include links to third-party sites, offered for reference only. {site.shortName}{' '}
+    does not control those sites and accepts no responsibility for their content, privacy policies
+    or practices. You access them at your own risk.
+  </p>
+  <p>
+    Third-party trademarks mentioned on the Site — including Microsoft, Power BI, Microsoft 365,
+    Azure and Microsoft Entra ID — belong to their respective owners and are cited for descriptive
+    purposes only. Their mention does not imply sponsorship, affiliation or endorsement by those
+    owners unless expressly stated.
+  </p>
+
+  <h2 id="apps">6. Integrated applications and services</h2>
+  <p>
+    {site.shortName} may develop and register applications that integrate with third-party
+    platforms, including Microsoft Entra ID. Where one of our applications requests permissions to
+    access your organisation’s data:
+  </p>
+  <ul>
+    <li>
+      Access is strictly limited to the permissions expressly granted by you or by your
+      organisation’s administrator during the consent process.
+    </li>
+    <li>
+      Data is processed solely for the purposes described at the time of consent and in the
+      corresponding services agreement.
+    </li>
+    <li>
+      The processing of personal data is governed by our{' '}
+      <a href={localizedPath('privacy', locale)}>Privacy Policy</a>.
+    </li>
+    <li>
+      You or your organisation’s administrator may revoke consent at any time from the
+      administration console of the relevant platform.
+    </li>
+  </ul>
+
+  <h2 id="availability">7. Site availability</h2>
+  <p>
+    We aim to keep the Site continuously available, but we do not guarantee uninterrupted or
+    error-free operation. {site.shortName} may suspend, modify or discontinue access to the Site,
+    in whole or in part, for maintenance, security or reasons beyond its control, without this
+    giving rise to any right to compensation.
+  </p>
+
+  <h2 id="liability">8. Limitation of liability</h2>
+  <p>
+    The content of the Site is provided “as is”, without warranties of any kind as to its accuracy,
+    currency or fitness for a particular purpose.
+  </p>
+  <p>
+    To the fullest extent permitted by Peruvian law, {site.legalName} shall not be liable for
+    indirect damages, loss of profits or loss of data arising from access to or use of the Site,
+    nor for decisions you make relying solely on the information published here.
+  </p>
+  <p>
+    Nothing in these Terms excludes or limits liability that, under Peruvian law, cannot be
+    excluded or limited — in particular liability arising from wilful misconduct or gross
+    negligence.
+  </p>
+
+  <h2 id="data">9. Personal data protection</h2>
+  <p>
+    The processing of personal data you provide through the Site is governed by our{' '}
+    <a href={localizedPath('privacy', locale)}>Privacy Policy</a>, which forms an integral part of
+    these Terms and complies with Law No. 29733, the Peruvian Personal Data Protection Law, and its
+    Regulations approved by Supreme Decree No. 016-2024-JUS.
+  </p>
+
+  <h2 id="changes">10. Changes</h2>
+  <p>
+    {site.shortName} may amend these Terms to reflect regulatory, technical or service changes. The
+    version in force is always the one published on this page, showing its last updated date.
+    Continued use of the Site after a new version is published constitutes acceptance of it.
+  </p>
+
+  <h2 id="law">11. Governing law and jurisdiction</h2>
+  <p>
+    These Terms are governed by the laws of the Republic of Peru. For any dispute arising from their
+    interpretation or performance, the parties submit to the courts of the Judicial District of
+    Lima, waiving the jurisdiction of their own domicile, without prejudice to the rights granted to
+    users by consumer protection legislation.
+  </p>
+
+  <h2 id="contact">12. Contact</h2>
+  <p>
+    For questions about these Terms, write to{' '}
+    <a href={`mailto:${site.email.legal}`}>{site.email.legal}</a> or to the postal address given in
+    section 1.
+  </p>
+</Legal>

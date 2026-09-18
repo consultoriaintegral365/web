@@ -1,0 +1,46 @@
+---
+import Base from '../layouts/Base.astro';
+import { LOCALES, LOCALE_META } from '../i18n/config';
+import { localizedPath } from '../i18n/utils';
+
+/* GitHub Pages sirve este archivo ante cualquier ruta inexistente, sin saber
+   el idioma del visitante: por eso ofrecemos la vuelta al inicio en los tres. */
+const locale = 'es' as const;
+---
+
+<Base
+  locale={locale}
+  routeKey="home"
+  title="Página no encontrada — Consultoría Integral 365"
+  description="La página solicitada no existe o ha cambiado de dirección."
+>
+  <section class="container-page flex min-h-[60vh] flex-col justify-center py-20">
+    <p class="text-sm font-bold uppercase tracking-[0.2em] text-brand-700">Error 404</p>
+    <h1 class="mt-4 max-w-2xl text-4xl font-bold sm:text-5xl">
+      Esta página no existe
+    </h1>
+    <p class="mt-5 max-w-xl text-lg text-ink-600">
+      Puede que el enlace esté desactualizado o que la dirección se haya escrito de otra forma.
+    </p>
+    <p class="mt-2 max-w-xl text-ink-500">
+      <span lang="en">This page does not exist.</span>
+      <span lang="pt">Esta página não existe.</span>
+    </p>
+
+    <ul class="mt-9 flex flex-wrap gap-3">
+      {
+        LOCALES.map((l) => (
+          <li>
+            <a
+              href={localizedPath('home', l)}
+              hreflang={LOCALE_META[l].htmlLang}
+              class="btn-secondary"
+            >
+              {LOCALE_META[l].nativeName}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</Base>

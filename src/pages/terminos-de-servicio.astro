@@ -1,0 +1,181 @@
+---
+import Legal from '../layouts/Legal.astro';
+import { site } from '../config/site';
+import { localizedPath } from '../i18n/utils';
+import { t } from '../i18n/ui';
+
+const locale = 'es' as const;
+const strings = t(locale);
+---
+
+<Legal
+  locale={locale}
+  routeKey="terms"
+  title={strings.meta.termsTitle}
+  description={strings.meta.termsDescription}
+>
+  <p>
+    Los presentes Términos de Servicio (los «Términos») regulan el acceso y uso del sitio web{' '}
+    <strong>{site.url.replace('https://', '')}</strong> (el «Sitio»), así como la relación entre{' '}
+    {site.legalName} y las personas que lo visitan o que se comunican con nosotros a través de él.
+  </p>
+  <p>
+    Al acceder al Sitio usted declara haber leído, entendido y aceptado estos Términos. Si no está
+    de acuerdo con ellos, le solicitamos abstenerse de utilizar el Sitio.
+  </p>
+
+  <h2 id="titular">1. Identificación del titular</h2>
+  <ul>
+    <li><strong>Razón social:</strong> {site.legalName}</li>
+    <li><strong>RUC:</strong> {site.taxId}</li>
+    <li>
+      <strong>Domicilio:</strong> {site.address.street}, {site.address.district}, {site.address.city},{' '}
+      {site.address.country}
+    </li>
+    <li>
+      <strong>Correo de contacto:</strong>{' '}
+      <a href={`mailto:${site.email.legal}`}>{site.email.legal}</a>
+    </li>
+  </ul>
+
+  <h2 id="objeto">2. Objeto y alcance</h2>
+  <p>
+    El Sitio tiene una finalidad exclusivamente informativa y de presentación institucional.
+    Describe los servicios de consultoría tecnológica que ofrece {site.shortName} y facilita un
+    canal de contacto.
+  </p>
+  <p>
+    El contenido del Sitio <strong>no constituye una oferta vinculante</strong> ni asesoría
+    profesional aplicable a un caso concreto. La prestación efectiva de cualquier servicio se rige
+    por el contrato, propuesta o acuerdo de servicios que se suscriba por separado entre{' '}
+    {site.legalName} y el cliente. En caso de discrepancia entre estos Términos y dicho contrato,
+    prevalecerá el contrato respecto de los servicios contratados.
+  </p>
+
+  <h2 id="uso">3. Condiciones de uso</h2>
+  <p>Usted se compromete a utilizar el Sitio conforme a la ley, la buena fe y estos Términos. En particular, se obliga a no:</p>
+  <ul>
+    <li>Emplear el Sitio con fines ilícitos, fraudulentos o lesivos de derechos de terceros.</li>
+    <li>
+      Introducir o difundir software malicioso, ni realizar acciones que dañen, sobrecarguen o
+      deterioren el Sitio o impidan su uso normal por otros usuarios.
+    </li>
+    <li>
+      Intentar acceder sin autorización a áreas restringidas, sistemas o redes vinculadas al Sitio,
+      ni vulnerar sus medidas de seguridad.
+    </li>
+    <li>
+      Extraer de forma sistemática y automatizada el contenido del Sitio con fines comerciales, sin
+      nuestra autorización previa y por escrito.
+    </li>
+    <li>Suplantar la identidad de {site.shortName} o de cualquier otra persona natural o jurídica.</li>
+  </ul>
+
+  <h2 id="propiedad">4. Propiedad intelectual</h2>
+  <p>
+    Los textos, el diseño, los gráficos, los logotipos, el código fuente y demás elementos del
+    Sitio son titularidad de {site.legalName} o de terceros que han autorizado su uso, y se
+    encuentran protegidos por la normativa peruana e internacional sobre derechos de autor y
+    propiedad industrial.
+  </p>
+  <p>
+    Se autoriza la visualización y la reproducción de fragmentos del contenido para uso personal y
+    no comercial, siempre que se cite la fuente. Cualquier otro uso —reproducción, distribución,
+    comunicación pública o transformación— requiere autorización previa y por escrito.
+  </p>
+
+  <h2 id="enlaces">5. Enlaces y contenidos de terceros</h2>
+  <p>
+    El Sitio puede incluir enlaces a sitios de terceros, ofrecidos únicamente como referencia.{' '}
+    {site.shortName} no controla dichos sitios ni asume responsabilidad por sus contenidos,
+    políticas de privacidad o prácticas. El acceso a ellos se realiza bajo su exclusiva
+    responsabilidad.
+  </p>
+  <p>
+    Las marcas de terceros mencionadas en el Sitio —incluidas Microsoft, Power BI, Microsoft 365,
+    Azure y Microsoft Entra ID— pertenecen a sus respectivos titulares y se citan únicamente con
+    fines descriptivos. Su mención no implica patrocinio, afiliación ni respaldo por parte de
+    dichos titulares, salvo que se indique expresamente.
+  </p>
+
+  <h2 id="aplicaciones">6. Aplicaciones y servicios integrados</h2>
+  <p>
+    {site.shortName} puede desarrollar y registrar aplicaciones que se integran con plataformas de
+    terceros, incluido Microsoft Entra ID. Cuando una de nuestras aplicaciones solicite permisos
+    para acceder a datos de su organización:
+  </p>
+  <ul>
+    <li>
+      El acceso se limitará estrictamente a los permisos otorgados de forma expresa por usted o por
+      el administrador de su organización durante el proceso de consentimiento.
+    </li>
+    <li>
+      Los datos se tratarán únicamente para las finalidades descritas en el momento del
+      consentimiento y en el contrato de servicios correspondiente.
+    </li>
+    <li>
+      El tratamiento de datos personales se rige por nuestra{' '}
+      <a href={localizedPath('privacy', locale)}>Política de Privacidad</a>.
+    </li>
+    <li>
+      Usted o el administrador de su organización pueden revocar el consentimiento en cualquier
+      momento desde la consola de administración de la plataforma correspondiente.
+    </li>
+  </ul>
+
+  <h2 id="disponibilidad">7. Disponibilidad del Sitio</h2>
+  <p>
+    Procuramos mantener el Sitio disponible de forma continua, pero no garantizamos su
+    funcionamiento ininterrumpido ni libre de errores. {site.shortName} podrá suspender, modificar
+    o interrumpir el acceso al Sitio, total o parcialmente, por motivos de mantenimiento,
+    seguridad o causas ajenas a su control, sin que ello genere derecho a indemnización.
+  </p>
+
+  <h2 id="responsabilidad">8. Limitación de responsabilidad</h2>
+  <p>
+    El contenido del Sitio se ofrece «tal cual», sin garantías de ningún tipo respecto de su
+    exactitud, vigencia o idoneidad para un fin determinado.
+  </p>
+  <p>
+    En la máxima medida permitida por la legislación peruana, {site.legalName} no será responsable
+    por daños indirectos, lucro cesante o pérdida de datos derivados del acceso o uso del Sitio, ni
+    de las decisiones que usted adopte basándose únicamente en la información aquí publicada.
+  </p>
+  <p>
+    Ninguna disposición de estos Términos excluye o limita la responsabilidad que, conforme a la
+    ley peruana, no pueda ser excluida ni limitada, en particular la derivada de dolo o culpa
+    inexcusable.
+  </p>
+
+  <h2 id="datos">9. Protección de datos personales</h2>
+  <p>
+    El tratamiento de los datos personales que usted nos facilite a través del Sitio se rige por la{' '}
+    <a href={localizedPath('privacy', locale)}>Política de Privacidad</a>, que forma parte
+    integrante de estos Términos y se ajusta a la Ley N° 29733, Ley de Protección de Datos
+    Personales, y a su Reglamento aprobado por Decreto Supremo N° 016-2024-JUS.
+  </p>
+
+  <h2 id="modificaciones">10. Modificaciones</h2>
+  <p>
+    {site.shortName} podrá modificar estos Términos para adecuarlos a cambios normativos,
+    técnicos o en los servicios ofrecidos. La versión vigente será siempre la publicada en esta
+    página, con indicación de su fecha de última actualización. El uso del Sitio con posterioridad
+    a la publicación de una nueva versión supone su aceptación.
+  </p>
+
+  <h2 id="ley">11. Ley aplicable y jurisdicción</h2>
+  <p>
+    Estos Términos se rigen por las leyes de la República del Perú. Para cualquier controversia
+    derivada de su interpretación o ejecución, las partes se someten a la competencia de los jueces
+    y tribunales del Distrito Judicial de Lima, renunciando al fuero de sus domicilios, sin
+    perjuicio de los derechos que la normativa de protección al consumidor reconozca a los
+    usuarios.
+  </p>
+
+  <h2 id="contacto">12. Contacto</h2>
+  <p>
+    Para consultas sobre estos Términos puede escribirnos a{' '}
+    <a href={`mailto:${site.email.legal}`}>{site.email.legal}</a> o a la dirección postal indicada
+    en la sección 1.
+  </p>
+</Legal>

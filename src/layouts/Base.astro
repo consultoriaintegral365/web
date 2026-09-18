@@ -1,0 +1,111 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { site } from '../config/site';
+import { DEFAULT_LOCALE, LOCALE_META } from '../i18n/config';
+import { alternates, localizedPath } from '../i18n/utils';
+import { t } from '../i18n/ui';
+import type { Locale } from '../i18n/config';
+import type { RouteKey } from '../i18n/routes';
+
+interface Props {
+  locale: Locale;
+  routeKey: RouteKey;
+  title: string;
+  description: string;
+}
+
+const { locale, routeKey, title, description } = Astro.props;
+const strings = t(locale);
+const meta = LOCALE_META[locale];
+
+const canonical = new URL(localizedPath(routeKey, locale), Astro.site).href;
+const langAlternates = alternates(routeKey).map(({ locale: l, path }) => ({
+  hrefLang: LOCALE_META[l].htmlLang,
+  href: new URL(path, Astro.site).href,
+}));
+const xDefault = new URL(localizedPath(routeKey, DEFAULT_LOCALE), Astro.site).href;
+
+// El título de la home ya incluye la marca; el resto la añade como sufijo.
+const fullTitle = routeKey === 'home' ? title : `${title} — ${site.name}`;
+
+/** Datos estructurados: ayudan a Google y sirven de señal de legitimidad
+ *  en revisiones manuales (p. ej. verificación de editor de Microsoft). */
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: site.name,
+  legalName: site.legalName,
+  alternateName: site.shortName,
+  url: site.url,
+  email: site.email.general,
+  telephone: site.phone,
+  foundingDate: String(site.foundedYear),
+  description: strings.meta.homeDescription,
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: site.address.city,
+    addressRegion: site.address.region,
+    addressCountry: site.address.countryCode,
+  },
+  ...(site.social.linkedin ? { sameAs: [site.social.linkedin] } : {}),
+};
+---
+
+<!doctype html>
+<html lang={meta.htmlLang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+
+    {
+      langAlternates.map((alt) => (
+        <link rel="alternate" hreflang={alt.hrefLang} href={alt.href} />
+      ))
+    }
+    <link rel="alternate" hreflang="x-default" href={xDefault} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={meta.ogLocale} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="theme-color" content="#1c5ef5" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+    />
+
+    <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} is:inline />
+  </head>
+
+  <body class="flex min-h-screen flex-col">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-brand-600 focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white"
+    >
+      {strings.nav.skipToContent}
+    </a>
+
+    <Header locale={locale} routeKey={routeKey} />
+
+    <main id="main" class="flex-1">
+      <slot />
+    </main>
+
+    <Footer locale={locale} />
+  </body>
+</html>

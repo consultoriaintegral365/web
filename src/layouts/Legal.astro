@@ -1,0 +1,49 @@
+---
+import Base from './Base.astro';
+import { site } from '../config/site';
+import { LOCALE_META } from '../i18n/config';
+import { localizedPath } from '../i18n/utils';
+import { t } from '../i18n/ui';
+import type { Locale } from '../i18n/config';
+import type { RouteKey } from '../i18n/routes';
+
+interface Props {
+  locale: Locale;
+  routeKey: RouteKey;
+  title: string;
+  description: string;
+}
+
+const { locale, routeKey, title, description } = Astro.props;
+const strings = t(locale);
+
+const updated = new Date(`${site.legalLastUpdated}T00:00:00Z`).toLocaleDateString(
+  LOCALE_META[locale].htmlLang,
+  { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' },
+);
+---
+
+<Base locale={locale} routeKey={routeKey} title={title} description={description}>
+  <article class="container-page max-w-3xl py-16 sm:py-20">
+    <header class="border-b border-ink-100 pb-8">
+      <h1 class="text-3xl font-bold sm:text-4xl">{title}</h1>
+      <p class="mt-4 text-sm text-ink-500">
+        {strings.legal.lastUpdated}:{' '}
+        <time datetime={site.legalLastUpdated}>{updated}</time>
+      </p>
+    </header>
+
+    <div class="prose-legal">
+      <slot />
+    </div>
+
+    <footer class="mt-14 border-t border-ink-100 pt-8">
+      <a
+        href={localizedPath('home', locale)}
+        class="text-sm font-semibold text-brand-700 hover:text-brand-800"
+      >
+        &larr; {strings.legal.backHome}
+      </a>
+    </footer>
+  </article>
+</Base>

@@ -1,0 +1,249 @@
+---
+import Legal from '../../layouts/Legal.astro';
+import { site } from '../../config/site';
+import { localizedPath } from '../../i18n/utils';
+import { t } from '../../i18n/ui';
+
+const locale = 'pt' as const;
+const strings = t(locale);
+---
+
+<Legal
+  locale={locale}
+  routeKey="privacy"
+  title={strings.meta.privacyTitle}
+  description={strings.meta.privacyDescription}
+>
+  <p>
+    Na {site.legalName} («{site.shortName}», «nós») respeitamos a sua privacidade. Esta Política de
+    Privacidade explica quais dados pessoais tratamos, com que finalidade e sob quais condições,
+    bem como os direitos que lhe assistem.
+  </p>
+  <p>
+    Esta Política rege-se pela <strong>Lei N.° 29733, Lei de Proteção de Dados Pessoais</strong> do
+    Peru e pelo seu Regulamento, aprovado pelo <strong>Decreto Supremo N.° 016-2024-JUS</strong>,
+    vigente desde 30 de março de 2025.
+  </p>
+
+  <h2 id="titular">1. Titular do banco de dados pessoais</h2>
+  <ul>
+    <li><strong>Razão social:</strong> {site.legalName}</li>
+    <li><strong>RUC (inscrição fiscal):</strong> {site.taxId}</li>
+    <li>
+      <strong>Endereço:</strong> {site.address.street}, {site.address.district}, {site.address.city},{' '}
+      {site.address.country}
+    </li>
+    <li>
+      <strong>E-mail para assuntos de privacidade:</strong>{' '}
+      <a href={`mailto:${site.email.privacy}`}>{site.email.privacy}</a>
+    </li>
+  </ul>
+
+  <h2 id="dados">2. Dados pessoais que tratamos</h2>
+
+  <h3>2.1 Dados que você nos fornece</h3>
+  <p>
+    Este Site <strong>não contém formulários de captação de dados</strong>. O contato é feito por
+    e-mail ou pelos canais indicados na seção de contato. Quando você nos escreve, tratamos os dados
+    que decidir incluir em sua comunicação, habitualmente:
+  </p>
+  <ul>
+    <li>Nome e sobrenome.</li>
+    <li>Endereço de e-mail e, se for o caso, número de telefone.</li>
+    <li>Empresa ou entidade que representa e cargo.</li>
+    <li>O conteúdo da mensagem e a informação que voluntariamente incorporar a ela.</li>
+  </ul>
+
+  <h3>2.2 Dados de navegação</h3>
+  <p>
+    O Site é estático e <strong>não utiliza cookies, pixels de rastreamento, publicidade nem
+    ferramentas de analytics</strong> que elaborem perfis de seus visitantes.
+  </p>
+  <p>
+    Contudo, nosso provedor de hospedagem registra automaticamente dados técnicos inerentes ao
+    funcionamento da internet — endereço IP, data e hora da solicitação, tipo de navegador e página
+    solicitada — com a única finalidade de entregar o conteúdo, manter a segurança do serviço e
+    prevenir abusos. Não associamos esses registros a pessoas identificadas nem os utilizamos com
+    fins comerciais.
+  </p>
+
+  <h3>2.3 Dados sensíveis e menores de idade</h3>
+  <p>
+    Não solicitamos dados sensíveis nos termos da Lei N.° 29733. Pedimos que não inclua esse tipo de
+    informação em suas comunicações, salvo se for estritamente necessário e previamente acordado.
+  </p>
+  <p>
+    O Site destina-se a profissionais e organizações, não a menores de idade, e não coletamos
+    deliberadamente seus dados. Se detectarmos que tratamos dados de um menor sem a devida
+    autorização, procederemos à sua supressão.
+  </p>
+
+  <h2 id="finalidades">3. Finalidades do tratamento</h2>
+  <p>Tratamos seus dados pessoais exclusivamente para:</p>
+  <ul>
+    <li>Atender e responder às consultas, solicitações de informação e propostas que nos enviar.</li>
+    <li>Elaborar e enviar cotações ou propostas de serviços quando solicitado.</li>
+    <li>
+      Gerir a relação pré-contratual e contratual com clientes, fornecedores e colaboradores.
+    </li>
+    <li>Cumprir obrigações legais, contábeis e tributárias aplicáveis.</li>
+    <li>Garantir a segurança e o correto funcionamento do Site.</li>
+  </ul>
+  <p>
+    <strong>Não utilizamos seus dados para enviar comunicações comerciais não solicitadas</strong>,
+    nem para elaborar perfis, nem para adotar decisões automatizadas que produzam efeitos jurídicos
+    sobre você.
+  </p>
+
+  <h2 id="legitimacao">4. Base legal</h2>
+  <p>O tratamento fundamenta-se, conforme o caso, em:</p>
+  <ul>
+    <li>
+      <strong>Seu consentimento livre, prévio, expresso, informado e inequívoco</strong>, concedido
+      ao nos enviar voluntariamente uma comunicação.
+    </li>
+    <li>
+      <strong>A execução de uma relação contratual ou de medidas pré-contratuais</strong> adotadas a
+      seu pedido.
+    </li>
+    <li><strong>O cumprimento de obrigações legais</strong> às quais estamos sujeitos.</li>
+  </ul>
+  <p>
+    Quando a base for o consentimento, você pode revogá-lo a qualquer momento escrevendo para{' '}
+    <a href={`mailto:${site.email.privacy}`}>{site.email.privacy}</a>, sem que isso afete a licitude
+    do tratamento anterior à revogação.
+  </p>
+
+  <h2 id="conservacao">5. Prazo de conservação</h2>
+  <p>
+    Conservamos os dados pelo tempo necessário para cumprir a finalidade que motivou sua coleta:
+  </p>
+  <ul>
+    <li>
+      <strong>Consultas que não resultam em relação comercial:</strong> até doze (12) meses desde o
+      último contato.
+    </li>
+    <li>
+      <strong>Clientes e fornecedores:</strong> enquanto durar a relação e, depois, durante os
+      prazos de prescrição legal, contábil e tributária aplicáveis no Peru.
+    </li>
+  </ul>
+  <p>
+    Cumpridos tais prazos, os dados são suprimidos ou anonimizados de forma segura e irreversível.
+  </p>
+
+  <h2 id="destinatarios">6. Destinatários e operadores</h2>
+  <p>
+    Não vendemos, cedemos nem comercializamos seus dados pessoais. Apenas podem acessá-los
+    fornecedores que nos prestam serviços como operadores de tratamento, sujeitos a contrato e a
+    obrigações de confidencialidade e segurança:
+  </p>
+  <ul>
+    <li><strong>Hospedagem do site:</strong> GitHub, Inc. (GitHub Pages).</li>
+    <li>
+      <strong>Correio eletrônico e produtividade:</strong> Microsoft Corporation (Microsoft 365).
+    </li>
+  </ul>
+  <p>
+    Também poderemos comunicar dados a autoridades administrativas ou judiciais quando houver
+    obrigação legal de fazê-lo.
+  </p>
+
+  <h2 id="transferencias">7. Fluxo transfronteiriço de dados</h2>
+  <p>
+    Os fornecedores indicados na seção anterior podem hospedar ou processar informação em servidores
+    localizados fora do Peru, principalmente nos Estados Unidos da América e na União Europeia. Isso
+    configura um fluxo transfronteiriço de dados pessoais conforme a Lei N.° 29733 e seu
+    Regulamento.
+  </p>
+  <p>
+    Nesses casos exigimos de nossos fornecedores garantias contratuais de um nível de proteção
+    adequado, equivalente ao previsto pela normativa peruana, mediante cláusulas contratuais de
+    proteção de dados e compromissos de segurança e confidencialidade.
+  </p>
+
+  <h2 id="seguranca">8. Medidas de segurança</h2>
+  <p>
+    Aplicamos medidas técnicas, organizativas e legais para proteger os dados pessoais contra
+    tratamentos não autorizados, perda, alteração ou acesso indevido. Entre elas:
+  </p>
+  <ul>
+    <li>Criptografia do tráfego do Site mediante HTTPS/TLS.</li>
+    <li>Autenticação multifator e controle de acesso segundo o princípio do menor privilégio.</li>
+    <li>Registro e revisão periódica dos acessos à informação.</li>
+    <li>Acordos de confidencialidade com o pessoal e com os fornecedores.</li>
+  </ul>
+  <p>
+    Nenhum sistema é absolutamente infalível. Caso ocorra um incidente de segurança que afete seus
+    dados pessoais, notificaremos a Autoridade Nacional de Proteção de Dados Pessoais{' '}
+    <strong>dentro de quarenta e oito (48) horas</strong> do conhecimento do fato e, quando
+    couber, comunicaremos a você, conforme o Regulamento vigente.
+  </p>
+
+  <h2 id="direitos">9. Seus direitos (ARCO)</h2>
+  <p>Como titular dos dados, você tem direito a:</p>
+  <ul>
+    <li>
+      <strong>Acesso:</strong> saber quais dados seus tratamos, sua origem, finalidade e a quem são
+      comunicados.
+    </li>
+    <li><strong>Retificação:</strong> corrigir dados inexatos, incompletos ou desatualizados.</li>
+    <li>
+      <strong>Cancelamento:</strong> solicitar a supressão de seus dados quando a finalidade tiver
+      se concluído, vencer o prazo de tratamento ou você revogar seu consentimento.
+    </li>
+    <li>
+      <strong>Oposição:</strong> opor-se ao tratamento quando este lhe cause prejuízo ou concorra um
+      motivo legítimo.
+    </li>
+  </ul>
+  <p>
+    Adicionalmente, pode exercer os direitos de <strong>informação</strong>,{' '}
+    <strong>portabilidade</strong> e <strong>revogação do consentimento</strong> reconhecidos pelo
+    Regulamento vigente.
+  </p>
+
+  <h3>Como exercê-los</h3>
+  <p>
+    Envie uma solicitação para <a href={`mailto:${site.email.privacy}`}>{site.email.privacy}</a>, ou
+    para nosso endereço indicado na seção 1, anexando:
+  </p>
+  <ol>
+    <li>Seu nome completo e cópia de seu documento de identidade.</li>
+    <li>O direito que deseja exercer e uma descrição clara de sua solicitação.</li>
+    <li>Um endereço ou e-mail para notificarmos a resposta.</li>
+    <li>Os documentos que fundamentem seu pedido, quando couber.</li>
+  </ol>
+  <p>
+    Responderemos em um prazo máximo de <strong>vinte (20) dias</strong> para o direito de acesso e
+    de <strong>dez (10) dias</strong> para os direitos de retificação, cancelamento e oposição,
+    contados do recebimento da solicitação. O exercício desses direitos é gratuito.
+  </p>
+
+  <h2 id="reclamacao">10. Reclamação perante a autoridade</h2>
+  <p>
+    Se considerar que sua solicitação não foi atendida adequadamente ou que seus direitos foram
+    violados, pode apresentar reclamação perante a <strong>Autoridade Nacional de Proteção de Dados
+    Pessoais (ANPD)</strong> do Ministério da Justiça e Direitos Humanos do Peru, por meio de{' '}
+    <a href="https://www.gob.pe/autoridad-nacional-de-proteccion-de-datos-personales" rel="noopener noreferrer" target="_blank">
+      gob.pe/autoridad-nacional-de-proteccion-de-datos-personales
+    </a>.
+  </p>
+
+  <h2 id="alteracoes">11. Alterações nesta Política</h2>
+  <p>
+    Podemos atualizar esta Política para refletir mudanças normativas ou em nossos processos. A
+    versão vigente é sempre a publicada nesta página, com sua data de última atualização. Se a
+    mudança for substancial e afetar o tratamento de seus dados, comunicaremos pelos meios de
+    contato disponíveis.
+  </p>
+
+  <h2 id="contato">12. Contato</h2>
+  <p>
+    Para qualquer consulta sobre esta Política ou sobre o tratamento de seus dados pessoais,
+    escreva para <a href={`mailto:${site.email.privacy}`}>{site.email.privacy}</a>.
+  </p>
+  <p>
+    Consulte também nossos <a href={localizedPath('terms', locale)}>Termos de Serviço</a>.
+  </p>
+</Legal>

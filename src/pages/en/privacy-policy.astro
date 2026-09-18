@@ -1,0 +1,239 @@
+---
+import Legal from '../../layouts/Legal.astro';
+import { site } from '../../config/site';
+import { localizedPath } from '../../i18n/utils';
+import { t } from '../../i18n/ui';
+
+const locale = 'en' as const;
+const strings = t(locale);
+---
+
+<Legal
+  locale={locale}
+  routeKey="privacy"
+  title={strings.meta.privacyTitle}
+  description={strings.meta.privacyDescription}
+>
+  <p>
+    At {site.legalName} (“{site.shortName}”, “we”) we respect your privacy. This Privacy Policy
+    explains what personal data we process, for what purpose and under what conditions, as well as
+    the rights available to you.
+  </p>
+  <p>
+    This Policy is governed by <strong>Law No. 29733, the Personal Data Protection Law</strong> of
+    Peru and by its Regulations, approved by <strong>Supreme Decree No. 016-2024-JUS</strong>, in
+    force since 30 March 2025.
+  </p>
+
+  <h2 id="controller">1. Owner of the personal data bank</h2>
+  <ul>
+    <li><strong>Legal name:</strong> {site.legalName}</li>
+    <li><strong>Tax ID (RUC):</strong> {site.taxId}</li>
+    <li>
+      <strong>Registered address:</strong> {site.address.street}, {site.address.district},{' '}
+      {site.address.city}, {site.address.country}
+    </li>
+    <li>
+      <strong>Privacy contact:</strong>{' '}
+      <a href={`mailto:${site.email.privacy}`}>{site.email.privacy}</a>
+    </li>
+  </ul>
+
+  <h2 id="data">2. Personal data we process</h2>
+
+  <h3>2.1 Data you provide</h3>
+  <p>
+    This Site <strong>contains no data collection forms</strong>. Contact takes place by email or
+    through the channels listed in the contact section. When you write to us, we process the data
+    you choose to include in your message, typically:
+  </p>
+  <ul>
+    <li>First name and surname.</li>
+    <li>Email address and, where applicable, telephone number.</li>
+    <li>The company or entity you represent and your role.</li>
+    <li>The content of your message and any information you voluntarily include in it.</li>
+  </ul>
+
+  <h3>2.2 Browsing data</h3>
+  <p>
+    The Site is static and <strong>does not use cookies, tracking pixels, advertising or analytics
+    tools</strong> that build profiles of its visitors.
+  </p>
+  <p>
+    However, our hosting provider automatically logs technical data inherent to the operation of the
+    internet — IP address, date and time of the request, browser type and requested page — for the
+    sole purpose of delivering the content, maintaining service security and preventing abuse. We do
+    not link those logs to identified individuals or use them for commercial purposes.
+  </p>
+
+  <h3>2.3 Sensitive data and minors</h3>
+  <p>
+    We do not request sensitive data as defined by Law No. 29733. Please do not include such
+    information in your communications unless it is strictly necessary and has been agreed in
+    advance.
+  </p>
+  <p>
+    The Site is aimed at professionals and organisations, not minors, and we do not knowingly
+    collect their data. If we become aware that we have processed a minor’s data without the
+    appropriate authorisation, we will delete it.
+  </p>
+
+  <h2 id="purposes">3. Purposes of processing</h2>
+  <p>We process your personal data solely to:</p>
+  <ul>
+    <li>Handle and respond to enquiries, information requests and proposals you send us.</li>
+    <li>Prepare and send quotations or service proposals when you request them.</li>
+    <li>Manage pre-contractual and contractual relationships with clients, suppliers and partners.</li>
+    <li>Comply with applicable legal, accounting and tax obligations.</li>
+    <li>Ensure the security and proper functioning of the Site.</li>
+  </ul>
+  <p>
+    <strong>We do not use your data to send unsolicited marketing communications</strong>, to build
+    profiles, or to make automated decisions producing legal effects concerning you.
+  </p>
+
+  <h2 id="lawfulness">4. Lawful basis</h2>
+  <p>Processing is based, depending on the case, on:</p>
+  <ul>
+    <li>
+      <strong>Your free, prior, express, informed and unequivocal consent</strong>, given when you
+      voluntarily send us a communication.
+    </li>
+    <li>
+      <strong>Performance of a contract or pre-contractual measures</strong> taken at your request.
+    </li>
+    <li><strong>Compliance with legal obligations</strong> to which we are subject.</li>
+  </ul>
+  <p>
+    Where the basis is consent, you may withdraw it at any time by writing to{' '}
+    <a href={`mailto:${site.email.privacy}`}>{site.email.privacy}</a>, without affecting the
+    lawfulness of processing carried out before the withdrawal.
+  </p>
+
+  <h2 id="retention">5. Retention period</h2>
+  <p>We keep data for as long as necessary to fulfil the purpose for which it was collected:</p>
+  <ul>
+    <li>
+      <strong>Enquiries that do not lead to a commercial relationship:</strong> up to twelve (12)
+      months from the last contact.
+    </li>
+    <li>
+      <strong>Clients and suppliers:</strong> for the duration of the relationship and thereafter
+      for the applicable legal, accounting and tax limitation periods in Peru.
+    </li>
+  </ul>
+  <p>
+    Once those periods have elapsed, data is securely and irreversibly deleted or anonymised.
+  </p>
+
+  <h2 id="recipients">6. Recipients and processors</h2>
+  <p>
+    We do not sell, transfer or trade your personal data. Only providers acting as processors on our
+    behalf may access it, bound by contract and by confidentiality and security obligations:
+  </p>
+  <ul>
+    <li><strong>Website hosting:</strong> GitHub, Inc. (GitHub Pages).</li>
+    <li><strong>Email and productivity:</strong> Microsoft Corporation (Microsoft 365).</li>
+  </ul>
+  <p>
+    We may also disclose data to administrative or judicial authorities where legally required to do
+    so.
+  </p>
+
+  <h2 id="transfers">7. Cross-border data flows</h2>
+  <p>
+    The providers listed above may host or process information on servers located outside Peru,
+    mainly in the United States of America and the European Union. This constitutes a cross-border
+    flow of personal data under Law No. 29733 and its Regulations.
+  </p>
+  <p>
+    In such cases we require our providers to offer contractual guarantees of an adequate level of
+    protection, equivalent to that provided by Peruvian law, through data protection contractual
+    clauses and security and confidentiality commitments.
+  </p>
+
+  <h2 id="security">8. Security measures</h2>
+  <p>
+    We apply technical, organisational and legal measures to protect personal data against
+    unauthorised processing, loss, alteration or improper access. These include:
+  </p>
+  <ul>
+    <li>Encryption of Site traffic using HTTPS/TLS.</li>
+    <li>Multi-factor authentication and access control on a least-privilege basis.</li>
+    <li>Logging and periodic review of access to information.</li>
+    <li>Confidentiality agreements with staff and providers.</li>
+  </ul>
+  <p>
+    No system is completely infallible. Should a security incident affecting your personal data
+    occur, we will notify the National Authority for Personal Data Protection{' '}
+    <strong>within forty-eight (48) hours</strong> of becoming aware of it and, where applicable,
+    inform you, in accordance with the Regulations in force.
+  </p>
+
+  <h2 id="rights">9. Your rights (ARCO)</h2>
+  <p>As the data subject, you have the right to:</p>
+  <ul>
+    <li>
+      <strong>Access:</strong> find out what data of yours we process, its origin, purpose and to
+      whom it is disclosed.
+    </li>
+    <li><strong>Rectification:</strong> correct inaccurate, incomplete or outdated data.</li>
+    <li>
+      <strong>Cancellation:</strong> request deletion of your data where the purpose has been
+      fulfilled, the processing period has expired or you withdraw consent.
+    </li>
+    <li>
+      <strong>Objection:</strong> object to processing where it causes you harm or a legitimate
+      ground applies.
+    </li>
+  </ul>
+  <p>
+    You may additionally exercise the rights to <strong>information</strong>,{' '}
+    <strong>portability</strong> and <strong>withdrawal of consent</strong> recognised by the
+    Regulations in force.
+  </p>
+
+  <h3>How to exercise them</h3>
+  <p>
+    Send a request to <a href={`mailto:${site.email.privacy}`}>{site.email.privacy}</a>, or to our
+    address in section 1, enclosing:
+  </p>
+  <ol>
+    <li>Your full name and a copy of your identity document.</li>
+    <li>The right you wish to exercise and a clear description of your request.</li>
+    <li>An address or email where we can send our reply.</li>
+    <li>Any supporting documents, where applicable.</li>
+  </ol>
+  <p>
+    We will reply within a maximum of <strong>twenty (20) days</strong> for the right of access and{' '}
+    <strong>ten (10) days</strong> for the rights of rectification, cancellation and objection,
+    counted from receipt of the request. Exercising these rights is free of charge.
+  </p>
+
+  <h2 id="complaint">10. Complaints to the authority</h2>
+  <p>
+    If you believe your request was not handled properly or that your rights have been infringed,
+    you may lodge a complaint with the <strong>National Authority for Personal Data Protection
+    (ANPD)</strong> of the Peruvian Ministry of Justice and Human Rights, via{' '}
+    <a href="https://www.gob.pe/autoridad-nacional-de-proteccion-de-datos-personales" rel="noopener noreferrer" target="_blank">
+      gob.pe/autoridad-nacional-de-proteccion-de-datos-personales
+    </a>.
+  </p>
+
+  <h2 id="changes">11. Changes to this Policy</h2>
+  <p>
+    We may update this Policy to reflect regulatory changes or changes in our processes. The version
+    in force is always the one published on this page, showing its last updated date. If a change is
+    substantial and affects the processing of your data, we will communicate it through the
+    available contact channels.
+  </p>
+
+  <h2 id="contact">12. Contact</h2>
+  <p>
+    For any question about this Policy or about the processing of your personal data, write to{' '}
+    <a href={`mailto:${site.email.privacy}`}>{site.email.privacy}</a>.
+  </p>
+  <p>
+    See also our <a href={localizedPath('terms', locale)}>Terms of Service</a>.
+  </p>
+</Legal>

@@ -1,0 +1,96 @@
+---
+import Logo from './Logo.astro';
+import LangSwitcher from './LangSwitcher.astro';
+import { localizedPath } from '../i18n/utils';
+import { t } from '../i18n/ui';
+import type { Locale } from '../i18n/config';
+import type { RouteKey } from '../i18n/routes';
+
+interface Props {
+  locale: Locale;
+  routeKey: RouteKey;
+}
+
+const { locale, routeKey } = Astro.props;
+const strings = t(locale);
+
+const home = localizedPath('home', locale);
+/* Los anclajes apuntan siempre a la home del idioma actual, de modo que la
+   navegación también funciona desde las páginas legales. */
+const base = home === '/' ? '' : home;
+const links = [
+  { label: strings.nav.services, href: `${base}/#servicios` },
+  { label: strings.nav.approach, href: `${base}/#metodo` },
+  { label: strings.nav.about, href: `${base}/#nosotros` },
+];
+const contactHref = `${base}/#contacto`;
+---
+
+<header class="sticky top-0 z-40 border-b border-ink-100 bg-white/85 backdrop-blur-md">
+  <div class="container-page flex h-16 items-center justify-between gap-4">
+    <a href={home} class="shrink-0" aria-label={`${strings.nav.home} — Consultoría Integral 365`}>
+      <Logo />
+    </a>
+
+    <div class="flex items-center gap-2 sm:gap-4">
+      <nav aria-label={strings.nav.home} class="hidden md:block">
+        <ul class="flex items-center gap-6">
+          {
+            links.map((link) => (
+              <li>
+                <a
+                  href={link.href}
+                  class="text-sm font-medium text-ink-600 transition-colors hover:text-ink-900"
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <LangSwitcher locale={locale} routeKey={routeKey} />
+
+      <a href={contactHref} class="btn-primary hidden px-4 py-2 sm:inline-flex">
+        {strings.nav.contact}
+      </a>
+
+      <!-- Menú móvil: <details> nativo, sin JavaScript. -->
+      <details class="relative md:hidden">
+        <summary
+          class="flex h-9 w-9 cursor-pointer list-none items-center justify-center rounded-lg border border-ink-200 text-ink-700 [&::-webkit-details-marker]:hidden"
+          aria-label={strings.nav.services}
+        >
+          <svg
+            class="h-5 w-5"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            aria-hidden="true"
+          >
+            <path d="M4 7h16M4 12h16M4 17h16" />
+          </svg>
+        </summary>
+        <ul
+          class="absolute right-0 top-11 w-56 rounded-xl border border-ink-100 bg-white p-2 shadow-lg"
+        >
+          {
+            [...links, { label: strings.nav.contact, href: contactHref }].map((link) => (
+              <li>
+                <a
+                  href={link.href}
+                  class="block rounded-lg px-3 py-2 text-sm font-medium text-ink-700 hover:bg-ink-50"
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </details>
+    </div>
+  </div>
+</header>
