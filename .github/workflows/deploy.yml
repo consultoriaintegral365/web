@@ -24,22 +24,36 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Descargar el repositorio
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Preparar Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: npm
 
+      # Se usa `npm install` y no `npm ci` a propósito.
+      #
+      # Tailwind (@tailwindcss/oxide-wasm32-wasi) y Astro (@img/sharp-wasm32,
+      # @bruits/satteri-wasm32-wasi) declaran @emnapi/core y @emnapi/runtime
+      # como peer dependencies de paquetes opcionales. npm no registra las peer
+      # dependencies de un paquete opcional que no se instala en la plataforma
+      # actual, así que un lock generado en Windows nunca las incluye y `npm ci`
+      # aborta en el runner de Linux con «Missing: @emnapi/core from lock file».
+      # No hay forma de generar desde Windows un lock que las contenga: ni
+      # siquiera `npm install --package-lock-only --os=linux` las añade.
+      #
+      # `npm install` respeta igualmente las versiones del lock que sí están
+      # registradas y solo resuelve las que faltan. Si algún día el lock se
+      # genera en Linux, se puede volver a `npm ci`.
       - name: Instalar dependencias
-        run: npm ci
+        run: npm install --no-audit --no-fund
 
       - name: Construir con Astro
         run: npm run build
 
       - name: Subir el artefacto
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v5
         with:
           path: ./dist
 
@@ -53,4 +67,4 @@ jobs:
     steps:
       - name: Desplegar en GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
