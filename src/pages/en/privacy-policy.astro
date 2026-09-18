@@ -77,7 +77,65 @@ const strings = t(locale);
     appropriate authorisation, we will delete it.
   </p>
 
-  <h2 id="purposes">3. Purposes of processing</h2>
+  <h2 id="applications">3. Applications integrated into the client environment</h2>
+  <p>
+    Beyond the processing associated with this website, {site.shortName} develops and registers
+    applications that integrate with its clients' Microsoft environment through Microsoft Entra ID.
+    This section describes how personal data is processed in that context, which is distinct from
+    the one above.
+  </p>
+
+  <h3>3.1 Our role</h3>
+  <p>
+    In these applications, {site.legalName} acts as a <strong>data processor</strong>: the client
+    organisation is the owner of the personal data bank and determines the purposes and means of
+    processing. We process the data solely in accordance with its documented instructions and with
+    the signed services agreement.
+  </p>
+
+  <h3>3.2 Data accessed</h3>
+  <p>
+    Access is limited <strong>strictly to the permissions expressly granted by the client
+    organisation's administrator</strong> during the Microsoft Entra ID consent process. We always
+    request the minimum set of permissions the application needs to operate, and the administrator
+    can review exactly what has been granted at any time from the Microsoft Entra ID admin centre.
+  </p>
+  <p>
+    Where an application only needs to identify the person using it, permissions are limited to the{' '}
+    <strong>basic profile of the signed-in user</strong>: name, user identifier and corporate email
+    address. That data is used solely to authenticate them and to record who performs each action
+    within the system.
+  </p>
+
+  <h3>3.3 Where the data resides</h3>
+  <p>
+    Where an application requires no storage of its own, the data <strong>remains entirely within
+    the client organisation's Microsoft 365 environment</strong>. We keep no copies in our own
+    databases and transfer that information to no infrastructure outside the client, so no
+    cross-border flow arises beyond whatever the organisation has already agreed with Microsoft.
+  </p>
+  <p>
+    Should any application come to require additional storage, its location and provider will be
+    identified in the corresponding services agreement before it goes into production.
+  </p>
+
+  <h3>3.4 Retention and withdrawal of consent</h3>
+  <p>
+    As there is no storage of our own, retention is governed by the policies the client
+    organisation applies to its own environment. The administrator may{' '}
+    <strong>withdraw consent at any time</strong> from the Microsoft Entra ID admin centre, which
+    immediately cuts off the application's access.
+  </p>
+
+  <h3>3.5 Confidentiality and incidents</h3>
+  <p>
+    Staff with access to these environments are bound by confidentiality agreements and by the
+    least-privilege principle. Any security incident affecting client organisation data is notified
+    to it without undue delay, in accordance with the security measures section of this Policy and
+    with the corresponding agreement.
+  </p>
+
+  <h2 id="purposes">4. Purposes of processing</h2>
   <p>We process your personal data solely to:</p>
   <ul>
     <li>Handle and respond to enquiries, information requests and proposals you send us.</li>
@@ -91,7 +149,7 @@ const strings = t(locale);
     profiles, or to make automated decisions producing legal effects concerning you.
   </p>
 
-  <h2 id="lawfulness">4. Lawful basis</h2>
+  <h2 id="lawfulness">5. Lawful basis</h2>
   <p>Processing is based, depending on the case, on:</p>
   <ul>
     <li>
@@ -109,7 +167,7 @@ const strings = t(locale);
     lawfulness of processing carried out before the withdrawal.
   </p>
 
-  <h2 id="retention">5. Retention period</h2>
+  <h2 id="retention">6. Retention period</h2>
   <p>We keep data for as long as necessary to fulfil the purpose for which it was collected:</p>
   <ul>
     <li>
@@ -125,7 +183,7 @@ const strings = t(locale);
     Once those periods have elapsed, data is securely and irreversibly deleted or anonymised.
   </p>
 
-  <h2 id="recipients">6. Recipients and processors</h2>
+  <h2 id="recipients">7. Recipients and processors</h2>
   <p>
     We do not sell, transfer or trade your personal data. Only providers acting as processors on our
     behalf may access it, bound by contract and by confidentiality and security obligations:
@@ -139,7 +197,7 @@ const strings = t(locale);
     so.
   </p>
 
-  <h2 id="transfers">7. Cross-border data flows</h2>
+  <h2 id="transfers">8. Cross-border data flows</h2>
   <p>
     The providers listed above may host or process information on servers located outside Peru,
     mainly in the United States of America and the European Union. This constitutes a cross-border
@@ -151,7 +209,7 @@ const strings = t(locale);
     clauses and security and confidentiality commitments.
   </p>
 
-  <h2 id="security">8. Security measures</h2>
+  <h2 id="security">9. Security measures</h2>
   <p>
     We apply technical, organisational and legal measures to protect personal data against
     unauthorised processing, loss, alteration or improper access. These include:
@@ -169,7 +227,7 @@ const strings = t(locale);
     inform you, in accordance with the Regulations in force.
   </p>
 
-  <h2 id="rights">9. Your rights (ARCO)</h2>
+  <h2 id="rights">10. Your rights (ARCO)</h2>
   <p>As the data subject, you have the right to:</p>
   <ul>
     <li>
@@ -209,7 +267,7 @@ const strings = t(locale);
     counted from receipt of the request. Exercising these rights is free of charge.
   </p>
 
-  <h2 id="complaint">10. Complaints to the authority</h2>
+  <h2 id="complaint">11. Complaints to the authority</h2>
   <p>
     If you believe your request was not handled properly or that your rights have been infringed,
     you may lodge a complaint with the <strong>National Authority for Personal Data Protection
@@ -219,7 +277,7 @@ const strings = t(locale);
     </a>.
   </p>
 
-  <h2 id="changes">11. Changes to this Policy</h2>
+  <h2 id="changes">12. Changes to this Policy</h2>
   <p>
     We may update this Policy to reflect regulatory changes or changes in our processes. The version
     in force is always the one published on this page, showing its last updated date. If a change is
@@ -227,7 +285,7 @@ const strings = t(locale);
     available contact channels.
   </p>
 
-  <h2 id="contact">12. Contact</h2>
+  <h2 id="contact">13. Contact</h2>
   <p>
     For any question about this Policy or about the processing of your personal data, write to{' '}
     <a href={`mailto:${site.email.privacy}`}>{site.email.privacy}</a>.
