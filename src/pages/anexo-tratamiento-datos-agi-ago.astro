@@ -1,0 +1,242 @@
+---
+import Legal from '../layouts/Legal.astro';
+import { site } from '../config/site';
+import { localizedPath } from '../i18n/utils';
+
+/**
+ * Anexo de tratamiento de datos del sistema AGI/AGO.
+ *
+ * Desarrolla las secciones 3.2, 3.3 y 3.4 de la Política de Privacidad para
+ * una aplicación concreta. Se publica solo en español: es un documento
+ * específico de un sistema para un cliente peruano.
+ *
+ * Los dos campos marcados «a definir» son decisiones de despliegue todavía
+ * abiertas y se dejan visibles a propósito: un anexo que enseña la pregunta
+ * pendiente es más honesto —y más útil a quien evalúa— que uno que la esconde.
+ */
+const locale = 'es' as const;
+const lastUpdated = '2026-09-18';
+
+const title = 'Anexo de tratamiento de datos — Sistema AGI/AGO';
+const description =
+  'Qué datos personales trata el sistema AGI/AGO de aprobación de solicitudes de compra, dónde residen, cuánto se conservan y quién accede a ellos.';
+---
+
+<Legal
+  locale={locale}
+  routeKey="annexAgiAgo"
+  title={title}
+  description={description}
+  lastUpdated={lastUpdated}
+>
+  <ul>
+    <li><strong>Aplicación:</strong> AGI-AGO — Sistema de aprobación de solicitudes de compra</li>
+    <li>
+      <strong>Encargado del tratamiento:</strong> {site.legalName} (RUC {site.taxId})
+    </li>
+    <li><strong>Titular del banco de datos:</strong> la organización cliente</li>
+  </ul>
+
+  <p>
+    Este anexo desarrolla lo previsto en las secciones 3.2, 3.3 y 3.4 de la{' '}
+    <a href={localizedPath('privacy', locale)}>Política de Privacidad</a> de {site.shortName} para
+    esta aplicación en concreto.
+  </p>
+
+  <h2 id="datos">1. Qué datos personales trata el sistema</h2>
+
+  <div class="overflow-x-auto">
+    <table>
+      <thead>
+        <tr>
+          <th>Categoría</th>
+          <th>Detalle</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Identidad</strong></td>
+          <td>
+            Nombre, correo corporativo e identificadores de usuario y de organización de Microsoft
+            Entra ID. Fecha del último ingreso.
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Actividad de negocio</strong></td>
+          <td>
+            Las solicitudes de compra que cada persona registra —título, descripción, monto,
+            proyecto— y el registro de <strong>quién aprobó, observó o rechazó cada etapa y en qué
+            momento</strong>.
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Documentos adjuntos</strong></td>
+          <td>
+            Los archivos que los usuarios suben como sustento y su nombre original. Pueden contener
+            datos de terceros, como cotizaciones de proveedores.
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Notificaciones</strong></td>
+          <td>Dirección de correo de cada destinatario y estado de cada envío.</td>
+        </tr>
+        <tr>
+          <td><strong>Seguridad y auditoría</strong></td>
+          <td>
+            Dirección IP y navegador desde los que se realiza cada operación administrativa, y si
+            fue permitida o denegada.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>
+    <strong>El sistema no trata datos sensibles</strong> en los términos de la Ley N° 29733, ni
+    elabora perfiles, ni adopta decisiones automatizadas: toda aprobación la realiza una persona
+    identificada.
+  </p>
+  <p>
+    <strong>{site.shortName} nunca accede a las credenciales de los usuarios.</strong> La
+    autenticación la realiza Microsoft Entra ID y el sistema solo recibe la confirmación de
+    identidad.
+  </p>
+
+  <h2 id="ubicacion">2. Dónde residen los datos</h2>
+
+  <div class="overflow-x-auto">
+    <table>
+      <thead>
+        <tr>
+          <th>Componente</th>
+          <th>Proveedor</th>
+          <th>Ubicación</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Base de datos del sistema</td>
+          <td>Infraestructura operada por {site.shortName}</td>
+          <td><em>[a definir en el contrato]</em></td>
+        </tr>
+        <tr>
+          <td>Documentos adjuntos</td>
+          <td>Amazon Web Services (S3)</td>
+          <td><em>[región a definir; fuera del Perú]</em></td>
+        </tr>
+        <tr>
+          <td>Identidad y autenticación</td>
+          <td>Microsoft Entra ID</td>
+          <td>Entorno del cliente</td>
+        </tr>
+        <tr>
+          <td>Correo saliente</td>
+          <td>Microsoft Graph</td>
+          <td>Entorno de {site.shortName}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>
+    <strong>Esto supone un flujo transfronterizo de datos personales</strong> conforme a la Ley N°
+    29733 y su Reglamento, por el que se exigen a los proveedores garantías contractuales de nivel
+    de protección adecuado, conforme a la sección 8 de la{' '}
+    <a href={`${localizedPath('privacy', locale)}#transferencias`}>Política de Privacidad</a>.
+  </p>
+
+  <h2 id="conservacion">3. Cuánto tiempo se conservan</h2>
+  <p>
+    <strong>a) Expediente de compra: conservación indefinida.</strong> Las solicitudes y su
+    historial de aprobaciones no se eliminan. Son el registro de una decisión de negocio con
+    efectos contables, tributarios y de gobierno corporativo, y en ellos la identidad de quien
+    aprobó es parte inseparable del hecho: no puede anonimizarse sin destruir el registro.
+  </p>
+  <p>
+    <strong>b) Datos técnicos de conexión: doce (12) meses.</strong> Cumplido el plazo, la dirección
+    IP y el navegador se <strong>anonimizan de forma irreversible</strong>; el resto del registro de
+    auditoría se conserva completo. El rastro de quién hizo qué y cuándo permanece intacto: solo se
+    suprimen los metadatos técnicos.
+  </p>
+  <p>
+    <strong>c) Documentos adjuntos:</strong> siguen el plazo del expediente al que pertenecen.
+  </p>
+
+  <h2 id="acceso">4. Quién puede acceder</h2>
+  <ul>
+    <li>
+      <strong>Los usuarios de la organización cliente</strong>, según el rol que su propio
+      administrador les asigne dentro del sistema. Cada rol determina qué solicitudes ve y sobre
+      cuáles puede actuar.
+    </li>
+    <li>
+      <strong>Personal técnico de {site.shortName}</strong>, únicamente para operar el sistema y
+      atender soporte, bajo acuerdos de confidencialidad y el principio de mínimo privilegio, con
+      registro de los accesos.
+    </li>
+  </ul>
+  <p>
+    {site.shortName} <strong>no utiliza esta información para ninguna finalidad propia</strong>: ni
+    comercial, ni estadística, ni de entrenamiento de modelos.
+  </p>
+
+  <h2 id="subencargados">5. Subencargados</h2>
+
+  <div class="overflow-x-auto">
+    <table>
+      <thead>
+        <tr>
+          <th>Proveedor</th>
+          <th>Servicio</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Amazon Web Services, Inc.</td>
+          <td>Almacenamiento de los documentos adjuntos</td>
+        </tr>
+        <tr>
+          <td>Microsoft Corporation</td>
+          <td>Identidad (Entra ID) y envío de correo (Graph)</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="termino">6. Qué ocurre al término de la relación</h2>
+  <p>A elección de la organización cliente:</p>
+  <ol>
+    <li>
+      <strong>Migración</strong> de la base de datos y los adjuntos a su propia infraestructura y a
+      su propio registro de aplicación; o
+    </li>
+    <li>
+      <strong>Devolución</strong> de la totalidad de la información en formato estándar y{' '}
+      <strong>eliminación</strong> verificable de las copias en poder de {site.shortName}.
+    </li>
+  </ol>
+  <p>
+    La revocación del consentimiento en Entra ID detiene de inmediato el acceso de la aplicación,{' '}
+    <strong>pero no ejecuta por sí sola ninguna de las dos opciones anteriores</strong>.
+  </p>
+
+  <h2 id="derechos">7. Ejercicio de derechos</h2>
+  <p>
+    La organización cliente es la <strong>titular del banco de datos</strong>. Sus colaboradores
+    ejercen los derechos de acceso, rectificación, cancelación y oposición{' '}
+    <strong>ante su propia organización</strong>, que es quien determina las finalidades del
+    tratamiento.
+  </p>
+  <p>
+    {site.shortName}, como encargado, <strong>asiste a la organización cliente</strong> en la
+    atención de esas solicitudes dentro de los plazos legales, conforme al contrato suscrito.
+  </p>
+
+  <h2 id="incidentes">8. Incidentes de seguridad</h2>
+  <p>
+    Cualquier incidente que afecte a datos de la organización cliente se le notifica{' '}
+    <strong>sin dilación indebida</strong>, conforme a la sección 9 de la{' '}
+    <a href={`${localizedPath('privacy', locale)}#seguridad`}>Política de Privacidad</a> y al
+    contrato correspondiente.
+  </p>
+</Legal>

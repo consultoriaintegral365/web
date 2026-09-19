@@ -12,12 +12,17 @@ interface Props {
   routeKey: RouteKey;
   title: string;
   description: string;
+  /** Fecha propia del documento (ISO 8601). Por defecto, la de la política.
+   *  Los anexos se actualizan por su cuenta y no deben arrastrar la fecha
+   *  de la política ni al revés. */
+  lastUpdated?: string;
 }
 
-const { locale, routeKey, title, description } = Astro.props;
+const { locale, routeKey, title, description, lastUpdated } = Astro.props;
+const updatedIso = lastUpdated ?? site.legalLastUpdated;
 const strings = t(locale);
 
-const updated = new Date(`${site.legalLastUpdated}T00:00:00Z`).toLocaleDateString(
+const updated = new Date(`${updatedIso}T00:00:00Z`).toLocaleDateString(
   LOCALE_META[locale].htmlLang,
   { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' },
 );
@@ -29,7 +34,7 @@ const updated = new Date(`${site.legalLastUpdated}T00:00:00Z`).toLocaleDateStrin
       <h1 class="text-3xl font-bold tracking-tight sm:text-4xl">{title}</h1>
       <p class="mt-4 text-sm text-muted">
         {strings.legal.lastUpdated}:{' '}
-        <time datetime={site.legalLastUpdated}>{updated}</time>
+        <time datetime={updatedIso}>{updated}</time>
       </p>
     </header>
 

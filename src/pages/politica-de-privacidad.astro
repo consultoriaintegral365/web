@@ -109,6 +109,14 @@ const strings = t(locale);
     dejar constancia de quién realiza cada acción dentro del sistema.
   </p>
 
+  <p>
+    Además de los datos de identidad a los que accede, una aplicación puede generar y conservar
+    información propia derivada de su uso —por ejemplo, los registros de las operaciones que cada
+    usuario realiza dentro del sistema y los documentos que adjunta—. Cuando así sea, el detalle de
+    esa información, su ubicación y su plazo de conservación se describen en el anexo de
+    tratamiento de datos de la aplicación correspondiente.
+  </p>
+
   <h3>3.3 Dónde residen los datos</h3>
   <p>
     Cuando una aplicación no requiere almacenamiento propio, los datos <strong>permanecen
@@ -124,11 +132,27 @@ const strings = t(locale);
 
   <h3>3.4 Conservación y revocación del consentimiento</h3>
   <p>
-    Al no existir almacenamiento propio, la conservación se rige por las políticas que la
-    organización cliente aplique sobre su propio entorno. El administrador puede{' '}
-    <strong>revocar el consentimiento en cualquier momento</strong> desde el centro de
-    administración de Microsoft Entra ID, lo que interrumpe de inmediato el acceso de la
-    aplicación.
+    <strong>Cuando la aplicación no requiere almacenamiento propio</strong>, la conservación se
+    rige por las políticas que la organización cliente aplique sobre su propio entorno.
+  </p>
+  <p>
+    <strong>Cuando la aplicación sí mantiene almacenamiento propio</strong>, los plazos de
+    conservación, la ubicación de la información y el destino de los datos al término de la
+    relación se establecen en el contrato de servicios y en el anexo de tratamiento de datos de esa
+    aplicación, que se entrega a la organización cliente antes de su puesta en producción.
+  </p>
+  <p>
+    El administrador puede revocar el consentimiento en cualquier momento desde el centro de
+    administración de Microsoft Entra ID, lo que interrumpe de inmediato el acceso de la aplicación
+    al entorno del cliente. <strong>La revocación detiene el acceso, pero no suprime por sí sola la
+    información que la aplicación ya hubiera almacenado</strong>: su devolución, migración o
+    eliminación se rige por lo pactado en el contrato correspondiente.
+  </p>
+  <p>
+    Anexos publicados:{' '}
+    <a href={localizedPath('annexAgiAgo', 'es')}>
+      Anexo de tratamiento de datos — Sistema AGI/AGO
+    </a>.
   </p>
 
   <h3>3.5 Confidencialidad e incidentes</h3>

@@ -258,6 +258,39 @@
     @apply font-semibold;
     color: var(--ci-strong);
   }
+
+  /* Tablas de los anexos: inventarios de datos, ubicaciones y subencargados.
+     El contenedor con overflow-x-auto evita que desborden en móvil. */
+  .prose-legal .overflow-x-auto {
+    @apply mt-6 -mx-1 overflow-x-auto px-1;
+  }
+
+  .prose-legal table {
+    @apply w-full min-w-[34rem] border-collapse text-left text-[0.9rem];
+  }
+
+  .prose-legal thead th {
+    @apply whitespace-nowrap px-3 pb-2.5 pt-0 align-bottom text-xs font-semibold uppercase tracking-widest;
+    color: var(--ci-muted);
+    border-bottom: 1px solid var(--ci-line-strong);
+  }
+
+  .prose-legal tbody td {
+    @apply px-3 py-3 align-top leading-relaxed;
+    border-bottom: 1px solid var(--ci-line);
+  }
+
+  .prose-legal tbody tr:last-child td {
+    border-bottom: 0;
+  }
+
+  /* Los campos aún por decidir se marcan visualmente: que se vean es
+     deliberado, no un descuido de redacción. */
+  .prose-legal em {
+    @apply rounded-md px-1.5 py-0.5 text-[0.85em] font-medium not-italic;
+    background: var(--ci-brand-soft);
+    color: var(--ci-brand-ink);
+  }
 }
 
 /* ---------------------------------------------------------------------------

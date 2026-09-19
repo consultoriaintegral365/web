@@ -107,6 +107,14 @@ const strings = t(locale);
     within the system.
   </p>
 
+  <p>
+    Beyond the identity data it accesses, an application may generate and retain information of its
+    own derived from its use — for example, records of the operations each user performs within the
+    system and the documents they attach. Where that is the case, the detail of that information,
+    its location and its retention period are described in the data processing annex for the
+    application concerned.
+  </p>
+
   <h3>3.3 Where the data resides</h3>
   <p>
     Where an application requires no storage of its own, the data <strong>remains entirely within
@@ -121,10 +129,28 @@ const strings = t(locale);
 
   <h3>3.4 Retention and withdrawal of consent</h3>
   <p>
-    As there is no storage of our own, retention is governed by the policies the client
-    organisation applies to its own environment. The administrator may{' '}
-    <strong>withdraw consent at any time</strong> from the Microsoft Entra ID admin centre, which
-    immediately cuts off the application's access.
+    <strong>Where the application requires no storage of its own</strong>, retention is governed by
+    the policies the client organisation applies to its own environment.
+  </p>
+  <p>
+    <strong>Where the application does maintain its own storage</strong>, retention periods, the
+    location of the information and what becomes of the data at the end of the relationship are set
+    out in the services agreement and in that application's data processing annex, which is
+    provided to the client organisation before it goes into production.
+  </p>
+  <p>
+    The administrator may withdraw consent at any time from the Microsoft Entra ID admin centre,
+    which immediately cuts off the application's access to the client environment.{' '}
+    <strong>Withdrawal stops access, but does not by itself delete information the application may
+    already have stored</strong>: its return, migration or deletion is governed by what has been
+    agreed in the corresponding contract.
+  </p>
+  <p>
+    Published annexes:{' '}
+    <a href={localizedPath('annexAgiAgo', 'es')} hreflang="es-PE">
+      Data processing annex — AGI/AGO system
+    </a>{' '}
+    (in Spanish).
   </p>
 
   <h3>3.5 Confidentiality and incidents</h3>

@@ -17,8 +17,13 @@ const strings = t(locale);
 /* Enlaces reales a la página equivalente en cada idioma: sin JavaScript,
    rastreable por buscadores y funciona con el navegador sin scripts. */
 const options = alternates(routeKey);
+
+/* Una pagina publicada en un solo idioma no necesita selector: mostrar un
+   unico boton sugeriria que hay alternativas donde no las hay. */
+const showSwitcher = options.length > 1;
 ---
 
+{showSwitcher && (
 <nav aria-label={strings.nav.language} class={className}>
   <ul class="flex items-center gap-0.5 rounded-lg p-0.5" style="background: var(--ci-canvas-soft); border: 1px solid var(--ci-line);">
     {
@@ -48,3 +53,4 @@ const options = alternates(routeKey);
     }
   </ul>
 </nav>
+)}

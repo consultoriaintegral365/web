@@ -107,6 +107,14 @@ const strings = t(locale);
     registrar quem realiza cada ação dentro do sistema.
   </p>
 
+  <p>
+    Além dos dados de identidade a que acessa, uma aplicação pode gerar e conservar informação
+    própria derivada de seu uso — por exemplo, os registros das operações que cada usuário realiza
+    dentro do sistema e os documentos que anexa. Quando for o caso, o detalhe dessa informação, sua
+    localização e seu prazo de conservação são descritos no anexo de tratamento de dados da
+    aplicação correspondente.
+  </p>
+
   <h3>3.3 Onde residem os dados</h3>
   <p>
     Quando uma aplicação não requer armazenamento próprio, os dados <strong>permanecem
@@ -123,10 +131,28 @@ const strings = t(locale);
 
   <h3>3.4 Conservação e revogação do consentimento</h3>
   <p>
-    Como não há armazenamento próprio, a conservação rege-se pelas políticas que a organização
-    cliente aplique ao seu próprio ambiente. O administrador pode{' '}
-    <strong>revogar o consentimento a qualquer momento</strong> no centro de administração do
-    Microsoft Entra ID, o que interrompe imediatamente o acesso da aplicação.
+    <strong>Quando a aplicação não requer armazenamento próprio</strong>, a conservação rege-se
+    pelas políticas que a organização cliente aplique ao seu próprio ambiente.
+  </p>
+  <p>
+    <strong>Quando a aplicação mantém armazenamento próprio</strong>, os prazos de conservação, a
+    localização da informação e o destino dos dados ao término da relação são estabelecidos no
+    contrato de serviços e no anexo de tratamento de dados dessa aplicação, entregue à organização
+    cliente antes de entrar em produção.
+  </p>
+  <p>
+    O administrador pode revogar o consentimento a qualquer momento no centro de administração do
+    Microsoft Entra ID, o que interrompe imediatamente o acesso da aplicação ao ambiente do
+    cliente. <strong>A revogação detém o acesso, mas não suprime por si só a informação que a
+    aplicação já tiver armazenado</strong>: sua devolução, migração ou eliminação rege-se pelo
+    acordado no contrato correspondente.
+  </p>
+  <p>
+    Anexos publicados:{' '}
+    <a href={localizedPath('annexAgiAgo', 'es')} hreflang="es-PE">
+      Anexo de tratamento de dados — Sistema AGI/AGO
+    </a>{' '}
+    (em espanhol).
   </p>
 
   <h3>3.5 Confidencialidade e incidentes</h3>
