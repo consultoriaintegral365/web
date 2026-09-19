@@ -61,11 +61,41 @@ correspondiente.
 
 **Añadir una página nueva**:
 
-1. Registrar su clave y sus tres slugs en `src/i18n/routes.ts`.
-2. Crear `src/pages/<slug-es>.astro`, `src/pages/en/<slug-en>.astro` y
-   `src/pages/pt/<slug-pt>.astro`.
+1. Registrar su clave y sus slugs en `src/i18n/routes.ts`.
+2. Crear los archivos `.astro` de los idiomas que se hayan declarado.
 3. Pasar esa clave como `routeKey` al layout, para que el selector de idioma y
    las etiquetas `hreflang` apunten a la página equivalente.
+
+**Páginas en un solo idioma.** Una ruta no está obligada a existir en los tres:
+basta con omitir los idiomas que no se publican. El selector de idioma se oculta
+cuando no hay alternativas, las etiquetas `hreflang`, `x-default` y el sitemap
+se ajustan solos, y enlazar a una traducción que no existe **rompe la
+compilación** en vez de convertirse en un 404 en producción.
+
+**Añadir un anexo de tratamiento de datos** para un cliente o sistema nuevo —son
+dos líneas y un archivo:
+
+1. En `src/i18n/routes.ts`, declarar la ruta solo en español:
+
+   ```ts
+   annexNombreDelSistema: { es: 'anexo-tratamiento-datos-nombre' },
+   ```
+
+2. Copiar `src/pages/anexo-tratamiento-datos-agi-ago.astro` como plantilla,
+   ajustar `routeKey`, `lastUpdated` y el contenido.
+3. Enlazarlo desde la §3.4 de las tres políticas de privacidad, junto al que ya
+   está.
+
+El layout `Legal.astro` acepta una prop `lastUpdated` propia: los anexos se
+actualizan por su cuenta y no deben arrastrar la fecha de la política ni al
+revés.
+
+> **Criterio de contenido.** Los subencargados de una aplicación concreta —AWS,
+> por ejemplo— van en **su anexo**, nunca en la §7 de la política. La §7 cubre a
+> CI365 como *responsable* de los datos del sitio web; un subencargado de una
+> aplicación lo es en el rol de *encargado*, sobre datos de los que el titular es
+> el cliente. Mezclarlos afirmaría que ese proveedor procesa datos que no
+> procesa.
 
 **Añadir un idioma**: agregarlo en `src/i18n/config.ts`, en `astro.config.mjs`,
 en `routes.ts` y en `ui.ts`. No hay nada más que tocar.
