@@ -61,7 +61,7 @@ Lista completa de los 100 sitios y sus visitas: ver artículo fuente (enlace al 
 **Brechas frente al benchmark:**
 1. **Cero prueba social visible** (sin logos, cifras, casos, citas). Es la brecha nº 1 frente a los 6 sitios. *Restricción: no inventar nada; ver recomendación.*
 2. **Contacto = `mailto:`** sin formulario ni selector de motivo. Los líderes bajan la fricción con formulario corto.
-3. **Sin sección de casos de uso/resultados.** AGI/AGO es un caso real (aprobación de compras para minería), pero requiere permiso de Alpayana para nombrarlo.
+3. **Sin sección de casos de uso/resultados.** AGI/AGO es un caso real (aprobación de compras para minería), pero requiere permiso del cliente para nombrarlo.
 4. **Sin señales de pertenencia a Microsoft** (si aplicara: Partner/verified publisher cuando se obtenga).
 5. **Sin contenido de autoridad** (artículos, guías, plantillas Power BI/DAX).
 6. **Hero con 3 mensajes compitiendo** (eyebrow + título + subtítulo + frase-principio + 2 CTA). Los referentes dejan 1–2.
