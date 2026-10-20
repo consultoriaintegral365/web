@@ -14,9 +14,11 @@ interface Props {
   routeKey: RouteKey;
   title: string;
   description: string;
+  /** Cabecera y pie reducidos (sin enlaces a secciones), para el aviso «Muy pronto». */
+  minimal?: boolean;
 }
 
-const { locale, routeKey, title, description } = Astro.props;
+const { locale, routeKey, title, description, minimal = false } = Astro.props;
 const strings = t(locale);
 const meta = LOCALE_META[locale];
 
@@ -111,13 +113,13 @@ const organizationSchema = {
       {strings.nav.skipToContent}
     </a>
 
-    <Header locale={locale} routeKey={routeKey} />
+    <Header locale={locale} routeKey={routeKey} minimal={minimal} />
 
     <main id="main" class="flex-1">
       <slot />
     </main>
 
-    <Footer locale={locale} />
+    <Footer locale={locale} minimal={minimal} />
 
     <script is:inline>
       /* Una sola aparicion por elemento; se deja de observar tras revelarlo. */

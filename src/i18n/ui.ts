@@ -47,6 +47,24 @@ export const ui = {
       law: 'Datos personales: Ley N.° 29733',
       platform: 'Microsoft 365 · Power Platform · Azure',
     },
+    soon: {
+      metaTitle: 'Consultoría Integral 365 — Muy pronto: algo nuevo se está construyendo',
+      metaDescription:
+        'Estamos preparando una nueva forma de conectar los procesos, los datos y el software de tu empresa. Consultoría Integral 365, Lima, Perú.',
+      eyebrow: 'Muy pronto',
+      titleBefore: 'Lo que viene cambia cómo tu empresa',
+      titleAccent: 'conecta procesos, datos y software.',
+      subtitle:
+        'Estamos terminando una nueva forma de trabajar contigo: menos herramientas sueltas, más resultados medibles. Mientras tanto, seguimos atendiendo proyectos.',
+      cta: 'Quiero verlo primero',
+      mailSubject: 'Quiero ver primero lo nuevo de CI365',
+      mailBody: 'Hola, quiero ver primero lo que están preparando.\n\nEmpresa:\n',
+      whatsappMessage: 'Hola, quiero ver primero lo nuevo de CI365.',
+      whatsappLabel: 'Escríbenos por WhatsApp',
+      status: 'en construcción',
+      rows: ['Procesos', 'Datos', 'Software', 'Lanzamiento'],
+      hint: 'Quienes nos escriban ahora serán los primeros en saberlo.',
+    },
     pipeline: {
       status: 'en ejecución',
       caption: 'Ejemplo ilustrativo',
@@ -256,6 +274,24 @@ export const ui = {
       law: 'Personal data: Law No. 29733',
       platform: 'Microsoft 365 · Power Platform · Azure',
     },
+    soon: {
+      metaTitle: 'Consultoría Integral 365 — Coming soon: something new is being built',
+      metaDescription:
+        'We are preparing a new way to connect your company’s processes, data and software. Consultoría Integral 365, Lima, Peru.',
+      eyebrow: 'Coming soon',
+      titleBefore: 'What is coming changes how your company',
+      titleAccent: 'connects processes, data and software.',
+      subtitle:
+        'We are finishing a new way of working with you: fewer disconnected tools, more measurable results. In the meantime, we keep taking on projects.',
+      cta: 'Show me first',
+      mailSubject: 'I want to see the new CI365 first',
+      mailBody: 'Hello, I would like to see what you are preparing before anyone else.\n\nCompany:\n',
+      whatsappMessage: 'Hello, I would like to see the new CI365 first.',
+      whatsappLabel: 'Message us on WhatsApp',
+      status: 'under construction',
+      rows: ['Processes', 'Data', 'Software', 'Launch'],
+      hint: 'Those who write to us now will be the first to know.',
+    },
     pipeline: {
       status: 'running',
       caption: 'Illustrative example',
@@ -463,6 +499,24 @@ export const ui = {
       location: 'Lima, Peru',
       law: 'Dados pessoais: Lei N.° 29733',
       platform: 'Microsoft 365 · Power Platform · Azure',
+    },
+    soon: {
+      metaTitle: 'Consultoría Integral 365 — Em breve: algo novo está sendo construído',
+      metaDescription:
+        'Estamos preparando uma nova forma de conectar os processos, os dados e o software da sua empresa. Consultoría Integral 365, Lima, Peru.',
+      eyebrow: 'Em breve',
+      titleBefore: 'O que vem aí muda como sua empresa',
+      titleAccent: 'conecta processos, dados e software.',
+      subtitle:
+        'Estamos finalizando uma nova forma de trabalhar com você: menos ferramentas soltas, mais resultados mensuráveis. Enquanto isso, seguimos atendendo projetos.',
+      cta: 'Quero ver primeiro',
+      mailSubject: 'Quero ver primeiro o novo da CI365',
+      mailBody: 'Olá, quero ver primeiro o que vocês estão preparando.\n\nEmpresa:\n',
+      whatsappMessage: 'Olá, quero ver primeiro o novo da CI365.',
+      whatsappLabel: 'Fale conosco pelo WhatsApp',
+      status: 'em construção',
+      rows: ['Processos', 'Dados', 'Software', 'Lançamento'],
+      hint: 'Quem nos escrever agora será o primeiro a saber.',
     },
     pipeline: {
       status: 'em execução',

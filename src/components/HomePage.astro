@@ -2,6 +2,7 @@
 import Hero from './Hero.astro';
 import SystemSection from './SystemSection.astro';
 import MvpSection from './MvpSection.astro';
+import ComingSoon from './ComingSoon.astro';
 import { site } from '../config/site';
 import { t } from '../i18n/ui';
 import { localizedPath } from '../i18n/utils';
@@ -16,7 +17,15 @@ const strings = t(locale);
 
 const home = localizedPath('home', locale);
 const base = home === '/' ? '' : home;
+
+/* Interruptor de publicación: con PUBLIC_COMING_SOON=1 solo se muestra el aviso. */
+const comingSoon = import.meta.env.PUBLIC_COMING_SOON === '1';
 ---
+
+{comingSoon && <ComingSoon locale={locale} />}
+
+{!comingSoon && (
+<>
 
 <Hero locale={locale} />
 
@@ -137,3 +146,5 @@ const base = home === '/' ? '' : home;
     </div>
   </div>
 </section>
+</>
+)}

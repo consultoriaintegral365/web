@@ -49,8 +49,14 @@ jobs:
       - name: Instalar dependencias
         run: npm install --no-audit --no-fund
 
+      # Interruptor de publicación (variable de repositorio, no es un secreto):
+      # PUBLIC_COMING_SOON=1 muestra el aviso «Muy pronto» en lugar de la portada.
+      # Para publicar la web completa, borrar la variable y volver a desplegar
+      # (Actions > Desplegar en GitHub Pages > Run workflow).
       - name: Construir con Astro
         run: npm run build
+        env:
+          PUBLIC_COMING_SOON: ${{ vars.PUBLIC_COMING_SOON }}
 
       - name: Subir el artefacto
         uses: actions/upload-pages-artifact@v5

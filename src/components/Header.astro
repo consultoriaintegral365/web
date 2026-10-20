@@ -10,9 +10,10 @@ import type { RouteKey } from '../i18n/routes';
 interface Props {
   locale: Locale;
   routeKey: RouteKey;
+  minimal?: boolean;
 }
 
-const { locale, routeKey } = Astro.props;
+const { locale, routeKey, minimal = false } = Astro.props;
 const strings = t(locale);
 
 const home = localizedPath('home', locale);
@@ -42,7 +43,7 @@ const contactHref = `${base}/#contacto`;
     </a>
 
     <div class="flex items-center gap-2 sm:gap-3">
-      <nav aria-label={strings.nav.home} class="mr-3 hidden lg:block">
+      {!minimal && <nav aria-label={strings.nav.home} class="mr-3 hidden lg:block">
         <ul class="flex items-center gap-7">
           {
             links.map((link) => (
@@ -57,17 +58,19 @@ const contactHref = `${base}/#contacto`;
             ))
           }
         </ul>
-      </nav>
+      </nav>}
 
       <LangSwitcher locale={locale} routeKey={routeKey} />
       <ThemeToggle locale={locale} />
 
+      {!minimal && (
       <a href={mvpHref} class="btn-primary hidden px-4 py-2 sm:inline-flex">
         {strings.nav.mvp}
       </a>
+      )}
 
       <!-- Menú móvil: <details> nativo, sin JavaScript. -->
-      <details class="relative lg:hidden">
+      {!minimal && <details class="relative lg:hidden">
         <summary
           class="surface flex h-9 w-9 cursor-pointer list-none items-center justify-center rounded-lg text-body [&::-webkit-details-marker]:hidden"
           aria-label={strings.nav.menu}
@@ -98,7 +101,7 @@ const contactHref = `${base}/#contacto`;
             ))
           }
         </ul>
-      </details>
+      </details>}
     </div>
   </div>
 </header>
