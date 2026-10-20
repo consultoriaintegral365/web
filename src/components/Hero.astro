@@ -1,0 +1,134 @@
+---
+import PipelinePanel from './PipelinePanel.astro';
+import { site } from '../config/site';
+import { t } from '../i18n/ui';
+import { localizedPath } from '../i18n/utils';
+import type { Locale } from '../i18n/config';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const strings = t(locale);
+const h = strings.hero;
+
+/* Las palabras del titular entran una a una, desde una máscara. Es CSS puro:
+   corre en el primer pintado, sin esperar a ningún script. */
+const before = h.titleBefore.split(' ');
+const accent = h.titleAccent.split(' ');
+
+const facts = [
+  `${strings.facts.since} ${site.foundedYear}`,
+  strings.facts.registered,
+  strings.facts.location,
+  strings.facts.law,
+  strings.facts.platform,
+];
+
+const home = localizedPath('home', locale);
+const base = home === '/' ? '' : home;
+---
+
+<section class="theme-ink relative isolate overflow-hidden bg-canvas" data-hero data-spot-area>
+  <div class="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
+    <div class="bg-grid absolute inset-0"></div>
+    <!-- Luz que sigue al puntero: muy tenue, solo en pantallas con ratón. -->
+    <div
+      class="absolute inset-0"
+      style="background: radial-gradient(600px circle at var(--mx, 70%) var(--my, 20%), color-mix(in srgb, var(--ci-brand) 14%, transparent), transparent 62%);"
+    >
+    </div>
+  </div>
+
+  <div class="container-page pb-16 pt-14 sm:pt-20 lg:pb-24 lg:pt-24">
+    <div class="grid items-center gap-14 lg:grid-cols-[1.08fr_0.92fr] lg:gap-12">
+      <div>
+        <a
+          href={`${base}/#mvp`}
+          class="reveal group inline-flex items-center gap-2.5 rounded-full border border-line-strong py-1.5 pl-3 pr-3.5 font-mono text-[0.72rem] uppercase tracking-[0.08em] text-body transition-colors hover:border-signal hover:text-strong"
+        >
+          <span class="relative flex h-1.5 w-1.5">
+            <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-signal opacity-60"></span>
+            <span class="relative inline-flex h-1.5 w-1.5 rounded-full bg-signal"></span>
+          </span>
+          {h.badge}
+          <span class="text-muted transition-transform group-hover:translate-x-0.5" aria-hidden="true">→</span>
+        </a>
+
+        <h1 class="h-display mt-7 text-strong">
+          <span class="block">
+            {
+              before.map((w, i) => (
+                <span class="wm"><span class="w" style={`--i:${i}`}>{w}&nbsp;</span></span>
+              ))
+            }
+          </span>
+          <span class="block">
+            {
+              accent.map((w, i) => (
+                <span class="wm"><span class="w accent" style={`--i:${before.length + i}`}>{w}&nbsp;</span></span>
+              ))
+            }
+          </span>
+        </h1>
+
+        <p class="reveal mt-7 max-w-xl text-lead text-body" style="--d:.45s">{h.subtitle}</p>
+
+        <div class="reveal mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center" style="--d:.55s">
+          <a href={`${base}/#mvp`} class="btn-primary px-6 py-3.5">
+            {h.ctaPrimary}
+            <span aria-hidden="true">→</span>
+          </a>
+          <a href={`${base}/#sistema`} class="btn-secondary px-6 py-3.5">{h.ctaSecondary}</a>
+        </div>
+
+        <p class="reveal mt-9 flex items-center gap-3 font-mono text-[0.78rem] text-muted" style="--d:.65s">
+          <span class="text-signal" aria-hidden="true">↳</span>
+          {h.principle}
+        </p>
+      </div>
+
+      <div class="reveal lg:pl-2" style="--d:.35s">
+        <PipelinePanel locale={locale} />
+      </div>
+    </div>
+  </div>
+
+  <div class="border-t border-line">
+    <ul
+      class="container-page flex flex-wrap items-center gap-x-6 gap-y-2 py-4 font-mono text-[0.7rem] uppercase tracking-[0.07em] text-muted"
+    >
+      {
+        facts.map((f, i) => (
+          <li class="flex items-center gap-6">
+            {f}
+            {i < facts.length - 1 && <span class="hidden text-line-strong sm:inline" aria-hidden="true">/</span>}
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  /* Máscara por palabra: el titular «sube» desde una línea invisible. */
+  .wm {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: top;
+    padding: 0.02em 0 0.14em;
+    margin-bottom: -0.14em;
+  }
+  .w {
+    display: inline-block;
+    transform: translateY(105%);
+    animation: rise 0.9s cubic-bezier(0.2, 0.75, 0.2, 1) forwards;
+    animation-delay: calc(0.08s + var(--i) * 0.07s);
+  }
+  @keyframes rise {
+    to {
+      transform: none;
+    }
+  }
+</style>

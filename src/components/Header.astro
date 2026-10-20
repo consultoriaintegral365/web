@@ -20,16 +20,21 @@ const home = localizedPath('home', locale);
    navegación también funciona desde las páginas legales. */
 const base = home === '/' ? '' : home;
 const links = [
+  { label: strings.nav.system, href: `${base}/#sistema` },
   { label: strings.nav.services, href: `${base}/#servicios` },
   { label: strings.nav.approach, href: `${base}/#metodo` },
   { label: strings.nav.about, href: `${base}/#nosotros` },
 ];
+const mvpHref = `${base}/#mvp`;
 const contactHref = `${base}/#contacto`;
 ---
 
+<!-- Sobre el hero (siempre oscuro) la cabecera se vuelve «tinta»; al pasarlo,
+     vuelve al tema elegido. El script está en Base.astro. -->
 <header
-  class="sticky top-0 z-40 border-b border-line/70 backdrop-blur-xl"
-  style="background: color-mix(in srgb, var(--ci-canvas) 82%, transparent);"
+  data-header
+  class="sticky top-0 z-40 border-b border-line backdrop-blur-xl transition-colors duration-300"
+  style="background: color-mix(in srgb, var(--ci-canvas) 78%, transparent);"
 >
   <div class="container-page flex h-16 items-center justify-between gap-3">
     <a href={home} class="shrink-0" aria-label={`${strings.nav.home} — Consultoría Integral 365`}>
@@ -37,14 +42,14 @@ const contactHref = `${base}/#contacto`;
     </a>
 
     <div class="flex items-center gap-2 sm:gap-3">
-      <nav aria-label={strings.nav.home} class="mr-1 hidden lg:block">
+      <nav aria-label={strings.nav.home} class="mr-3 hidden lg:block">
         <ul class="flex items-center gap-7">
           {
             links.map((link) => (
               <li>
                 <a
                   href={link.href}
-                  class="text-sm font-medium text-body transition-colors hover:text-strong"
+                  class="text-[0.84rem] text-body transition-colors hover:text-strong"
                 >
                   {link.label}
                 </a>
@@ -57,8 +62,8 @@ const contactHref = `${base}/#contacto`;
       <LangSwitcher locale={locale} routeKey={routeKey} />
       <ThemeToggle locale={locale} />
 
-      <a href={contactHref} class="btn-primary hidden px-4 py-2 sm:inline-flex">
-        {strings.nav.contact}
+      <a href={mvpHref} class="btn-primary hidden px-4 py-2 sm:inline-flex">
+        {strings.nav.mvp}
       </a>
 
       <!-- Menú móvil: <details> nativo, sin JavaScript. -->
@@ -79,13 +84,13 @@ const contactHref = `${base}/#contacto`;
             <path d="M4 7h16M4 12h16M4 17h16"></path>
           </svg>
         </summary>
-        <ul class="surface absolute right-0 top-11 w-56 rounded-2xl p-2 shadow-deep">
+        <ul class="surface absolute right-0 top-11 w-60 rounded-xl p-2 shadow-lift">
           {
-            [...links, { label: strings.nav.contact, href: contactHref }].map((link) => (
+            [...links, { label: strings.nav.mvp, href: mvpHref }, { label: strings.nav.contact, href: contactHref }].map((link) => (
               <li>
                 <a
                   href={link.href}
-                  class="block rounded-xl px-3 py-2 text-sm font-medium text-body transition-colors hover:bg-canvas-soft hover:text-strong"
+                  class="block rounded-lg px-3 py-2 text-sm text-body transition-colors hover:bg-canvas-soft hover:text-strong"
                 >
                   {link.label}
                 </a>

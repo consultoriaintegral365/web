@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CI365 · Tablero de rediseño</title>
+<style>
+:root{
+  --bg:#ffffff;--soft:#f7f9fc;--card:#ffffff;--line:#e8edf5;--strong:#0d1526;--body:#46536b;--muted:#78869e;
+  --brand:#1c5ef5;--brand-ink:#1749e1;--brand-soft:#eef4ff;--signal:#0fb89f;--ink:#0b1020;--ink2:#121a2f;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#0b1020;--soft:#0e1426;--card:#121a2f;--line:#1f2941;--strong:#f2f5fb;--body:#aab6cc;--muted:#7c8aa5;
+  --brand:#4d8dff;--brand-ink:#8fb9ff;--brand-soft:#16233f;--signal:#2dd4bf;
+}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--body);font:16px/1.6 Inter,system-ui,'Segoe UI',sans-serif}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+header.top{padding:56px 0 32px;border-bottom:1px solid var(--line)}
+h1,h2,h3{color:var(--strong);letter-spacing:-.02em;line-height:1.15;margin:0}
+h1{font-size:clamp(2rem,5vw,3rem)}
+h2{font-size:1.75rem;margin:64px 0 8px}
+h3{font-size:1.05rem;margin:0 0 6px}
+.eyebrow{font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--brand-ink)}
+p{margin:.5em 0}
+.lead{font-size:1.1rem;max-width:62ch}
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px}
+.tag{display:inline-block;font-size:.72rem;font-weight:700;padding:2px 9px;border-radius:99px;background:var(--brand-soft);color:var(--brand-ink)}
+.tag.ok{background:color-mix(in srgb,var(--signal) 16%,transparent);color:var(--signal)}
+.pend{background:#fff4d6;color:#7a5600;padding:0 5px;border-radius:4px;font-weight:600;font-size:.85em}
+@media (prefers-color-scheme:dark){.pend{background:#3a2e0a;color:#f2c14e}}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+th{color:var(--strong);font-size:.78rem;text-transform:uppercase;letter-spacing:.06em}
+.logo-stage{display:flex;align-items:center;justify-content:center;gap:18px;flex-wrap:wrap;min-height:150px;border-radius:12px;padding:20px}
+.stage-l{background:#fff;color:#0d1526}.stage-d{background:#0b1020;color:#f2f5fb}.stage-b{background:#1c5ef5;color:#fff}
+.lockup{display:inline-flex;align-items:center;gap:11px}
+.lockup .t{display:flex;flex-direction:column;line-height:1}
+.lockup .t b{font-size:1.02rem;letter-spacing:-.02em}
+.lockup .t i{font-style:normal;font-size:.7rem;font-weight:700;letter-spacing:.24em;opacity:.65;margin-top:3px}
+.sw{height:64px;border-radius:12px;border:1px solid var(--line);display:flex;align-items:flex-end;padding:8px;font-size:.72rem;font-weight:700}
+.wf{border:2px dashed var(--line);border-radius:12px;padding:14px;margin:10px 0;background:var(--soft)}
+.wf>b{color:var(--strong);font-size:.82rem}
+.wf .row{display:grid;gap:10px;margin-top:10px}
+.blk{border:1px solid var(--line);background:var(--card);border-radius:8px;padding:10px;font-size:.8rem;min-height:44px}
+.dark{background:var(--ink);border-color:var(--ink2);color:#aab6cc}
+.dark b{color:#fff}
+pre{background:var(--ink);color:#d8e0ed;padding:16px;border-radius:12px;overflow:auto;font-size:.8rem;line-height:1.5}
+code{font-size:.88em}
+.h1demo{font-size:clamp(2rem,6vw,3.4rem);line-height:1.05;letter-spacing:-.035em;font-weight:700;color:var(--strong)}
+.serif{font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-weight:400;color:var(--brand-ink)}
+ul.t{padding-left:1.1em;margin:.4em 0}
+ul.t li{margin:.25em 0}
+.wm{font-weight:800;letter-spacing:-.03em;font-size:2.6rem;line-height:1;display:inline-block}.idot{position:relative;display:inline-block}.idot::after{content:"";position:absolute;left:50%;top:.2em;width:.17em;height:.17em;border-radius:50%;background:#2dd4bf;transform:translateX(-50%)}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <p class="eyebrow">Consultoría Integral 365 · Rediseño v2</p>
+  <h1>Tablero de diseño: marca, sistema visual, contenido y plan</h1>
+  <p class="lead">Basado en la fase 2 del benchmarking (6 webs medidas con navegador) y en el código actual del sitio. Todo lo que no se pueda verificar queda marcado <span class="pend">POR CONFIRMAR</span>: no se inventa prueba social.</p>
+</div></header>
+
+<main class="wrap">
+
+<h2>1 · Decisiones de rumbo (resumen)</h2>
+<div class="grid g3">
+  <div class="card"><span class="tag">Marca</span><h3 style="margin-top:8px">∫ + C + ci365 fusionados</h3><p>Una integral cuyos ganchos son "C" y crecen 1,6× (mejora continua), con el wordmark ci365. Reemplaza las 3 barras, que son genéricas.</p></div>
+  <div class="card"><span class="tag">Visual</span><h3 style="margin-top:8px">Oscuro como firma</h3><p>Hero y banda de contacto siempre oscuros (patrón Endava/Netguru/IA). El resto sigue el tema. Mantiene tu azul y suma un acento verde "señal".</p></div>
+  <div class="card"><span class="tag">Mensaje</span><h3 style="margin-top:8px">Postura, no lista</h3><p>H1: "Primero el problema. Después la herramienta." Es tu diferenciador real y compite con los H1 con postura de Thoughtworks y Endava.</p></div>
+  <div class="card"><span class="tag">Confianza</span><h3 style="margin-top:8px">Solo hechos verificables</h3><p>Desde 2024, E.I.R.L. con RUC, Ley 29733, Power BI/Power Platform. Un caso anonimizado con permiso. Cero logos o cifras sin respaldo.</p></div>
+  <div class="card"><span class="tag">Conversión</span><h3 style="margin-top:8px">Formulario + selector</h3><p>"Necesito…" (4 opciones) que prellena el formulario. Hoy solo hay <code>mailto:</code>.</p></div>
+  <div class="card"><span class="tag">Riesgo</span><h3 style="margin-top:8px">No tocar URLs legales</h3><p>Están registradas en Entra ID. El formulario recoge datos personales: exige actualizar la política de privacidad y pasar revisión legal.</p></div>
+</div>
+
+<h2>2 · Fase 2: lo medido en 6 webs reales</h2>
+<p>Medido con navegador (tipografía y color reales): Avanade, Slalom, Thoughtworks, Endava, Netguru y Toptal. Accenture y SoftServe se leyeron solo por texto en la fase 1. Globant bloqueó el acceso automatizado y no se intentó eludir; EPAM y Perficient siguen sin analizar.</p>
+<table>
+<tr><th>Sitio</th><th>H1 real</th><th>Tipografía (computed)</th><th>Tema</th><th>Dato clave</th></tr>
+<tr><td>Avanade (Microsoft-first)</td><td>"Haz aquello que importa"</td><td>Segoe UI 700, 60 px</td><td>Claro, texto #333</td><td>Degradado magenta→naranja en el titular; vídeo; el nicho más parecido al tuyo</td></tr>
+<tr><td>Slalom</td><td>"AI in motion"</td><td>Slalom Sans 300, 86 px + serif cursiva</td><td>Claro, fotos + formas</td><td>Contraste sans ligera / serif cursiva en una palabra</td></tr>
+<tr><td>Thoughtworks</td><td>"We don't just do AI / We do AI that works"</td><td>Bitter (serif) 700, 48 px</td><td>Claro</td><td>Segunda línea en rosa; copy corto con carácter</td></tr>
+<tr><td>Endava</td><td>"Technology is our how. And people are our why."</td><td>Poppins 500, 61 px</td><td>Oscuro, texto #192B37</td><td>Una palabra en coral ("people"); botón "Let's connect" siempre visible</td></tr>
+<tr><td>Netguru</td><td>"AI-native commerce"</td><td>DM Sans 400, 78 px</td><td>Oscuro #161616 + acento verde</td><td>Titular grande y ligero; maqueta de producto; banner de cookies con rechazo claro</td></tr>
+<tr><td>Toptal</td><td>"Hire the Top 3% of Freelance Talent®"</td><td>Proxima Nova 600, 46 px</td><td>Claro</td><td>Selector Talento / Consultoría; botón verde único</td></tr>
+</table>
+<p><b>Conclusiones transferibles:</b> (1) titulares de 56–86 px con peso ligero o medio, no negrita pesada; (2) <b>una palabra resaltada</b> con color o cursiva serif; (3) un botón primario siempre visible en el header; (4) los tonos oscuros dominan en los sitios más "tech"; (5) casi todos arrancan con una frase de postura, no con un listado de servicios.</p>
+
+<h2>3 · Logo — propuesta fusionada «Integral helicoidal»</h2>
+<p class="lead">Une tus tres ideas en un solo símbolo: la <b>∫</b> (Integral), cuyos dos ganchos son <b>C</b> (Consultoría), y donde el gancho inferior es <b>1,6×</b> más grande que el superior: cada vuelta crece sobre la anterior (mejora continua, crecimiento helicoidal). El nombre <b>ci365</b> acompaña al símbolo como wordmark.</p>
+
+<div class="grid g2">
+  <div class="card">
+    <div class="logo-stage stage-l" style="min-height:230px">
+      <svg width="170" height="170" viewBox="0 0 64 64" aria-label="Símbolo propuesto">
+        <rect width="64" height="64" rx="15" fill="#1c5ef5"/>
+        <path d="M52.21 14.35A5.86 5.86 0 0 0 40.97 14.05L30.1 47.52A9.38 9.38 0 0 1 15.4 37.22" stroke="#fff" stroke-width="4.6" stroke-linecap="round" fill="none"/>
+        <circle cx="52.21" cy="14.35" r="3.4" fill="#fff"/><circle cx="15.4" cy="37.22" r="3.4" fill="#2dd4bf"/>
+      </svg>
+    </div>
+    <h3 style="margin-top:12px">Cómo se lee</h3>
+    <ul class="t">
+      <li><b>∫ «Integral»:</b> la forma completa. Es el guiño directo al nombre y a las matemáticas/datos.</li>
+      <li><b>C «Consultoría»:</b> los dos ganchos de la ∫ son literalmente dos «C» (⊃ arriba, ⊂ abajo).</li>
+      <li><b>Mejora continua:</b> radio superior 5,9 → inferior 9,4 (proporción 1,6, casi áurea). Cada vuelta es mayor que la anterior, como una espiral que se abre hacia afuera.</li>
+      <li><b>Nodos:</b> el blanco es el punto de partida; el verde «señal» es el resultado. Son los dos puntos de un grafo de datos.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>Wordmark «ci365»</h3>
+    <div class="logo-stage stage-l" style="min-height:110px">
+      <span class="wm">c<span class="idot">ı</span>365</span>
+    </div>
+    <p style="font-size:.9rem">Minúsculas, peso 800, interletraje −0,03 em. La «i» sin punto lleva un punto verde propio: repite el nodo del símbolo. Es lo que te atrajo de la opción C: corto, memorable, tecnológico.</p>
+    <h3 style="margin-top:14px">Lockups</h3>
+    <div class="logo-stage stage-l" style="min-height:90px;justify-content:flex-start">
+      <span class="lockup"><svg width="44" height="44" viewBox="0 0 64 64"><rect width="64" height="64" rx="15" fill="#1c5ef5"/><path d="M52.21 14.35A5.86 5.86 0 0 0 40.97 14.05L30.1 47.52A9.38 9.38 0 0 1 15.4 37.22" stroke="#fff" stroke-width="4.6" stroke-linecap="round" fill="none"/><circle cx="52.21" cy="14.35" r="3.4" fill="#fff"/><circle cx="15.4" cy="37.22" r="3.4" fill="#2dd4bf"/></svg>
+      <span class="t"><b class="wm" style="font-size:1.55rem;line-height:.9">c<span class="idot">ı</span>365</b><i>CONSULTORÍA INTEGRAL</i></span></span>
+    </div>
+    <div class="logo-stage stage-d" style="min-height:90px;justify-content:flex-start;margin-top:8px">
+      <span class="lockup"><svg width="44" height="44" viewBox="0 0 64 64"><rect width="64" height="64" rx="15" fill="#4d8dff"/><path d="M52.21 14.35A5.86 5.86 0 0 0 40.97 14.05L30.1 47.52A9.38 9.38 0 0 1 15.4 37.22" stroke="#07101f" stroke-width="4.6" stroke-linecap="round" fill="none"/><circle cx="52.21" cy="14.35" r="3.4" fill="#07101f"/><circle cx="15.4" cy="37.22" r="3.4" fill="#2dd4bf"/></svg>
+      <span class="t"><b class="wm" style="font-size:1.55rem;line-height:.9">c<span class="idot">ı</span>365</b><i>CONSULTORÍA INTEGRAL</i></span></span>
+    </div>
+  </div>
+</div>
+
+<h3 style="margin-top:26px">Tamaños reales</h3>
+<div class="logo-stage stage-l" style="justify-content:flex-start;gap:28px">
+  <svg width="96" height="96" viewBox="0 0 64 64"><rect width="64" height="64" rx="15" fill="#1c5ef5"/><path d="M52.21 14.35A5.86 5.86 0 0 0 40.97 14.05L30.1 47.52A9.38 9.38 0 0 1 15.4 37.22" stroke="#fff" stroke-width="4.6" stroke-linecap="round" fill="none"/><circle cx="52.21" cy="14.35" r="3.4" fill="#fff"/><circle cx="15.4" cy="37.22" r="3.4" fill="#2dd4bf"/></svg>
+  <svg width="48" height="48" viewBox="0 0 64 64"><rect width="64" height="64" rx="15" fill="#1c5ef5"/><path d="M52.21 14.35A5.86 5.86 0 0 0 40.97 14.05L30.1 47.52A9.38 9.38 0 0 1 15.4 37.22" stroke="#fff" stroke-width="4.6" stroke-linecap="round" fill="none"/><circle cx="52.21" cy="14.35" r="3.4" fill="#fff"/><circle cx="15.4" cy="37.22" r="3.4" fill="#2dd4bf"/></svg>
+  <svg width="32" height="32" viewBox="0 0 64 64"><rect width="64" height="64" rx="15" fill="#1c5ef5"/><path d="M52.21 14.35A5.86 5.86 0 0 0 40.97 14.05L30.1 47.52A9.38 9.38 0 0 1 15.4 37.22" stroke="#fff" stroke-width="5.6" stroke-linecap="round" fill="none"/><circle cx="52.21" cy="14.35" r="4.2" fill="#fff"/><circle cx="15.4" cy="37.22" r="4.2" fill="#2dd4bf"/></svg>
+  <svg width="16" height="16" viewBox="0 0 64 64"><rect width="64" height="64" rx="15" fill="#1c5ef5"/><path d="M52.21 14.35A5.86 5.86 0 0 0 40.97 14.05L30.1 47.52A9.38 9.38 0 0 1 15.4 37.22" stroke="#fff" stroke-width="7.5" stroke-linecap="round" fill="none"/></svg>
+  <span style="font-size:.85rem">96 · 48 (Entra ID) · 32 · 16 px (favicon: trazo más grueso y sin nodos)</span>
+</div>
+
+<h3 style="margin-top:26px">Qué pasó con tus tres ideas</h3>
+<div class="grid g3">
+  <div class="card"><b>∫ simple</b> → es la silueta del símbolo final, ahora con ganchos de radio creciente.</div>
+  <div class="card"><b>C abierta</b> → son los dos ganchos. Sola parecía el icono de «sincronizar».</div>
+  <div class="card"><b>ci365</b> → es el wordmark. Sola no tenía icono para favicon ni para Entra ID.</div>
+</div>
+
+<h3 style="margin-top:26px">Reglas</h3>
+<ul class="t">
+  <li><b>Zona de respeto:</b> 3,4 unidades (el radio de un nodo ×3) alrededor del símbolo. <b>Mínimo:</b> 16 px el símbolo; 120 px el lockup.</li>
+  <li><b>Colores:</b> azul #1C5EF5 (claro) / #4D8DFF (oscuro) + verde #2DD4BF solo en el nodo inferior y en el punto de la «i».</li>
+  <li><b>No hacer:</b> girar, espejar, cambiar proporciones de los ganchos, poner el verde en otro sitio, añadir sombra.</li>
+  <li><b>Archivos listos</b> en <code>docs/brand-proposal/</code>: <code>ci365-symbol.svg</code>, <code>ci365-mark.svg</code> (Entra ID/app icon), <code>ci365-mark-dark.svg</code>. No pisan los activos actuales de <code>brand/</code>. Los lockups con texto se convertirán a trazos (SVG sin dependencia de fuente) en la fase de implementación.</li>
+  <li><b>Entra ID:</b> el PNG actual ya está subido. Cambiarlo es opcional y no afecta a los trámites; conviene hacerlo cuando el sitio nuevo esté publicado.</li>
+</ul>
+<p class="pend">Pendiente antes de adoptarlo: búsqueda de marcas en INDECOPI (clases 35 y 42). No es posible hacerla desde aquí, y una ∫ estilizada es un signo común: conviene comprobarlo.</p>
+
+<h2>3b · Evolución «Tech»: de la ∫ al símbolo de una consultora de proyectos tecnológicos</h2>
+<p class="lead">El símbolo anterior comunica <b>datos y método</b>, pero no dice «software» ni «equipo». Un solo dibujo no puede mostrar tres servicios, así que la solución es un <b>sistema</b>: símbolo con carácter tecnológico + tres glifos de servicio + una firma de servicios bajo el nombre.</p>
+
+<div class="grid g3">
+  <div class="card">
+    <span class="tag ok">Recomendado</span><h3 style="margin-top:8px">H1 · «{ ∫ }» Llaves + integral</h3>
+    <div class="logo-stage stage-l"><svg width="120" height="120" viewBox="0 0 64 64"><rect width="64" height="64" rx="15" fill="#1c5ef5"/>
+      <path d="M22 10C16.5 10 17 15 17 19V25C17 29 14 32 10 32C14 32 17 35 17 39V45C17 49 16.5 54 22 54" stroke="#fff" stroke-opacity=".85" stroke-width="3" stroke-linecap="round" fill="none"/>
+      <path d="M42 10C47.5 10 47 15 47 19V25C47 29 50 32 54 32C50 32 47 35 47 39V45C47 49 47.5 54 42 54" stroke="#fff" stroke-opacity=".85" stroke-width="3" stroke-linecap="round" fill="none"/>
+      <path d="M45.78 19.96A4 4 0 0 0 38.12 19.76L30.7 42.58A6.4 6.4 0 0 1 20.68 35.56" stroke="#fff" stroke-width="3.8" stroke-linecap="round" fill="none"/>
+      <circle cx="45.78" cy="19.96" r="2.7" fill="#fff"/><circle cx="20.68" cy="35.56" r="2.7" fill="#2dd4bf"/></svg></div>
+    <p><b>Software:</b> las llaves son el código. <b>Datos:</b> la ∫. <b>Talento:</b> las llaves abrazan la ∫ como un equipo que sostiene el trabajo. Conserva la mejora continua (gancho inferior 1,6× mayor). Es la que se entiende de un vistazo como «tech».</p>
+  </div>
+  <div class="card">
+    <span class="tag">Alternativa</span><h3 style="margin-top:8px">H2 · Chip + integral</h3>
+    <div class="logo-stage stage-l"><svg width="120" height="120" viewBox="0 0 64 64"><rect width="64" height="64" rx="15" fill="#1c5ef5"/>
+      <path d="M22 8v6M22 50v6M8 22h6M50 22h6M32 8v6M32 50v6M8 32h6M50 32h6M42 8v6M42 50v6M8 42h6M50 42h6" stroke="#fff" stroke-opacity=".7" stroke-width="2.4" stroke-linecap="round"/>
+      <rect x="14" y="14" width="36" height="36" rx="7" fill="none" stroke="#fff" stroke-width="2.8"/>
+      <path d="M44.24 21.97A3.2 3.2 0 0 0 38.1 21.8L32.3 39.9A5.1 5.1 0 0 1 24.4 34.3" stroke="#fff" stroke-width="3.4" stroke-linecap="round" fill="none" transform="translate(-0.6 1)"/></svg></div>
+    <p>Muy «tech», pero parece cualquier icono de IA o hardware, y con muchos trazos se ensucia a 16 px. Descartada como principal.</p>
+  </div>
+  <div class="card">
+    <span class="tag">Alternativa</span><h3 style="margin-top:8px">H3 · Prompt + integral</h3>
+    <div class="logo-stage stage-l"><svg width="120" height="120" viewBox="0 0 64 64"><rect width="64" height="64" rx="15" fill="#1c5ef5"/>
+      <path d="M10 22L21 32L10 42" stroke="#2dd4bf" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <path d="M52.1 13.4A5 5 0 0 0 42.6 13.1L33.2 41.4A8 8 0 0 1 20.7 33" stroke="#fff" stroke-width="4.2" stroke-linecap="round" fill="none" transform="translate(1 3)"/>
+      <path d="M40 53h13" stroke="#fff" stroke-opacity=".7" stroke-width="3.2" stroke-linecap="round"/></svg></div>
+    <p>Simple y escalable, pero el cursor «_» bajo la ∫ la hace parecer una raíz cuadrada (√). Descartada por ambigüedad.</p>
+  </div>
+</div>
+
+<h3 style="margin-top:28px">Sistema de glifos de servicio</h3>
+<p>Mismo trazo redondeado (1,9 en cuadrícula de 24) que el símbolo. Se usan en la sección de servicios, en el selector «¿Qué necesitas?» y en el pie.</p>
+<div class="card" style="display:flex;gap:34px;flex-wrap:wrap;align-items:center">
+  <div style="text-align:center"><svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#1c5ef5" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M13.5 5l-3 14"/></svg><div><b>Software</b><br>desarrollo a medida</div></div>
+  <div style="text-align:center"><svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#1c5ef5" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V11M10 20V5M16 20v-7M22 20H2"/></svg><div><b>Datos</b><br>análisis y BI</div></div>
+  <div style="text-align:center"><svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#1c5ef5" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.6 2.7-6 6-6s6 2.4 6 6"/><circle cx="17.5" cy="9" r="2.4"/><path d="M17 14.2c2.5.2 4.3 2.2 4.3 5"/></svg><div><b>Talento</b><br>staffing tecnológico</div></div>
+</div>
+
+<h3 style="margin-top:28px">Lockup con firma de servicios</h3>
+<div class="grid g2">
+  <div class="logo-stage stage-l" style="justify-content:flex-start;min-height:110px">
+    <span class="lockup"><svg width="52" height="52" viewBox="0 0 64 64"><rect width="64" height="64" rx="15" fill="#1c5ef5"/><path d="M22 10C16.5 10 17 15 17 19V25C17 29 14 32 10 32C14 32 17 35 17 39V45C17 49 16.5 54 22 54M42 10C47.5 10 47 15 47 19V25C47 29 50 32 54 32C50 32 47 35 47 39V45C47 49 47.5 54 42 54" stroke="#fff" stroke-opacity=".85" stroke-width="3" stroke-linecap="round" fill="none"/><path d="M45.78 19.96A4 4 0 0 0 38.12 19.76L30.7 42.58A6.4 6.4 0 0 1 20.68 35.56" stroke="#fff" stroke-width="3.8" stroke-linecap="round" fill="none"/><circle cx="45.78" cy="19.96" r="2.7" fill="#fff"/><circle cx="20.68" cy="35.56" r="2.7" fill="#2dd4bf"/></svg>
+    <span class="t"><b class="wm" style="font-size:1.8rem;line-height:.9">c<span class="idot">ı</span>365</b><i style="letter-spacing:.2em">SOFTWARE · DATOS · TALENTO</i></span></span>
+  </div>
+  <div class="logo-stage stage-d" style="justify-content:flex-start;min-height:110px">
+    <span class="lockup"><svg width="52" height="52" viewBox="0 0 64 64"><rect width="64" height="64" rx="15" fill="#4d8dff"/><path d="M22 10C16.5 10 17 15 17 19V25C17 29 14 32 10 32C14 32 17 35 17 39V45C17 49 16.5 54 22 54M42 10C47.5 10 47 15 47 19V25C47 29 50 32 54 32C50 32 47 35 47 39V45C47 49 47.5 54 42 54" stroke="#07101f" stroke-opacity=".85" stroke-width="3" stroke-linecap="round" fill="none"/><path d="M45.78 19.96A4 4 0 0 0 38.12 19.76L30.7 42.58A6.4 6.4 0 0 1 20.68 35.56" stroke="#07101f" stroke-width="3.8" stroke-linecap="round" fill="none"/><circle cx="45.78" cy="19.96" r="2.7" fill="#07101f"/><circle cx="20.68" cy="35.56" r="2.7" fill="#2dd4bf"/></svg>
+    <span class="t"><b class="wm" style="font-size:1.8rem;line-height:.9">c<span class="idot">ı</span>365</b><i style="letter-spacing:.2em">SOFTWARE · DATOS · TALENTO</i></span></span>
+  </div>
+</div>
+<ul class="t">
+  <li><b>Dos niveles de nombre:</b> «ci365» como marca corta (logo, favicon, redes) y «Consultoría Integral 365 E.I.R.L.» como nombre legal, siempre visible en pie, términos y privacidad.</li>
+  <li><b>Favicon (16–32 px):</b> solo la ∫ gruesa, sin llaves (con llaves se ensucia). Archivo: <code>ci365-favicon.svg</code>.</li>
+  <li><b>Archivos nuevos</b> en <code>docs/brand-proposal/</code>: <code>ci365-mark-tech.svg</code> (símbolo recomendado) y <code>ci365-favicon.svg</code>.</li>
+</ul>
+
+<div class="card" style="border-color:#f2c14e;margin-top:14px">
+  <h3>⚠ «Staffing» es un servicio nuevo: hay que decidirlo antes de pintarlo en la web</h3>
+  <ul class="t">
+    <li><b>Hoy la web ofrece 4 servicios</b> (BI, automatización, software, Microsoft 365/Azure). Staffing no figura ni en la web ni en los términos de servicio.</li>
+    <li><b>Texto legal:</b> poner personal de CI365 a disposición de un cliente puede encuadrar en figuras reguladas en Perú (tercerización o intermediación laboral). <span class="pend">Verificar con abogado laboral antes de ofrecerlo</span>; no es algo que pueda dar por resuelto.</li>
+    <li><b>Privacidad:</b> si recibes CV de candidatos o das datos de tu personal a clientes, aparece una categoría nueva de datos personales que la política actual no cubre.</li>
+    <li><b>Credibilidad:</b> «Talento» promete capacidad de bolsa. Con un equipo pequeño, es más honesto y defendible «equipos y especialistas a medida para tu proyecto» (reforzamiento de equipo) que «staffing masivo». <span class="pend">POR CONFIRMAR: ¿cuántas personas reales puedes poner hoy en un proyecto?</span></li>
+    <li><b>Solución de diseño:</b> si decides no ofrecerlo aún, el lockup queda «SOFTWARE · DATOS · AUTOMATIZACIÓN» y el glifo de Talento se omite. El símbolo {∫} sirve igual.</li>
+  </ul>
+</div>
+
+<h2>4 · Color y tipografía</h2>
+<div class="grid g3" style="grid-template-columns:repeat(auto-fit,minmax(130px,1fr))">
+  <div class="sw" style="background:#1c5ef5;color:#fff">Brand<br>#1C5EF5</div>
+  <div class="sw" style="background:#4d8dff;color:#07101f">Brand (oscuro)<br>#4D8DFF</div>
+  <div class="sw" style="background:#0fb89f;color:#fff">Signal<br>#0FB89F</div>
+  <div class="sw" style="background:#2dd4bf;color:#07101f">Signal (oscuro)<br>#2DD4BF</div>
+  <div class="sw" style="background:#0b1020;color:#fff">Ink<br>#0B1020</div>
+  <div class="sw" style="background:#121a2f;color:#fff">Ink 2<br>#121A2F</div>
+  <div class="sw" style="background:#f7f9fc;color:#0d1526">Canvas soft<br>#F7F9FC</div>
+  <div class="sw" style="background:#46536b;color:#fff">Body<br>#46536B</div>
+</div>
+<ul class="t">
+  <li><b>Se conserva</b> el sistema semántico actual (<code>--ci-*</code> en <code>global.css</code>): ya es correcto. Solo se añade <code>--ci-signal</code> y <code>--ci-ink</code>.</li>
+  <li><b>Signal (verde)</b> solo para: nodo del logo, deltas positivos, estado "disponible", una palabra del H1. Nunca como fondo grande ni para botones.</li>
+  <li><b>Contraste:</b> comprobar AA de cada par con herramienta antes de publicar. El texto #0FB89F sobre blanco <u>no</u> alcanza 4,5:1; úsalo solo en elementos gráficos o sobre fondo oscuro.</li>
+</ul>
+<div class="card" style="margin-top:12px">
+  <p class="eyebrow">Muestra tipográfica</p>
+  <div class="h1demo">Primero el <span class="serif">problema.</span><br>Después la herramienta.</div>
+  <p class="lead" style="margin-top:14px">Inter (peso 400/600/700) para interfaz y cuerpo; Instrument Serif cursiva <b>solo</b> para una palabra por titular (patrón de Slalom y Thoughtworks). Si no carga la serif, cae a Georgia sin romper el diseño.</p>
+</div>
+<table style="margin-top:10px">
+<tr><th>Nivel</th><th>Escala</th><th>Uso</th></tr>
+<tr><td>Display</td><td>clamp(2.6rem, 6vw, 4.5rem) · peso 600 · −0.035em</td><td>H1 del hero (más ligero que hoy: 700)</td></tr>
+<tr><td>Title</td><td>2.5rem · 600</td><td>H2 de sección</td></tr>
+<tr><td>Lead</td><td>1.1875rem · 400 · lh 1.65</td><td>Subtítulos</td></tr>
+<tr><td>Cuerpo</td><td>1rem / 0.95rem</td><td>Párrafos y tarjetas</td></tr>
+<tr><td>Eyebrow</td><td>0.72rem · 700 · +0.14em · mayúsculas</td><td>Etiquetas</td></tr>
+</table>
+<p><b>Implementación:</b> self-host con <code>@fontsource-variable/inter</code> y <code>@fontsource/instrument-serif</code> (sin Google Fonts: mejor rendimiento y no envía la IP del visitante a terceros, relevante para tu política de privacidad).</p>
+
+<h2>5 · Arquitectura de la home y copy (ES)</h2>
+<table>
+<tr><th>#</th><th>Sección</th><th>Mensaje / copy propuesto</th><th>CTA</th></tr>
+<tr><td>0</td><td>Header</td><td>Logo · Servicios · Método · Casos · FAQ · idioma · tema · botón <b>Hablemos</b> (siempre visible)</td><td>Hablemos</td></tr>
+<tr><td>1</td><td>Hero (oscuro)</td><td><b>H1:</b> "Primero el <i>problema</i>. Después la herramienta."<br><b>Sub:</b> "Consultoría en Power BI, automatización y software a medida para equipos que necesitan resultados, no más herramientas."<br><b>EN:</b> "Problem first. Tool second." · <b>PT:</b> "Primeiro o problema. Depois a ferramenta."</td><td>Cuéntanos tu caso · Ver cómo trabajamos</td></tr>
+<tr><td>2</td><td>Franja de hechos</td><td>"Desde 2024 · Empresa inscrita en SUNAT (RUC 20610886770) · Datos tratados bajo la Ley N° 29733 · Power BI · Power Platform · Azure · Microsoft 365". Solo datos que ya están en <code>site.ts</code>.</td><td>—</td></tr>
+<tr><td>3</td><td>"¿Qué necesitas?"</td><td>4 tarjetas selector: <b>Entender mis datos</b> (BI) · <b>Quitar trabajo manual</b> (automatización) · <b>Construir una aplicación</b> (software) · <b>Ordenar mi entorno Microsoft</b> (M365/Azure). Cada una lleva al formulario con la opción preseleccionada.</td><td>Elegir y escribir</td></tr>
+<tr><td>4</td><td>Servicios</td><td>Mantener los 4 actuales, acortando cada descripción a 2 líneas y añadiendo "Entregable típico" (p. ej. "Modelo semántico documentado + tablero").</td><td>Hablar de este servicio</td></tr>
+<tr><td>5</td><td>Caso destacado</td><td>"Sistema de aprobación de solicitudes de compra · sector minero". Estructura: Reto → Qué construimos → Resultado. <span class="pend">Resultado y cifras POR CONFIRMAR</span> y <span class="pend">permiso del cliente POR CONFIRMAR</span>. Si no hay permiso, no se publica.</td><td>Hablar de un caso similar</td></tr>
+<tr><td>6</td><td>Método</td><td>4 pasos con entregable por paso: Entender (mapa del proceso) → Prototipar (versión usable) → Entregar en incrementos → Transferir (documentación y control para el cliente). Tiempos típicos: <span class="pend">POR CONFIRMAR</span>.</td><td>—</td></tr>
+<tr><td>7</td><td>Tecnologías</td><td>Se conserva la franja "profundidad / también construimos con".</td><td>—</td></tr>
+<tr><td>8</td><td>Nosotros</td><td>Quién está detrás (nombre, rol, foto) <span class="pend">POR CONFIRMAR: ¿publicar foto y nombre?</span> + principio: "No vendemos licencias de nadie: elegimos lo que resuelve el problema".</td><td>—</td></tr>
+<tr><td>9</td><td>FAQ</td><td>¿Trabajan con empresas pequeñas? · ¿Cómo se cobra? <span class="pend">POR CONFIRMAR</span> · ¿Quién es dueño del código y de los datos? · ¿Dónde se guardan mis datos? (enlaza a la política de privacidad y al anexo de AGI/AGO).</td><td>—</td></tr>
+<tr><td>10</td><td>Contacto (oscuro)</td><td>"Cuéntanos qué problema quieres resolver. Respondemos todas las consultas." Formulario + correo + teléfono + ubicación (distrito, ciudad, país).</td><td>Enviar consulta</td></tr>
+<tr><td>11</td><td>Footer</td><td>Se conserva: legal, RUC, razón social, idiomas.</td><td>—</td></tr>
+</table>
+
+<h2>6 · Wireframes (escritorio; en móvil todo pasa a una columna)</h2>
+<div class="wf dark"><b>1 · Hero (oscuro)</b><div class="row" style="grid-template-columns:1.1fr .9fr">
+  <div class="blk dark">Eyebrow<br><b style="font-size:1.1rem">Primero el <i>problema</i>.<br>Después la herramienta.</b><br>Subtítulo · [Cuéntanos tu caso] [Ver cómo trabajamos]</div>
+  <div class="blk dark">Panel de datos (HeroVisual) rotulado "Ejemplo ilustrativo"</div></div></div>
+<div class="wf"><b>2 · Franja de hechos</b><div class="row" style="grid-template-columns:repeat(4,1fr)"><div class="blk">Desde 2024</div><div class="blk">RUC inscrito</div><div class="blk">Ley 29733</div><div class="blk">Power BI · Azure · M365</div></div></div>
+<div class="wf"><b>3 · ¿Qué necesitas?</b><div class="row" style="grid-template-columns:repeat(4,1fr)"><div class="blk">Datos</div><div class="blk">Trabajo manual</div><div class="blk">Aplicación</div><div class="blk">Microsoft</div></div></div>
+<div class="wf"><b>4 · Servicios</b><div class="row" style="grid-template-columns:repeat(2,1fr)"><div class="blk">Servicio 1 + entregable</div><div class="blk">Servicio 2 + entregable</div><div class="blk">Servicio 3 + entregable</div><div class="blk">Servicio 4 + entregable</div></div></div>
+<div class="wf"><b>5 · Caso destacado</b><div class="row" style="grid-template-columns:1fr 1fr 1fr"><div class="blk">Reto</div><div class="blk">Qué construimos</div><div class="blk">Resultado</div></div></div>
+<div class="wf"><b>6 · Método</b><div class="row" style="grid-template-columns:repeat(4,1fr)"><div class="blk">01 Entender</div><div class="blk">02 Prototipar</div><div class="blk">03 Entregar</div><div class="blk">04 Transferir</div></div></div>
+<div class="wf"><b>7-9 · Tecnologías · Nosotros · FAQ</b><div class="row" style="grid-template-columns:1fr"><div class="blk">Franja de tecnologías</div><div class="blk">Nosotros (foto + texto)</div><div class="blk">Preguntas frecuentes (acordeón)</div></div></div>
+<div class="wf dark"><b>10 · Contacto (oscuro)</b><div class="row" style="grid-template-columns:.9fr 1.1fr"><div class="blk dark">Título · correo · teléfono · ubicación</div><div class="blk dark">Formulario: nombre · correo · empresa · necesito (select) · mensaje · ☐ acepto la política de privacidad · [Enviar]</div></div></div>
+
+<h2>7 · Formulario de contacto: lo que hay que decidir</h2>
+<div class="grid g2">
+  <div class="card"><h3>Dónde envía los datos</h3>
+    <p>GitHub Pages es estático: no puede recibir un POST. Opciones:</p>
+    <ul class="t">
+      <li><b>Power Automate (HTTP request)</b> → correo de Microsoft 365. Coherente con tu stack, sin subencargado nuevo, pero ese disparador suele requerir licencia premium.</li>
+      <li><b>Azure Function</b> pequeña → correo. Control total, coste mínimo, algo más de mantenimiento.</li>
+      <li><b>Servicio externo (p. ej. Formspree)</b> → rápido, pero es un subencargado nuevo que hay que declarar en la política.</li>
+    </ul>
+    <p><b>Recomendación:</b> Azure Function o Power Automate. Mantiene los datos dentro de Microsoft.</p></div>
+  <div class="card"><h3>Qué hay que actualizar por ley</h3>
+    <ul class="t">
+      <li>Política de privacidad: nueva finalidad "atender consultas comerciales", base de legitimación (consentimiento), plazo de conservación, destinatarios.</li>
+      <li>Casilla de consentimiento <b>no premarcada</b> con enlace a la política.</li>
+      <li>Antispam sin CAPTCHA de terceros (campo trampa + límite de tasa).</li>
+      <li>Verificar si aplica la inscripción del banco de datos de contactos ante la Autoridad de Protección de Datos.</li>
+      <li><span class="pend">Revisión de abogado: sigue pendiente</span> (ya estaba pendiente para los textos legales actuales).</li>
+    </ul></div>
+</div>
+
+<h2>8 · Plan de implementación en Astro</h2>
+<table>
+<tr><th>Fase</th><th>Qué se hace</th><th>Archivos</th><th>Riesgo</th></tr>
+<tr><td>1 · Marca</td><td>Nuevo símbolo y lockups; favicon; regenerar PNG</td><td><code>brand/*</code>, <code>public/favicon.svg</code>, <code>src/components/Logo.astro</code></td><td>Bajo. Actualizar los 3 sitios del trazo (README de brand)</td></tr>
+<tr><td>2 · Sistema</td><td>Tokens <code>--ci-signal</code>/<code>--ci-ink</code>, fuentes self-host, escala tipográfica más ligera</td><td><code>src/styles/global.css</code>, <code>Base.astro</code></td><td>Bajo</td></tr>
+<tr><td>3 · Hero + franja + selector</td><td>Hero oscuro, H1 nuevo en 3 idiomas, franja de hechos, tarjetas "¿Qué necesitas?"</td><td><code>HomePage.astro</code>, <code>HeroVisual.astro</code>, <code>ui.ts</code></td><td>Medio (3 idiomas a la vez)</td></tr>
+<tr><td>4 · Contenido</td><td>FAQ, método con entregables, servicios con "entregable típico"</td><td><code>HomePage.astro</code>, <code>ui.ts</code></td><td>Bajo</td></tr>
+<tr><td>5 · Formulario</td><td>Formulario + backend + política de privacidad actualizada</td><td>nuevo <code>ContactForm.astro</code>, función/flujo externo, 3 páginas de privacidad</td><td><b>Alto</b>: datos personales y revisión legal</td></tr>
+<tr><td>6 · Caso</td><td>Sección de caso destacado</td><td><code>HomePage.astro</code>, <code>ui.ts</code></td><td>Depende del permiso del cliente</td></tr>
+<tr><td>7 · QA</td><td>Lighthouse ≥ 95, AA, ES/EN/PT, URLs legales intactas, modo oscuro</td><td>—</td><td>—</td></tr>
+</table>
+
+<h2>9 · Lo que necesito de ti para cerrar</h2>
+<ol>
+  <li>¿Símbolo {∫} (3b) como principal? ¿Ofreces staffing hoy (y bajo qué figura legal)?</li>
+  <li>¿Puede mencionarse el caso de minería (anonimizado) y con qué resultado medible?</li>
+  <li>¿Publicas nombre y foto del fundador en Nosotros?</li>
+  <li>¿Formulario por Azure Function o Power Automate? ¿Tienes licencia premium de Power Automate?</li>
+  <li>Hechos adicionales verificables: años de experiencia, nº de proyectos, certificaciones Microsoft reales (p. ej. PL-300).</li>
+</ol>
+<p style="margin:48px 0 80px;color:var(--muted);font-size:.85rem">Generado el 2026-10-08. Este tablero es una propuesta; no modifica el sitio publicado.</p>
+</main>
+</body>
+</html>

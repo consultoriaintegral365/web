@@ -1,73 +1,93 @@
 @import 'tailwindcss';
 
+/* Tipografías autoalojadas: sin peticiones a terceros (mejor rendimiento y no
+   se envía la IP del visitante a Google). Geist para la interfaz, Geist Mono
+   para etiquetas y datos, Instrument Serif solo como acento de una palabra. */
+@import '@fontsource-variable/geist';
+@import '@fontsource-variable/geist-mono';
+@import '@fontsource/instrument-serif/400-italic.css';
+
 /* El tema se fija con data-theme en <html> desde un script inline en el <head>,
-   antes del primer pintado. Por eso el CSS solo necesita contemplar el atributo
-   explícito: nunca hay un estado intermedio sin resolver. */
-@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+   antes del primer pintado. Las secciones «tinta» (hero, MVP, contacto) son
+   siempre oscuras: se tratan como tema oscuro local. */
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *, .theme-ink, .theme-ink *));
 
 /* ---------------------------------------------------------------------------
    Tokens semánticos.
 
    Se nombran por función (canvas, card, line, body) y no por color, de modo que
-   el mismo utilitario sirva en claro y en oscuro sin duplicar clases en cada
-   componente. Los valores crudos viven en :root y [data-theme='dark'].
+   el mismo utilitario sirva en claro y en oscuro. Reglas del sistema:
+   - Un solo acento de acción (cobalto). El verde «señal» solo marca estado
+     positivo (sin costo, activo, hecho) y el nodo del logotipo.
+   - La profundidad la dan líneas finas, no sombras ni resplandores.
+   - Radios: 8 px en controles, 12 px en superficies. Nada más redondeado.
    --------------------------------------------------------------------------- */
 :root {
-  --ci-canvas: #ffffff;
-  --ci-canvas-soft: #f7f9fc;
-  --ci-card: #ffffff;
-  --ci-line: #e8edf5;
-  --ci-line-strong: #d8e0ed;
+  /* Papel cálido: evita el blanco clínico y el gris azulado de plantilla. */
+  --ci-canvas: #f6f4ef;
+  --ci-canvas-soft: #eeebe4;
+  --ci-card: #fbfaf7;
+  --ci-line: #dedad0;
+  --ci-line-strong: #c9c4b8;
 
-  --ci-strong: #0d1526;
-  --ci-body: #46536b;
-  --ci-muted: #78869e;
+  --ci-strong: #0c0f14;
+  --ci-body: #454b57;
+  --ci-muted: #666c78;
 
   --ci-brand: #1c5ef5;
   --ci-brand-hover: #1749e1;
   --ci-brand-ink: #1749e1;
-  --ci-brand-soft: #eef4ff;
-  --ci-brand-line: #d8e6ff;
+  --ci-brand-soft: #e8eefc;
+  --ci-brand-line: #c4d4fb;
   --ci-on-brand: #ffffff;
 
-  /* Sombras en capas: una difusa para el volumen y otra corta para el apoyo.
-     Es lo que separa una superficie «suave» de una caja con borde. */
-  --ci-shadow-sm: 0 1px 2px rgb(13 21 38 / 0.04), 0 2px 8px rgb(13 21 38 / 0.04);
-  --ci-shadow-md: 0 2px 4px rgb(13 21 38 / 0.04), 0 12px 28px rgb(13 21 38 / 0.07);
-  --ci-shadow-lg: 0 4px 8px rgb(13 21 38 / 0.05), 0 24px 56px rgb(13 21 38 / 0.10);
-  --ci-glow: 0 18px 40px rgb(28 94 245 / 0.18);
+  --ci-signal: #0e9f88;
+  --ci-signal-ink: #0a7a69;
+  --ci-signal-soft: #def3ee;
+
+  --ci-ink: #0a0c10;
+  --ci-shadow-sm: 0 1px 0 rgb(12 15 20 / 0.04);
+  --ci-shadow-md: 0 1px 2px rgb(12 15 20 / 0.06), 0 8px 24px rgb(12 15 20 / 0.06);
+  --ci-shadow-lg: 0 2px 4px rgb(12 15 20 / 0.06), 0 24px 56px rgb(12 15 20 / 0.12);
 }
 
-[data-theme='dark'] {
-  /* Azul muy oscuro en lugar de negro: menos fatiga y más carácter. */
-  --ci-canvas: #0b1020;
-  --ci-canvas-soft: #0e1426;
-  --ci-card: #121a2f;
-  --ci-line: #1f2941;
-  --ci-line-strong: #2b364f;
+[data-theme='dark'],
+.theme-ink {
+  --ci-canvas: #0a0c10;
+  --ci-canvas-soft: #0e1117;
+  --ci-card: #12151c;
+  --ci-line: #222733;
+  --ci-line-strong: #2f3645;
 
-  --ci-strong: #f2f5fb;
-  --ci-body: #aab6cc;
-  --ci-muted: #7c8aa5;
+  --ci-strong: #eef0f5;
+  --ci-body: #a3abba;
+  --ci-muted: #7b8394;
 
-  /* El azul se aclara para mantener el contraste sobre fondo oscuro. */
-  --ci-brand: #4d8dff;
-  --ci-brand-hover: #6ba0ff;
-  --ci-brand-ink: #8fb9ff;
-  --ci-brand-soft: #16233f;
-  --ci-brand-line: #24375e;
-  --ci-on-brand: #07101f;
+  /* El cobalto se oscurece un punto para que el texto blanco del botón
+     conserve contraste AA; para texto y enlaces se usa una versión clara. */
+  --ci-brand: #2f66f0;
+  --ci-brand-hover: #4a7bf5;
+  --ci-brand-ink: #93b2ff;
+  --ci-brand-soft: #131d36;
+  --ci-brand-line: #243a6b;
+  --ci-on-brand: #ffffff;
 
-  --ci-shadow-sm: 0 1px 2px rgb(0 0 0 / 0.30), 0 2px 8px rgb(0 0 0 / 0.24);
-  --ci-shadow-md: 0 2px 4px rgb(0 0 0 / 0.30), 0 12px 28px rgb(0 0 0 / 0.35);
-  --ci-shadow-lg: 0 4px 8px rgb(0 0 0 / 0.35), 0 24px 56px rgb(0 0 0 / 0.45);
-  --ci-glow: 0 18px 40px rgb(77 141 255 / 0.22);
+  --ci-signal: #2dd4bf;
+  --ci-signal-ink: #5eead4;
+  --ci-signal-soft: #0f2a2a;
+
+  --ci-shadow-sm: 0 1px 0 rgb(0 0 0 / 0.3);
+  --ci-shadow-md: 0 1px 2px rgb(0 0 0 / 0.4), 0 8px 24px rgb(0 0 0 / 0.35);
+  --ci-shadow-lg: 0 2px 4px rgb(0 0 0 / 0.4), 0 24px 56px rgb(0 0 0 / 0.5);
 }
 
 @theme inline {
   --font-sans:
-    'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue',
+    'Geist Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue',
     sans-serif;
+  --font-mono:
+    'Geist Mono Variable', ui-monospace, 'SF Mono', 'Cascadia Code', Consolas, monospace;
+  --font-serif: 'Instrument Serif', 'Iowan Old Style', Georgia, serif;
 
   --color-canvas: var(--ci-canvas);
   --color-canvas-soft: var(--ci-canvas-soft);
@@ -86,20 +106,17 @@
   --color-brand-line: var(--ci-brand-line);
   --color-on-brand: var(--ci-on-brand);
 
+  --color-signal: var(--ci-signal);
+  --color-signal-ink: var(--ci-signal-ink);
+  --color-signal-soft: var(--ci-signal-soft);
+  --color-ink: var(--ci-ink);
+
   --shadow-soft: var(--ci-shadow-sm);
   --shadow-lift: var(--ci-shadow-md);
   --shadow-deep: var(--ci-shadow-lg);
 
-  /* Escala tipográfica con rango real: el salto entre niveles es lo que
-     produce jerarquía. Sin él, todo pesa igual y nada destaca. */
-  --text-display: 4.25rem;
-  --text-display--line-height: 1.04;
-  --text-display--letter-spacing: -0.035em;
-  --text-title: 2.5rem;
-  --text-title--line-height: 1.12;
-  --text-title--letter-spacing: -0.028em;
   --text-lead: 1.1875rem;
-  --text-lead--line-height: 1.65;
+  --text-lead--line-height: 1.6;
 }
 
 /* ---------------------------------------------------------------------------
@@ -108,7 +125,7 @@
 @layer base {
   html {
     scroll-behavior: smooth;
-    scroll-padding-top: 5.5rem;
+    scroll-padding-top: 5rem;
     -webkit-text-size-adjust: 100%;
     color-scheme: light;
   }
@@ -121,27 +138,31 @@
     background-color: var(--ci-canvas);
     color: var(--ci-body);
     font-family: var(--font-sans);
+    font-feature-settings: 'ss01', 'cv11';
     text-wrap: pretty;
     -webkit-font-smoothing: antialiased;
     transition: background-color 0.25s ease, color 0.25s ease;
   }
 
+  /* Titulares ligeros y apretados: el peso 500 con tracking negativo es lo que
+     separa un sitio editorial de una plantilla con negritas. */
   h1,
   h2,
   h3,
   h4 {
     color: var(--ci-strong);
+    font-weight: 500;
     text-wrap: balance;
-    letter-spacing: -0.022em;
+    letter-spacing: -0.025em;
   }
 
   ::selection {
     background: var(--ci-brand);
-    color: var(--ci-on-brand);
+    color: #fff;
   }
 
   :focus-visible {
-    outline: 2px solid var(--ci-brand);
+    outline: 2px solid var(--ci-brand-ink);
     outline-offset: 3px;
     border-radius: 4px;
   }
@@ -152,67 +173,121 @@
    --------------------------------------------------------------------------- */
 @layer components {
   .container-page {
-    @apply mx-auto w-full max-w-6xl px-5 sm:px-6 lg:px-8;
+    @apply mx-auto w-full max-w-[72rem] px-5 sm:px-8;
   }
 
-  /* Tailwind v4 no permite @apply de clases propias: las variantes comparten
-     la base mediante un selector agrupado. */
+  .h-display {
+    font-size: clamp(2.5rem, 5.3vw, 4.5rem);
+    line-height: 1;
+    letter-spacing: -0.045em;
+    font-weight: 500;
+  }
+
+  .h-title {
+    font-size: clamp(2rem, 4.2vw, 3.1rem);
+    line-height: 1.04;
+    letter-spacing: -0.04em;
+    font-weight: 500;
+  }
+
+  /* Acento tipográfico: una palabra o frase en serif cursiva por titular. */
+  .accent {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    color: var(--ci-brand-ink);
+  }
+
+  /* Etiqueta técnica: monoespaciada, en mayúsculas. */
+  .eyebrow,
+  .mono-label {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--ci-muted);
+  }
+
   .btn,
   .btn-primary,
   .btn-secondary {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold;
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 text-sm font-medium;
     transition:
       background-color 0.18s ease,
       border-color 0.18s ease,
       color 0.18s ease,
-      box-shadow 0.18s ease,
       transform 0.18s ease;
   }
 
   .btn-primary {
     background-color: var(--ci-brand);
     color: var(--ci-on-brand);
-    box-shadow: var(--ci-glow);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.18);
   }
 
   .btn-primary:hover {
     background-color: var(--ci-brand-hover);
-    transform: translateY(-1px);
+  }
+
+  .btn-primary:active {
+    transform: translateY(1px);
   }
 
   .btn-secondary {
-    background-color: var(--ci-card);
+    background-color: transparent;
     color: var(--ci-strong);
-    border: 1px solid var(--ci-line);
-    box-shadow: var(--ci-shadow-sm);
+    border: 1px solid var(--ci-line-strong);
   }
 
   .btn-secondary:hover {
-    border-color: var(--ci-line-strong);
-    transform: translateY(-1px);
+    background-color: var(--ci-canvas-soft);
+    border-color: var(--ci-muted);
   }
 
-  /* Superficie suave: profundidad por sombra, no por borde duro. */
+  /* Superficie: línea fina, sin sombra. La separación la da el borde. */
   .surface {
     background-color: var(--ci-card);
     border: 1px solid var(--ci-line);
-    box-shadow: var(--ci-shadow-sm);
-    transition:
-      box-shadow 0.25s ease,
-      border-color 0.25s ease,
-      transform 0.25s ease;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
   }
 
   .surface-hover:hover {
-    box-shadow: var(--ci-shadow-md);
-    border-color: var(--ci-brand-line);
-    transform: translateY(-2px);
+    border-color: var(--ci-line-strong);
   }
 
-  /* Etiqueta pequeña en mayúsculas: separa secciones sin añadir peso visual. */
-  .eyebrow {
-    @apply text-xs font-semibold uppercase tracking-[0.16em];
-    color: var(--ci-muted);
+  /* Rejilla técnica de fondo, desvanecida hacia los bordes. */
+  .bg-grid {
+    background-image:
+      linear-gradient(to right, var(--ci-line) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--ci-line) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 35%, #000 20%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 35%, #000 20%, transparent 75%);
+    opacity: 0.55;
+  }
+
+  /* Foco que sigue al puntero: la luz vive en el borde, no en un halo. */
+  .spot {
+    position: relative;
+  }
+  .spot::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    background: radial-gradient(
+      420px circle at var(--mx, 50%) var(--my, 50%),
+      color-mix(in srgb, var(--ci-brand) 16%, transparent),
+      transparent 60%
+    );
+  }
+  .spot:hover::before {
+    opacity: 1;
   }
 
   /* Cuerpo de los documentos legales. */
@@ -305,8 +380,10 @@
 
   html.js .reveal {
     opacity: 0;
-    transform: translateY(14px);
-    transition: opacity 0.6s cubic-bezier(0.2, 0.7, 0.3, 1), transform 0.6s cubic-bezier(0.2, 0.7, 0.3, 1);
+    transform: translateY(18px);
+    transition:
+      opacity 0.7s cubic-bezier(0.2, 0.7, 0.3, 1) var(--d, 0s),
+      transform 0.7s cubic-bezier(0.2, 0.7, 0.3, 1) var(--d, 0s);
   }
 
   html.js .reveal.is-visible {
@@ -330,6 +407,7 @@
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
 }

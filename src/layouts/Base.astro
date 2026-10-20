@@ -97,15 +97,8 @@ const organizationSchema = {
     <meta name="twitter:card" content="summary_large_image" />
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff" />
-    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b1020" />
-
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-    />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f6f4ef" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0a0c10" />
 
     <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} is:inline />
   </head>
@@ -157,6 +150,48 @@ const organizationSchema = {
           { rootMargin: '0px 0px -12% 0px', threshold: 0.05 }
         );
         targets.forEach(function (el) { io.observe(el); });
+      })();
+    </script>
+
+    <script is:inline>
+      /* Interaccion ligera, siempre opcional:
+         1) sobre el hero (siempre oscuro) la cabecera se vuelve tinta;
+         2) la luz del hero y los elementos .spot siguen al puntero.
+         Sin JavaScript, la pagina funciona igual. */
+      (function () {
+        var header = document.querySelector('[data-header]');
+        var hero = document.querySelector('[data-hero]');
+        if (header && hero) {
+          var ticking = false;
+          var update = function () {
+            ticking = false;
+            /* Mientras el hero siga bajo la cabecera, esta se ve «tinta». */
+            header.classList.toggle('theme-ink', hero.getBoundingClientRect().bottom > header.offsetHeight);
+          };
+          var onScroll = function () {
+            if (!ticking) { ticking = true; requestAnimationFrame(update); }
+          };
+          window.addEventListener('scroll', onScroll, { passive: true });
+          window.addEventListener('resize', onScroll);
+          update();
+        }
+
+        var finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+        var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (!finePointer || reduce) return;
+        var raf = 0, px = 0, py = 0, area = null;
+        document.addEventListener('pointermove', function (ev) {
+          px = ev.clientX; py = ev.clientY;
+          area = ev.target && ev.target.closest ? ev.target.closest('[data-spot-area],.spot') : null;
+          if (raf) return;
+          raf = requestAnimationFrame(function () {
+            raf = 0;
+            if (!area) return;
+            var r = area.getBoundingClientRect();
+            area.style.setProperty('--mx', (px - r.left) + 'px');
+            area.style.setProperty('--my', (py - r.top) + 'px');
+          });
+        }, { passive: true });
       })();
     </script>
   </body>

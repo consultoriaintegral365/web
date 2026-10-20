@@ -15,24 +15,25 @@ const year = new Date().getFullYear();
 
 const home = localizedPath('home', locale);
 const base = home === '/' ? '' : home;
+
+const col = 'text-body transition-colors hover:text-strong';
 ---
 
-<!-- El pie ya no es un bloque oscuro: con la sección de contacto encima, dos
-     masas oscuras seguidas se fundían en una sola. Ahora se apoya en la
-     superficie suave del tema y funciona igual en claro y en oscuro. -->
-<footer class="border-t border-line bg-canvas-soft">
+<!-- El pie continúa la banda de contacto (ambos «tinta»), separado por una
+     línea fina: así la página termina en un solo bloque oscuro. -->
+<footer class="theme-ink border-t border-line bg-canvas">
   <div class="container-page py-14">
     <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
       <div class="lg:col-span-2">
         <Logo />
-        <p class="mt-4 max-w-sm text-sm leading-relaxed text-muted">
+        <p class="mt-5 max-w-sm text-sm leading-relaxed text-muted">
           {strings.footer.tagline}
         </p>
         {
           site.social.linkedin && (
             <a
               href={site.social.linkedin}
-              class="mt-5 inline-flex items-center gap-2 text-sm font-medium text-body transition-colors hover:text-strong"
+              class="mt-5 inline-flex items-center gap-2 text-sm text-body transition-colors hover:text-strong"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -48,57 +49,25 @@ const base = home === '/' ? '' : home;
       <div>
         <h2 class="eyebrow">{strings.footer.company}</h2>
         <ul class="mt-4 space-y-3 text-sm">
-          <li>
-            <a href={`${base}/#servicios`} class="text-body transition-colors hover:text-strong">
-              {strings.nav.services}
-            </a>
-          </li>
-          <li>
-            <a href={`${base}/#nosotros`} class="text-body transition-colors hover:text-strong">
-              {strings.nav.about}
-            </a>
-          </li>
-          <li>
-            <a href={`${base}/#contacto`} class="text-body transition-colors hover:text-strong">
-              {strings.nav.contact}
-            </a>
-          </li>
-          <li>
-            <a
-              href={`mailto:${site.email.general}`}
-              class="text-body transition-colors hover:text-strong"
-            >
-              {site.email.general}
-            </a>
-          </li>
+          <li><a href={`${base}/#sistema`} class={col}>{strings.nav.system}</a></li>
+          <li><a href={`${base}/#servicios`} class={col}>{strings.nav.services}</a></li>
+          <li><a href={`${base}/#mvp`} class={col}>{strings.nav.mvp}</a></li>
+          <li><a href={`${base}/#contacto`} class={col}>{strings.nav.contact}</a></li>
         </ul>
       </div>
 
       <div>
         <h2 class="eyebrow">{strings.footer.legal}</h2>
         <ul class="mt-4 space-y-3 text-sm">
-          <li>
-            <a
-              href={localizedPath('terms', locale)}
-              class="text-body transition-colors hover:text-strong"
-            >
-              {strings.footer.terms}
-            </a>
-          </li>
-          <li>
-            <a
-              href={localizedPath('privacy', locale)}
-              class="text-body transition-colors hover:text-strong"
-            >
-              {strings.footer.privacy}
-            </a>
-          </li>
+          <li><a href={localizedPath('terms', locale)} class={col}>{strings.footer.terms}</a></li>
+          <li><a href={localizedPath('privacy', locale)} class={col}>{strings.footer.privacy}</a></li>
+          <li><a href={`mailto:${site.email.general}`} class={col}>{site.email.general}</a></li>
         </ul>
       </div>
     </div>
 
     <div
-      class="mt-12 flex flex-col gap-2 border-t border-line pt-6 text-xs text-muted sm:flex-row sm:items-center sm:justify-between"
+      class="mt-12 flex flex-col gap-2 border-t border-line pt-6 font-mono text-[0.7rem] uppercase tracking-[0.06em] text-muted sm:flex-row sm:items-center sm:justify-between"
     >
       <p>&copy; {year} {site.legalName}. {strings.footer.rights}</p>
       <p>

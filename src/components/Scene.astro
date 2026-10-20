@@ -1,0 +1,329 @@
+---
+/**
+ * Tres escenas ilustrativas para la sección «El sistema»: automatizar
+ * (flujo), medir (tablero) y construir (aplicación). Sin cifras ni nombres de
+ * clientes: formas y movimiento. Se dibujan con los tokens del tema.
+ */
+import { t } from '../i18n/ui';
+import type { Locale } from '../i18n/config';
+
+interface Props {
+  kind: 0 | 1 | 2;
+  locale: Locale;
+}
+
+const { kind, locale } = Astro.props;
+const p = t(locale).pipeline;
+
+const flows = [
+  'M116 140 H176',
+  'M272 140 C306 140 306 70 340 70',
+  'M272 140 C306 140 306 210 340 210',
+];
+const bars = [44, 58, 50, 72, 66, 84, 78, 92];
+---
+
+<div class="scene" aria-hidden="true">
+  {
+    kind === 0 && (
+      <svg viewBox="0 0 440 280" class="svg">
+        <g fill="none" stroke="var(--ci-line-strong)" stroke-width="1.5">
+          {flows.map((d) => <path d={d} />)}
+        </g>
+        {[
+          { x: 20, y: 120, label: p.steps[0] },
+          { x: 176, y: 120, label: p.steps[1] },
+          { x: 340, y: 50, label: p.steps[2] },
+          { x: 340, y: 190, label: p.steps[3] },
+        ].map((n, i) => (
+          <g>
+            <rect x={n.x} y={n.y} width="96" height="40" rx="8" fill="var(--ci-card)" stroke={i === 1 ? 'var(--ci-brand)' : 'var(--ci-line-strong)'} stroke-width="1.5" />
+            <text x={n.x + 48} y={n.y + 24.5} text-anchor="middle" font-family="var(--font-mono)" font-size="12" fill="var(--ci-strong)">{n.label}</text>
+          </g>
+        ))}
+        {flows.map((d, i) => (
+          <circle r="4" fill="var(--ci-signal)">
+            <animateMotion path={d} dur="3.2s" begin={`${i * 0.5}s`} repeatCount="indefinite" calcMode="linear" />
+          </circle>
+        ))}
+      </svg>
+    )
+  }
+
+  {
+    kind === 1 && (
+      <div class="dash">
+        <div class="tiles">
+          {p.kpis.map((k, i) => (
+            <div class="tile">
+              <span class="mono lab">{k}</span>
+              <span class={`arrow ${i === 2 ? 'up' : 'down'}`}>{i === 2 ? '↑' : '↓'}</span>
+              <span class="skel"></span>
+            </div>
+          ))}
+        </div>
+        <div class="chartbox">
+          <div class="bars">
+            {bars.map((h, i) => (
+              <span class="b" style={`--h:${h}%;--i:${i}`} />
+            ))}
+          </div>
+          <svg viewBox="0 0 400 120" preserveAspectRatio="none" class="trend">
+            <path
+              d="M0 90 C40 84 60 94 100 70 S170 66 210 52 S300 40 340 26 S380 20 400 14"
+              fill="none"
+              stroke="var(--ci-brand-ink)"
+              stroke-width="2"
+              stroke-linecap="round"
+              pathLength="1"
+            />
+          </svg>
+        </div>
+      </div>
+    )
+  }
+
+  {
+    kind === 2 && (
+      <div class="appwin">
+        <div class="wbar">
+          <span class="mono">{p.appTitle}</span>
+        </div>
+        <div class="wbody">
+          <div class="rows">
+            <span class="r"></span>
+            <span class="r sel"></span>
+            <span class="r"></span>
+            <span class="r"></span>
+          </div>
+          <div class="detail">
+            <span class="f w60"></span>
+            <span class="f w90"></span>
+            <span class="f w40"></span>
+            <span class="act"><span class="no">{p.reject}</span><span class="yes">{p.approve}</span></span>
+          </div>
+        </div>
+        <pre class="code"><span class="k">rule</span> approve(request) {'{'}
+  <span class="k">if</span> (request.amount &gt; limit(costCenter))
+    <span class="k">return</span> escalate(<span class="s">"management"</span>);
+  <span class="k">return</span> record(decision);
+{'}'}</pre>
+      </div>
+    )
+  }
+</div>
+
+<style>
+  .scene {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .svg {
+    width: 100%;
+    height: auto;
+    max-height: 100%;
+  }
+  .mono {
+    font-family: var(--font-mono);
+  }
+
+  /* Tablero */
+  .dash {
+    width: 100%;
+    display: grid;
+    gap: 1rem;
+  }
+  .tiles {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.7rem;
+  }
+  .tile {
+    border: 1px solid var(--ci-line);
+    border-radius: 8px;
+    padding: 0.7rem 0.8rem;
+    display: grid;
+    gap: 0.5rem;
+    position: relative;
+    background: var(--ci-card);
+  }
+  .lab {
+    font-size: 0.64rem;
+    color: var(--ci-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .arrow {
+    position: absolute;
+    top: 0.55rem;
+    right: 0.7rem;
+    font-size: 0.9rem;
+    color: var(--ci-signal-ink);
+  }
+  .skel {
+    height: 0.7rem;
+    width: 55%;
+    border-radius: 3px;
+    background: var(--ci-line-strong);
+  }
+  .chartbox {
+    position: relative;
+    height: 11rem;
+    border: 1px solid var(--ci-line);
+    border-radius: 8px;
+    background: var(--ci-card);
+    padding: 1rem;
+  }
+  .bars {
+    position: absolute;
+    inset: 1rem;
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+  }
+  .b {
+    flex: 1;
+    height: var(--h);
+    background: var(--ci-line-strong);
+    border-radius: 3px 3px 0 0;
+    transform: scaleY(0.1);
+    transform-origin: bottom;
+    animation: grow 6s cubic-bezier(0.3, 0.7, 0.3, 1) infinite;
+    animation-delay: calc(var(--i) * 0.1s);
+  }
+  .b:last-child {
+    background: var(--ci-signal);
+  }
+  .trend {
+    position: absolute;
+    inset: 1rem;
+    width: calc(100% - 2rem);
+    height: calc(100% - 2rem);
+    overflow: visible;
+  }
+  .trend path {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    animation: draw 6s ease-in-out infinite;
+    animation-delay: 0.4s;
+  }
+  @keyframes grow {
+    0% {
+      transform: scaleY(0.1);
+    }
+    22%,
+    82% {
+      transform: scaleY(1);
+    }
+    100% {
+      transform: scaleY(0.1);
+    }
+  }
+  @keyframes draw {
+    0% {
+      stroke-dashoffset: 1;
+    }
+    38%,
+    82% {
+      stroke-dashoffset: 0;
+    }
+    100% {
+      stroke-dashoffset: 1;
+    }
+  }
+
+  /* Aplicación */
+  .appwin {
+    width: 100%;
+    border: 1px solid var(--ci-line-strong);
+    border-radius: 10px;
+    background: var(--ci-card);
+    overflow: hidden;
+  }
+  .wbar {
+    padding: 0.6rem 0.9rem;
+    border-bottom: 1px solid var(--ci-line);
+    font-size: 0.7rem;
+    color: var(--ci-muted);
+  }
+  .wbody {
+    display: grid;
+    grid-template-columns: 0.8fr 1.2fr;
+  }
+  .rows {
+    display: grid;
+    gap: 0.5rem;
+    padding: 0.9rem;
+    border-right: 1px solid var(--ci-line);
+    align-content: start;
+  }
+  .r {
+    height: 1.7rem;
+    border-radius: 6px;
+    background: var(--ci-line);
+  }
+  .r.sel {
+    background: var(--ci-brand-soft);
+    outline: 1px solid var(--ci-brand);
+  }
+  .detail {
+    display: grid;
+    gap: 0.6rem;
+    padding: 0.9rem;
+    align-content: start;
+  }
+  .f {
+    height: 0.8rem;
+    border-radius: 3px;
+    background: var(--ci-line-strong);
+    display: block;
+  }
+  .w60 {
+    width: 60%;
+  }
+  .w90 {
+    width: 90%;
+  }
+  .w40 {
+    width: 40%;
+  }
+  .act {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.4rem;
+  }
+  .act span {
+    font-size: 0.7rem;
+    font-weight: 500;
+    padding: 0.32rem 0.7rem;
+    border-radius: 6px;
+    border: 1px solid var(--ci-line-strong);
+    color: var(--ci-muted);
+  }
+  .act .yes {
+    background: var(--ci-brand);
+    border-color: var(--ci-brand);
+    color: #fff;
+  }
+  .code {
+    margin: 0;
+    padding: 0.9rem 1rem;
+    border-top: 1px solid var(--ci-line);
+    background: var(--ci-canvas-soft);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    line-height: 1.7;
+    color: var(--ci-body);
+    overflow: hidden;
+    white-space: pre;
+  }
+  .code .k {
+    color: var(--ci-brand-ink);
+  }
+  .code .s {
+    color: var(--ci-signal-ink);
+  }
+</style>

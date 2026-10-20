@@ -1,7 +1,10 @@
 ---
-import HeroVisual from './HeroVisual.astro';
-import { site, stack } from '../config/site';
+import Hero from './Hero.astro';
+import SystemSection from './SystemSection.astro';
+import MvpSection from './MvpSection.astro';
+import { site } from '../config/site';
 import { t } from '../i18n/ui';
+import { localizedPath } from '../i18n/utils';
 import type { Locale } from '../i18n/config';
 
 interface Props {
@@ -11,223 +14,126 @@ interface Props {
 const { locale } = Astro.props;
 const strings = t(locale);
 
-/* Un icono por servicio, en el mismo orden que ui.ts. Trazos SVG inline:
-   sin peticiones extra ni dependencias de iconos. */
-const serviceIcons = [
-  'M3 3v18h18M7 15l3.5-4 3 3L21 7', // analítica: línea de tendencia
-  'M12 3v3m0 12v3M3 12h3m12 0h3M5.6 5.6l2.1 2.1m8.6 8.6l2.1 2.1m0-12.8l-2.1 2.1M7.7 16.3l-2.1 2.1M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0', // automatización
-  'M8 6l-5 6 5 6M16 6l5 6-5 6M13.5 4l-3 16', // desarrollo
-  'M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z', // Microsoft
-];
+const home = localizedPath('home', locale);
+const base = home === '/' ? '' : home;
 ---
 
-<!-- ── Hero ─────────────────────────────────────────────────────────────── -->
-<section class="relative overflow-hidden">
-  <!-- Dos halos muy difusos en lugar de una banda de color plana: dan
-       profundidad sin marcar un borde entre secciones. -->
-  <div class="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
-    <div
-      class="absolute -top-40 right-[-10%] h-[38rem] w-[38rem] rounded-full opacity-60 blur-3xl"
-      style="background: radial-gradient(circle, var(--ci-brand-soft), transparent 65%);"
-    >
-    </div>
-    <div
-      class="absolute -left-40 top-40 h-[30rem] w-[30rem] rounded-full opacity-50 blur-3xl"
-      style="background: radial-gradient(circle, var(--ci-canvas-soft), transparent 70%);"
-    >
-    </div>
-  </div>
+<Hero locale={locale} />
 
-  <div class="container-page py-20 sm:py-24 lg:py-28">
-    <div class="grid items-center gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
-      <div class="reveal">
-        <p class="eyebrow" style="color: var(--ci-brand-ink);">{strings.hero.eyebrow}</p>
+<SystemSection locale={locale} />
 
-        <h1 class="mt-5 text-[2.6rem] leading-[1.06] tracking-[-0.03em] font-bold sm:text-[3.25rem] lg:text-display">
-          {strings.hero.title}
-        </h1>
+<MvpSection locale={locale} />
 
-        <p class="mt-6 max-w-xl text-lead text-body">{strings.hero.subtitle}</p>
-
-        <!-- La frase que resuelve la tensión entre especializarse y no
-             encasillarse: destacada porque es el diferenciador, no un adorno. -->
-        <p
-          class="mt-6 max-w-xl rounded-r-xl py-2.5 pl-4 pr-3 text-base font-semibold text-strong"
-          style="border-left: 3px solid var(--ci-brand); background: var(--ci-brand-soft);"
-        >
-          {strings.hero.principle}
-        </p>
-
-        <div class="mt-9 flex flex-wrap gap-3">
-          <a href="#contacto" class="btn-primary">{strings.hero.ctaPrimary}</a>
-          <a href="#servicios" class="btn-secondary">{strings.hero.ctaSecondary}</a>
-        </div>
-      </div>
-
-      <div class="reveal lg:pl-4">
-        <HeroVisual />
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── Franja de tecnología ─────────────────────────────────────────────── -->
-<section
-  class="border-y border-line bg-canvas-soft py-9"
-  aria-label={strings.stack.label}
->
-  <div class="container-page space-y-4 reveal">
-    {
-      (
-        [
-          { label: strings.stack.deep, items: stack.deep, primary: true },
-          { label: strings.stack.broad, items: stack.broad, primary: false },
-        ] as const
-      ).map((row) => (
-        <div class="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:gap-6">
-          <h2 class="eyebrow w-52 shrink-0">{row.label}</h2>
-          <ul class="flex flex-wrap gap-2">
-            {row.items.map((tech) => (
-              <li
-                class="rounded-lg px-3 py-1.5 text-sm font-semibold"
-                style={
-                  row.primary
-                    ? 'background: var(--ci-brand-soft); color: var(--ci-brand-ink); border: 1px solid var(--ci-brand-line);'
-                    : 'background: var(--ci-card); color: var(--ci-body); border: 1px solid var(--ci-line);'
-                }
-              >
-                {tech}
-              </li>
-            ))}
-          </ul>
-        </div>
-      ))
-    }
-  </div>
-</section>
-
-<!-- ── Servicios ────────────────────────────────────────────────────────── -->
-<section id="servicios" class="container-page scroll-mt-24 py-20 sm:py-28">
-  <div class="max-w-2xl reveal">
-    <p class="eyebrow">{strings.nav.services}</p>
-    <h2 class="mt-3 text-title">{strings.services.title}</h2>
-    <p class="mt-4 text-lead text-body">{strings.services.subtitle}</p>
-  </div>
-
-  <ul class="mt-14 grid gap-5 sm:grid-cols-2">
-    {
-      strings.services.items.map((item, i) => (
-        <li class="surface surface-hover reveal rounded-2xl p-7">
-          <span
-            class="flex h-11 w-11 items-center justify-center rounded-xl"
-            style="background: var(--ci-brand-soft); color: var(--ci-brand-ink); border: 1px solid var(--ci-brand-line);"
-          >
-            <svg
-              class="h-5 w-5"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.7"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-            >
-              <path d={serviceIcons[i]} />
-            </svg>
-          </span>
-          <h3 class="mt-5 text-lg font-semibold">{item.title}</h3>
-          <p class="mt-3 text-[0.95rem] leading-relaxed text-body">{item.description}</p>
-        </li>
-      ))
-    }
-  </ul>
-</section>
-
-<!-- ── Cómo trabajamos ──────────────────────────────────────────────────── -->
-<section id="metodo" class="scroll-mt-24 border-y border-line bg-canvas-soft py-20 sm:py-28">
-  <div class="container-page">
-    <div class="max-w-2xl reveal">
-      <p class="eyebrow">{strings.nav.approach}</p>
-      <h2 class="mt-3 text-title">{strings.approach.title}</h2>
-      <p class="mt-4 text-lead text-body">{strings.approach.subtitle}</p>
+<!-- ── Servicios: un índice, no una cuadrícula de tarjetas ──────────────── -->
+<section id="servicios" class="border-b border-line">
+  <div class="container-page py-24 sm:py-32">
+    <div class="reveal max-w-3xl">
+      <p class="eyebrow">{strings.services.eyebrow}</p>
+      <h2 class="h-title mt-4">{strings.services.title}</h2>
     </div>
 
-    <ol class="mt-14 grid gap-10 sm:grid-cols-3 sm:gap-8">
+    <ul class="mt-14 border-t border-line-strong">
       {
-        strings.approach.items.map((item, i) => (
-          <li class="reveal">
-            <span
-              class="block text-3xl font-bold tabular-nums"
-              style="color: var(--ci-brand); opacity: 0.35;"
-            >
-              {String(i + 1).padStart(2, '0')}
+        strings.services.items.map((item, i) => (
+          <li class="row reveal group grid gap-3 border-b border-line py-8 sm:grid-cols-[7rem_1fr] sm:gap-10 lg:grid-cols-[7rem_1.1fr_1.4fr] lg:items-baseline" style={`--d:${i * 0.06}s`}>
+            <span class="font-mono text-[0.72rem] uppercase tracking-[0.09em] text-muted transition-colors group-hover:text-signal-ink">
+              {String(i + 1).padStart(2, '0')} / {item.tag}
             </span>
-            <h3 class="mt-3 text-lg font-semibold">{item.title}</h3>
-            <p class="mt-2.5 text-[0.95rem] leading-relaxed text-body">{item.description}</p>
+            <h3 class="text-[1.45rem] leading-[1.15] tracking-[-0.025em] sm:text-[1.7rem]">{item.title}</h3>
+            <p class="text-[0.98rem] leading-relaxed text-body sm:col-start-2 lg:col-start-3">{item.description}</p>
           </li>
         ))
       }
-    </ol>
+    </ul>
+  </div>
+</section>
+
+<!-- ── Método ───────────────────────────────────────────────────────────── -->
+<section id="metodo" class="border-b border-line bg-canvas-soft">
+  <div class="container-page py-24 sm:py-32">
+    <div class="grid gap-14 lg:grid-cols-[0.8fr_1.2fr] lg:gap-24">
+      <div class="reveal lg:sticky lg:top-28 lg:self-start">
+        <p class="eyebrow">{strings.approach.eyebrow}</p>
+        <h2 class="h-title mt-4">{strings.approach.title}</h2>
+      </div>
+
+      <ol class="grid gap-0">
+        {
+          strings.approach.items.map((item, i) => (
+            <li class="reveal grid gap-4 border-t border-line-strong py-9 first:border-t-0 first:pt-0 sm:grid-cols-[4.5rem_1fr]" style={`--d:${i * 0.06}s`}>
+              <span class="font-serif text-[3rem] italic leading-none text-brand-ink">{i + 1}</span>
+              <div>
+                <h3 class="text-[1.35rem] leading-snug tracking-[-0.02em]">{item.title}</h3>
+                <p class="mt-3 max-w-xl text-[1rem] leading-relaxed text-body">{item.description}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
   </div>
 </section>
 
 <!-- ── Nosotros ─────────────────────────────────────────────────────────── -->
-<section id="nosotros" class="container-page scroll-mt-24 py-20 sm:py-28">
-  <div class="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
-    <div class="reveal">
-      <p class="eyebrow">{strings.nav.about}</p>
-      <h2 class="mt-3 text-title">{strings.about.title}</h2>
-    </div>
-    <div class="reveal space-y-5 text-lead text-body">
-      {strings.about.body.map((paragraph) => <p>{paragraph}</p>)}
+<section id="nosotros" class="border-b border-line">
+  <div class="container-page py-24 sm:py-32">
+    <div class="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-24">
+      <div class="reveal">
+        <p class="eyebrow">{strings.about.eyebrow}</p>
+        <h2 class="h-title mt-4">{strings.about.title}</h2>
+      </div>
+      <div class="reveal space-y-6 text-lead text-body" style="--d:.08s">
+        {strings.about.body.map((paragraph) => <p>{paragraph}</p>)}
+        <blockquote class="mt-10 border-l-2 border-signal pl-6 font-serif text-[1.9rem] italic leading-[1.2] text-strong sm:text-[2.3rem]">
+          {strings.about.quote}
+        </blockquote>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- ── Contacto ─────────────────────────────────────────────────────────── -->
-<section id="contacto" class="container-page scroll-mt-24 pb-24">
-  <div
-    class="surface reveal relative overflow-hidden rounded-3xl px-7 py-14 shadow-deep sm:px-14"
-  >
-    <div
-      class="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full opacity-70 blur-3xl"
-      style="background: radial-gradient(circle, var(--ci-brand-soft), transparent 70%);"
-      aria-hidden="true"
-    >
-    </div>
-
-    <div class="relative max-w-2xl">
-      <h2 class="text-title">{strings.contact.title}</h2>
-      <p class="mt-4 text-lead text-body">{strings.contact.subtitle}</p>
-    </div>
-
-    <dl class="relative mt-10 grid gap-8 sm:grid-cols-3">
-      <div>
-        <dt class="eyebrow">{strings.contact.emailLabel}</dt>
-        <dd class="mt-2">
-          <a
-            href={`mailto:${site.email.general}`}
-            class="text-[0.95rem] font-semibold underline decoration-line underline-offset-4 transition-colors hover:decoration-current"
-            style="color: var(--ci-brand-ink);"
-          >
-            {site.email.general}
+<section id="contacto" class="theme-ink bg-canvas">
+  <div class="container-page py-24 sm:py-32">
+    <div class="grid gap-14 lg:grid-cols-[1.1fr_0.9fr] lg:gap-24">
+      <div class="reveal">
+        <h2 class="h-display text-strong">{strings.contact.title}</h2>
+        <p class="mt-7 max-w-lg text-lead text-body">{strings.contact.subtitle}</p>
+        <div class="mt-10 flex flex-wrap items-center gap-x-6 gap-y-4">
+          <a href={`mailto:${site.email.general}`} class="btn-primary px-6 py-3.5">
+            {strings.contact.cta}
+            <span aria-hidden="true">→</span>
           </a>
-        </dd>
+          <a
+            href={`${base}/#mvp`}
+            class="font-mono text-[0.78rem] uppercase tracking-[0.06em] text-muted underline decoration-line-strong underline-offset-[6px] transition-colors hover:text-strong hover:decoration-signal"
+          >
+            {strings.contact.mvpHint}
+          </a>
+        </div>
       </div>
-      <div>
-        <dt class="eyebrow">{strings.contact.phoneLabel}</dt>
-        <dd class="mt-2 text-[0.95rem] font-semibold text-strong">{site.phone}</dd>
-      </div>
-      <div>
-        <dt class="eyebrow">{strings.contact.locationLabel}</dt>
-        <dd class="mt-2 text-[0.95rem] font-semibold text-strong">
-          {site.address.city}, {site.address.country}
-        </dd>
-      </div>
-    </dl>
 
-    <a href={`mailto:${site.email.general}`} class="btn-primary relative mt-10">
-      {strings.contact.cta}
-    </a>
+      <dl class="reveal grid gap-0 self-end border-t border-line-strong" style="--d:.1s">
+        <div class="grid gap-1 border-b border-line py-5 sm:grid-cols-[8rem_1fr] sm:items-baseline">
+          <dt class="eyebrow">{strings.contact.emailLabel}</dt>
+          <dd>
+            <a
+              href={`mailto:${site.email.general}`}
+              class="break-all text-[1.02rem] text-strong underline decoration-line-strong underline-offset-4 transition-colors hover:decoration-signal"
+            >
+              {site.email.general}
+            </a>
+          </dd>
+        </div>
+        <div class="grid gap-1 border-b border-line py-5 sm:grid-cols-[8rem_1fr] sm:items-baseline">
+          <dt class="eyebrow">{strings.contact.phoneLabel}</dt>
+          <dd class="text-[1.02rem] text-strong">{site.phone}</dd>
+        </div>
+        <div class="grid gap-1 border-b border-line py-5 sm:grid-cols-[8rem_1fr] sm:items-baseline">
+          <dt class="eyebrow">{strings.contact.locationLabel}</dt>
+          <dd class="text-[1.02rem] text-strong">{site.address.city}, {site.address.country}</dd>
+        </div>
+      </dl>
+    </div>
   </div>
 </section>

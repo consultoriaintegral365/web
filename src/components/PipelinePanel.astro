@@ -1,0 +1,458 @@
+---
+/**
+ * Panel del hero: el mismo proceso visto en sus tres capas.
+ *
+ * No muestra cifras: usa formas (barras que bajan = el tiempo de ciclo mejora)
+ * y un flujo que se enciende paso a paso, porque inventar métricas en la
+ * portada de una consultora sería prometer lo que no se puede demostrar. Todo
+ * el movimiento es CSS puro con un ciclo común de 10 s; con
+ * prefers-reduced-motion queda en su estado final.
+ */
+import { t } from '../i18n/ui';
+import type { Locale } from '../i18n/config';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const p = t(locale).pipeline;
+
+/* Alturas decrecientes: tendencia «mejora», con un repunte intermedio para que
+   no parezca una rampa dibujada con regla. */
+const bars = [92, 84, 88, 70, 62, 66, 48, 38];
+---
+
+<div class="panel" aria-hidden="true">
+  <div class="bar">
+    <span class="mono">flujo.ci365</span>
+    <span class="status"><i class="dot"></i>{p.status}</span>
+  </div>
+
+  <div class="lanes">
+    <span class="spine"><i class="pulse"></i></span>
+
+    <div class="lane">
+      <div class="gut"><span class="n">01</span><span class="lb">{p.lanes[0]}</span></div>
+      <div class="flow">
+        {
+          p.steps.map((s, i) => (
+            <>
+              <span class="chip" style={`--i:${i}`}>{s}</span>
+              {i < p.steps.length - 1 && <span class="wire" style={`--i:${i}`} />}
+            </>
+          ))
+        }
+      </div>
+    </div>
+
+    <div class="lane">
+      <div class="gut"><span class="n">02</span><span class="lb">{p.lanes[1]}</span></div>
+      <div class="chart">
+        <div class="bars">
+          {bars.map((h, i) => <span class="b" style={`--h:${h}%;--i:${i}`} />)}
+        </div>
+        <span class="kpi mono">{p.kpi} ↓</span>
+      </div>
+    </div>
+
+    <div class="lane">
+      <div class="gut"><span class="n">03</span><span class="lb">{p.lanes[2]}</span></div>
+      <div class="app">
+        <span class="t">{p.appTitle}</span>
+        <span class="btns">
+          <span class="btn-x rej">{p.reject}</span>
+          <span class="btn-x okb">
+            <span class="a">{p.approve}</span>
+            <span class="d">✓ {p.approved}</span>
+          </span>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot mono">
+    <span>{p.caption}</span>
+    <span class="loop"><i>↻</i> {p.loop}</span>
+  </div>
+</div>
+
+<style>
+  .panel {
+    --cycle: 10s;
+    position: relative;
+    border: 1px solid var(--ci-line-strong);
+    border-radius: 12px;
+    background: color-mix(in srgb, var(--ci-card) 88%, transparent);
+    backdrop-filter: blur(6px);
+    box-shadow: var(--ci-shadow-lg);
+    overflow: hidden;
+  }
+  .bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.7rem 1rem;
+    border-bottom: 1px solid var(--ci-line);
+    font-size: 0.72rem;
+    color: var(--ci-muted);
+  }
+  .mono {
+    font-family: var(--font-mono);
+    letter-spacing: 0.04em;
+  }
+  .status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-family: var(--font-mono);
+    color: var(--ci-signal-ink);
+  }
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--ci-signal);
+    animation: blink 2s ease-in-out infinite;
+  }
+
+  .lanes {
+    position: relative;
+    display: grid;
+    gap: 0;
+  }
+  .lane {
+    display: grid;
+    grid-template-columns: 5.6rem 1fr;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.15rem 1rem;
+    border-bottom: 1px solid var(--ci-line);
+    min-height: 5.6rem;
+  }
+  .lane:last-child {
+    border-bottom: 0;
+  }
+  .gut {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+  .n {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--ci-muted);
+  }
+  .lb {
+    font-size: 0.86rem;
+    font-weight: 500;
+    color: var(--ci-strong);
+  }
+
+  /* Hilo que une las tres capas: un punto baja de la 1 a la 3. */
+  .spine {
+    position: absolute;
+    left: 5.2rem;
+    top: 2.2rem;
+    bottom: 2.2rem;
+    width: 1px;
+    background: linear-gradient(var(--ci-line-strong), var(--ci-line-strong));
+    opacity: 0.6;
+  }
+  .pulse {
+    position: absolute;
+    left: -2.5px;
+    top: 0;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--ci-signal);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--ci-signal) 22%, transparent);
+    opacity: 0;
+    animation: travel var(--cycle) cubic-bezier(0.5, 0, 0.3, 1) infinite;
+  }
+
+  /* Capa 1 · flujo */
+  .flow {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    min-width: 0;
+  }
+  .chip {
+    flex: 0 0 auto;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    padding: 0.32rem 0.55rem;
+    border: 1px solid var(--ci-line-strong);
+    border-radius: 6px;
+    color: var(--ci-muted);
+    background: transparent;
+    animation: chip var(--cycle) linear infinite;
+    animation-delay: calc(var(--i) * 0.7s);
+  }
+  .wire {
+    flex: 1 1 0.4rem;
+    min-width: 0.4rem;
+    height: 1px;
+    background: var(--ci-line-strong);
+    position: relative;
+  }
+  .wire::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--ci-signal);
+    transform: scaleX(0);
+    transform-origin: left;
+    animation: wire var(--cycle) linear infinite;
+    animation-delay: calc(var(--i) * 0.7s);
+  }
+
+  /* Capa 2 · medida */
+  .chart {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 0.9rem;
+  }
+  .bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 5px;
+    height: 2.8rem;
+    flex: 1;
+  }
+  .b {
+    flex: 1;
+    height: var(--h);
+    border-radius: 2px 2px 0 0;
+    background: var(--ci-line-strong);
+    transform: scaleY(0.12);
+    transform-origin: bottom;
+    animation: grow var(--cycle) cubic-bezier(0.3, 0.7, 0.3, 1) infinite;
+    animation-delay: calc(3s + var(--i) * 0.09s);
+  }
+  .b:last-child {
+    background: var(--ci-signal);
+  }
+  .kpi {
+    font-size: 0.66rem;
+    color: var(--ci-muted);
+    white-space: nowrap;
+  }
+
+  /* Capa 3 · aplicación */
+  .app {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.8rem;
+    border: 1px solid var(--ci-line-strong);
+    border-radius: 8px;
+    padding: 0.6rem 0.7rem;
+  }
+  .t {
+    font-size: 0.8rem;
+    color: var(--ci-body);
+  }
+  .btns {
+    display: inline-flex;
+    gap: 0.4rem;
+  }
+  .btn-x {
+    position: relative;
+    font-size: 0.7rem;
+    font-weight: 500;
+    padding: 0.32rem 0.6rem;
+    border-radius: 6px;
+    border: 1px solid var(--ci-line-strong);
+    color: var(--ci-muted);
+    white-space: nowrap;
+  }
+  .okb {
+    border-color: var(--ci-brand);
+    background: var(--ci-brand);
+    color: #fff;
+    animation: okbtn var(--cycle) linear infinite;
+  }
+  .okb .a,
+  .okb .d {
+    display: inline-block;
+  }
+  .okb .d {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    animation: swapIn var(--cycle) linear infinite;
+  }
+  .okb .a {
+    animation: swapOut var(--cycle) linear infinite;
+  }
+
+  .foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.65rem 1rem;
+    border-top: 1px solid var(--ci-line);
+    font-size: 0.66rem;
+    color: var(--ci-muted);
+  }
+  .loop {
+    display: inline-flex;
+    gap: 0.4rem;
+    color: var(--ci-signal-ink);
+  }
+  .loop i {
+    font-style: normal;
+    display: inline-block;
+    animation: spin 10s linear infinite;
+  }
+
+  @keyframes blink {
+    50% {
+      opacity: 0.35;
+    }
+  }
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @keyframes chip {
+    0%,
+    1% {
+      color: var(--ci-muted);
+      border-color: var(--ci-line-strong);
+      background: transparent;
+    }
+    3% {
+      color: var(--ci-strong);
+      border-color: var(--ci-brand);
+      background: var(--ci-brand-soft);
+    }
+    9%,
+    74% {
+      color: var(--ci-signal-ink);
+      border-color: var(--ci-signal);
+      background: var(--ci-signal-soft);
+    }
+    80%,
+    100% {
+      color: var(--ci-muted);
+      border-color: var(--ci-line-strong);
+      background: transparent;
+    }
+  }
+  @keyframes wire {
+    0%,
+    2% {
+      transform: scaleX(0);
+    }
+    8%,
+    74% {
+      transform: scaleX(1);
+    }
+    80%,
+    100% {
+      transform: scaleX(0);
+    }
+  }
+  @keyframes grow {
+    0% {
+      transform: scaleY(0.12);
+    }
+    10%,
+    62% {
+      transform: scaleY(1);
+    }
+    72%,
+    100% {
+      transform: scaleY(0.12);
+    }
+  }
+  @keyframes travel {
+    0%,
+    24% {
+      top: 0;
+      opacity: 0;
+    }
+    28% {
+      opacity: 1;
+    }
+    52% {
+      top: calc(100% - 6px);
+      opacity: 1;
+    }
+    56%,
+    100% {
+      top: calc(100% - 6px);
+      opacity: 0;
+    }
+  }
+  @keyframes okbtn {
+    0%,
+    54% {
+      background: var(--ci-brand);
+      border-color: var(--ci-brand);
+    }
+    58%,
+    90% {
+      background: var(--ci-signal-soft);
+      border-color: var(--ci-signal);
+      color: var(--ci-signal-ink);
+    }
+    96%,
+    100% {
+      background: var(--ci-brand);
+      border-color: var(--ci-brand);
+    }
+  }
+  @keyframes swapIn {
+    0%,
+    55% {
+      opacity: 0;
+    }
+    59%,
+    90% {
+      opacity: 1;
+    }
+    95%,
+    100% {
+      opacity: 0;
+    }
+  }
+  @keyframes swapOut {
+    0%,
+    55% {
+      opacity: 1;
+    }
+    59%,
+    90% {
+      opacity: 0;
+    }
+    95%,
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @media (max-width: 420px) {
+    .lane {
+      grid-template-columns: 1fr;
+      gap: 0.6rem;
+    }
+    .gut {
+      flex-direction: row;
+      gap: 0.6rem;
+      align-items: baseline;
+    }
+    .spine {
+      display: none;
+    }
+  }
+</style>

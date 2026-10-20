@@ -1,38 +1,78 @@
 ---
+/**
+ * Marca: símbolo «{ ∫ }» + wordmark «ci365» + nombre completo.
+ *
+ * El símbolo funde tres ideas: las llaves (software), la integral (datos y el
+ * nombre «Integral») y el gancho inferior un 1,6× mayor que el superior (mejora
+ * continua: cada vuelta crece sobre la anterior). El punto de la «i» repite el
+ * nodo verde del símbolo. Se pinta con los tokens del tema, así que funciona
+ * igual en claro, en oscuro y sobre secciones «tinta».
+ */
 interface Props {
-  /** 'dark' para fondos claros (cabecera), 'light' para fondos oscuros (pie). */
-  variant?: 'dark' | 'light';
   class?: string;
+  /** Oculta el nombre completo (para espacios muy estrechos). */
+  compact?: boolean;
 }
 
-const { variant = 'dark', class: className = '' } = Astro.props;
-
-const wordColor = variant === 'light' ? 'text-white' : 'text-strong';
-const subColor = variant === 'light' ? 'text-white/60' : 'text-muted';
+const { class: className = '', compact = false } = Astro.props;
 ---
 
-<span class={`inline-flex items-center gap-2.5 ${className}`}>
+<span class={`logo inline-flex items-center gap-3 ${className}`}>
   <svg
     class="h-9 w-9 shrink-0"
-    viewBox="0 0 40 40"
+    viewBox="0 0 64 64"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     aria-hidden="true"
   >
-    <rect width="40" height="40" rx="9" fill="currentColor" class="text-brand" />
+    <rect width="64" height="64" rx="15" fill="var(--ci-brand)"></rect>
     <path
-      d="M12.6 15.2v9.6M20 11.4v17.2M27.4 18.1v6.7"
-      stroke="white"
-      stroke-width="3.1"
-      stroke-linecap="round"
-    />
+      d="M22 10C16.5 10 17 15 17 19V25C17 29 14 32 10 32C14 32 17 35 17 39V45C17 49 16.5 54 22 54M42 10C47.5 10 47 15 47 19V25C47 29 50 32 54 32C50 32 47 35 47 39V45C47 49 47.5 54 42 54"
+      stroke="#fff"
+      stroke-opacity=".85"
+      stroke-width="3"
+      stroke-linecap="round"></path>
+    <path
+      d="M45.78 19.96A4 4 0 0 0 38.12 19.76L30.7 42.58A6.4 6.4 0 0 1 20.68 35.56"
+      stroke="#fff"
+      stroke-width="3.8"
+      stroke-linecap="round"></path>
+    <circle cx="45.78" cy="19.96" r="2.7" fill="#fff"></circle>
+    <circle cx="20.68" cy="35.56" r="2.7" fill="#2dd4bf"></circle>
   </svg>
-  <span class="flex flex-col leading-none">
-    <span class={`text-[0.95rem] font-bold tracking-tight ${wordColor}`}>
-      Consultoría Integral
-    </span>
-    <span class={`text-[0.7rem] font-semibold uppercase tracking-[0.22em] ${subColor}`}>
-      365
-    </span>
+
+  <span class="flex flex-col">
+    <span class="wordmark text-strong" aria-label="ci365">c<span class="idot" aria-hidden="true">ı</span>365</span>
+    {
+      !compact && (
+        <span class="mt-[3px] hidden font-mono text-[0.58rem] font-medium uppercase leading-none tracking-[0.2em] text-muted sm:block">
+          Consultoría Integral
+        </span>
+      )
+    }
   </span>
 </span>
+
+<style>
+  .wordmark {
+    font-size: 1.32rem;
+    font-weight: 700;
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+  }
+  .idot {
+    position: relative;
+    display: inline-block;
+  }
+  .idot::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0.2em;
+    width: 0.17em;
+    height: 0.17em;
+    border-radius: 50%;
+    background: var(--ci-signal);
+    transform: translateX(-50%);
+  }
+</style>
