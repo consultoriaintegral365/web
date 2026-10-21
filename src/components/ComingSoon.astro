@@ -21,7 +21,7 @@ const strings = t(locale);
 const s = strings.soon;
 
 const before = s.titleBefore.split(' ');
-const accent = s.titleAccent.split(' ');
+const titleEnd = s.titleAccent.split(' ');
 const mailto = `mailto:${site.email.general}?subject=${encodeURIComponent(s.mailSubject)}&body=${encodeURIComponent(s.mailBody)}`;
 const wa = whatsappUrl(s.whatsappMessage);
 /* Anchos distintos y fijos: sugieren un trabajo a medias sin dar cifras. */
@@ -54,7 +54,7 @@ const widths = [100, 100, 64, 28];
           </span>
           <span class="block">
             {
-              accent.map((w, i) => (
+              titleEnd.map((w, i) => (
                 <span class="wm"><span class="w" style={`--i:${before.length + i}`}>{w}&nbsp;</span></span>
               ))
             }
@@ -64,9 +64,8 @@ const widths = [100, 100, 64, 28];
         <p class="reveal mt-7 max-w-xl text-lead text-body" style="--d:.5s">{s.subtitle}</p>
 
         <div class="reveal mt-9 flex flex-wrap items-center gap-3" style="--d:.6s">
-          <a href={mailto} class="btn-primary whitespace-nowrap px-7 py-4 text-[0.95rem]">
+          <a href={mailto} class="btn-primary btn-lg whitespace-nowrap">
             {s.cta}
-            <span aria-hidden="true">→</span>
           </a>
           <a href={wa} target="_blank" rel="noopener" aria-label={s.whatsappLabel} class="wa btn-secondary">
             <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
@@ -76,8 +75,8 @@ const widths = [100, 100, 64, 28];
           </a>
         </div>
 
-        <p class="reveal mt-9 flex items-start gap-3 font-mono text-[0.78rem] leading-relaxed text-muted" style="--d:.7s">
-          <span class="mt-px text-signal" aria-hidden="true">↳</span>
+        <p class="reveal mt-9 flex items-start gap-3 text-sm leading-relaxed text-muted" style="--d:.7s">
+          <span class="mt-px text-signal" aria-hidden="true">·</span>
           {s.hint}
         </p>
       </div>
@@ -106,7 +105,7 @@ const widths = [100, 100, 64, 28];
 
   <div class="border-t border-line">
     <ul
-      class="container-page flex flex-wrap items-center gap-x-6 gap-y-2 py-4 font-mono text-[0.7rem] uppercase tracking-[0.07em] text-muted"
+      class="container-page flex flex-wrap items-center gap-x-6 gap-y-2 py-4 text-xs text-muted"
     >
       <li>{strings.facts.since} {site.foundedYear}</li>
       <li class="hidden text-line-strong sm:block" aria-hidden="true">/</li>
@@ -202,14 +201,12 @@ const widths = [100, 100, 64, 28];
     border-top: 1px solid var(--ci-line);
   }
   .mono {
-    font-family: var(--font-mono);
     letter-spacing: 0.04em;
   }
   .status {
     display: inline-flex;
     align-items: center;
     gap: 0.45rem;
-    font-family: var(--font-mono);
     color: var(--ci-signal-ink);
   }
   .dot {
