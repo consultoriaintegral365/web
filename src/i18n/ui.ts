@@ -3,7 +3,7 @@ import type { Locale } from './config';
 /** Textos de la interfaz y de la página institucional, por idioma.
  *  El contenido legal largo vive en cada página .astro, no aquí. */
 export const ui = {
-  es: {
+  es: {
     soon: {
       metaTitle: 'Consultoría Integral 365 — Muy pronto: algo nuevo se está construyendo',
       metaDescription:
@@ -31,7 +31,7 @@ export const ui = {
         'Términos y condiciones que rigen el uso del sitio web y los servicios de Consultoría Integral 365.',
       privacyTitle: 'Política de Privacidad',
       privacyDescription:
-        'Cómo Consultoría Integral 365 recopila, usa y protege los datos personales, conforme a la Ley N° 29733 del Perú.',
+        'Cómo Consultoría Integral 365 recopila, usa y protege los datos personales.',
     },
     nav: {
       services: 'Capacidades',
@@ -61,7 +61,7 @@ export const ui = {
       since: 'Desde',
       registered: 'E.I.R.L. inscrita en SUNAT',
       location: 'Lima, Perú',
-      law: 'Datos personales: Ley N.° 29733',
+      law: 'Datos personales: ver política de privacidad',
       platform: 'Microsoft 365 · Power Platform · Azure',
     },
     camino: {
@@ -708,7 +708,7 @@ export const ui = {
     },
   },
 
-  en: {
+  en: {
     soon: {
       metaTitle: 'Consultoría Integral 365 — Coming soon: something new is being built',
       metaDescription:
@@ -736,7 +736,7 @@ export const ui = {
         'Terms and conditions governing the use of the Consultoría Integral 365 website and services.',
       privacyTitle: 'Privacy Policy',
       privacyDescription:
-        'How Consultoría Integral 365 collects, uses and protects personal data, in accordance with Peruvian Law No. 29733.',
+        'How Consultoría Integral 365 collects, uses and protects personal data.',
     },
     nav: {
       services: 'Capabilities',
@@ -766,7 +766,7 @@ export const ui = {
       since: 'Since',
       registered: 'E.I.R.L. registered with SUNAT',
       location: 'Lima, Peru',
-      law: 'Personal data: Law No. 29733',
+      law: 'Personal data: see privacy policy',
       platform: 'Microsoft 365 · Power Platform · Azure',
     },
     camino: {
@@ -1412,7 +1412,7 @@ export const ui = {
     },
   },
 
-  pt: {
+  pt: {
     soon: {
       metaTitle: 'Consultoría Integral 365 — Em breve: algo novo está sendo construído',
       metaDescription:
@@ -1440,7 +1440,7 @@ export const ui = {
         'Termos e condições que regem o uso do site e dos serviços da Consultoría Integral 365.',
       privacyTitle: 'Política de Privacidade',
       privacyDescription:
-        'Como a Consultoría Integral 365 coleta, usa e protege dados pessoais, conforme a Lei N.° 29733 do Peru.',
+        'Como a Consultoría Integral 365 coleta, usa e protege dados pessoais.',
     },
     nav: {
       services: 'Capacidades',
@@ -1470,7 +1470,7 @@ export const ui = {
       since: 'Desde',
       registered: 'E.I.R.L. registrada na SUNAT',
       location: 'Lima, Peru',
-      law: 'Dados pessoais: Lei N.° 29733',
+      law: 'Dados pessoais: veja a política de privacidade',
       platform: 'Microsoft 365 · Power Platform · Azure',
     },
     camino: {
