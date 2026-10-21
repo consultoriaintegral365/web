@@ -25,16 +25,6 @@ export const ROUTES = {
     en: 'privacy-policy',
     pt: 'politica-de-privacidade',
   },
-  /**
-   * Anexo de tratamiento de datos del sistema AGI/AGO.
-   *
-   * Solo en español, deliberadamente: desarrolla el tratamiento de una
-   * aplicación concreta para un cliente peruano. Traducirlo supondría publicar
-   * matices legales en idiomas que nadie va a revisar.
-   */
-  annexAgiAgo: {
-    es: 'anexo-tratamiento-datos-agi-ago',
-  },
 } as const satisfies Record<string, Partial<Record<Locale, string>>>;
 
 export type RouteKey = keyof typeof ROUTES;

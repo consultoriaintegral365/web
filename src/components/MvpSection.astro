@@ -4,10 +4,12 @@
  * cuyo propósito es hacer tangible la viabilidad del proyecto antes de que el
  * cliente invierta. La pieza visual es un recibo con total «S/ 0»: convierte
  * «sin costo» en algo que se puede leer línea por línea, en vez de repetir un
- * eslogan. El recibo usa colores fijos de papel, no los del tema, para que se
- * lea como un objeto físico sobre la banda oscura.
+ * eslogan. El recibo usa colores fijos de papel térmico (tokens `--ci-ticket-*`),
+ * no los del tema, para que se lea como un objeto físico.
  */
-import { site } from '../config/site';
+import LeadForm from './LeadForm.astro';
+import Label from './ui/Label.astro';
+import { site, whatsappUrl } from '../config/site';
 import { t } from '../i18n/ui';
 import type { Locale } from '../i18n/config';
 
@@ -21,56 +23,87 @@ const m = t(locale).mvp;
 const mailto = `mailto:${site.email.general}?subject=${encodeURIComponent(m.mailSubject)}&body=${encodeURIComponent(m.mailBody)}`;
 ---
 
-<section id="mvp" class="theme-ink relative isolate overflow-hidden border-y border-line bg-canvas">
-  <div class="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
-    <div class="bg-grid absolute inset-0" style="opacity:.32;"></div>
-  </div>
-
+<section id="mvp" class="relative isolate overflow-hidden border-b border-line bg-canvas-soft">
   <div class="container-page py-24 sm:py-32">
     <div class="grid items-center gap-16 lg:grid-cols-[1.12fr_0.88fr] lg:gap-20">
       <div>
         <div class="reveal flex flex-wrap items-center gap-3">
-          <p class="eyebrow">{m.eyebrow}</p>
+          <Label>{m.eyebrow}</Label>
           <span
-            class="inline-flex items-center gap-2 rounded-md border border-signal bg-signal-soft px-2.5 py-1 font-mono text-[0.72rem] font-medium uppercase tracking-[0.08em] text-signal-ink"
+            class="inline-flex items-center gap-2 rounded-lg border border-signal bg-signal-soft px-2.5 py-1 text-sm font-semibold text-signal-ink"
           >
             <svg class="h-3 w-3" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 6.5 5 9.5 10 3"></path></svg>
             {m.badge}
           </span>
         </div>
 
-        <h2 class="h-display reveal mt-6 text-strong" style="--d:.08s">
+        <h2 class="h-title reveal mt-6 text-strong" style="--d:.08s">
           {m.titleBefore}
-          <span class="accent block">{m.titleAccent}</span>
+          <span class="block">{m.titleAccent}</span>
         </h2>
 
         <p class="reveal mt-7 max-w-xl text-lead text-body" style="--d:.16s">{m.lead}</p>
+        <p class="reveal mt-4 flex max-w-xl gap-3 text-base text-body" style="--d:.2s">
+          <span class="mt-[0.55em] h-px w-4 shrink-0 bg-signal" aria-hidden="true"></span>
+          {m.why}
+        </p>
 
         <div class="reveal mt-12" style="--d:.22s">
-          <p class="mono-label">{m.stepsTitle}</p>
+          <p class="label">{m.stepsTitle}</p>
+          <div class="mprog" aria-hidden="true"><i></i></div>
           <ol class="mt-5 grid gap-x-8 gap-y-6 sm:grid-cols-2">
             {
               m.steps.map((step, i) => (
-                <li class="border-t border-line-strong pt-4">
-                  <span class="font-mono text-xs text-signal-ink">{String(i + 1).padStart(2, '0')}</span>
-                  <p class="mt-1.5 text-[0.98rem] font-medium text-strong">{step}</p>
+                <li class="mstep flex items-start gap-3 border-t border-line-strong pt-4" style={`--i:${i}`}>
+                  <span class="mchk" aria-hidden="true">{i + 1}</span>
+                  <p class="text-base font-medium text-strong">{step}</p>
                 </li>
               ))
             }
           </ol>
         </div>
 
-        <div class="reveal mt-12 flex flex-col gap-4 sm:flex-row sm:items-center" style="--d:.3s">
-          <a href={mailto} class="btn-primary px-7 py-4 text-[0.95rem]">
-            {m.cta}
-            <span aria-hidden="true">→</span>
-          </a>
-          <p class="max-w-sm text-sm leading-relaxed text-muted">{m.note}</p>
+        <div class="reveal mt-12" style="--d:.3s">
+          <div class="flex flex-wrap items-center gap-3">
+            <!-- Con el formulario activo, el script abre el diálogo; sin él (o sin
+                 JavaScript) el enlace mailto sigue funcionando. -->
+            <a href={mailto} data-open-mvp class="btn-primary btn-lg whitespace-nowrap">{m.cta}</a>
+            <a
+              href={whatsappUrl(m.whatsappMessage)}
+              data-track="whatsapp_click"
+              target="_blank"
+              rel="noopener"
+              aria-label={m.whatsappCta}
+              class="wa btn-secondary btn-lg"
+            >
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"></path>
+              </svg>
+              {m.whatsappShort}
+            </a>
+          </div>
+          <p class="mt-5 max-w-md text-sm leading-relaxed text-muted">{m.note}</p>
         </div>
       </div>
 
       <div class="print reveal flex justify-center lg:justify-end" style="--d:.1s">
-        <div class="wrap">
+        <div class="tx relative w-full max-w-[28rem] pt-24 sm:pt-28">
+          <!-- Lo que el texto promete («míralo funcionando»): una pantalla que se arma sola. -->
+          <div class="win mvwin absolute left-0 top-0 z-0 w-[84%] -rotate-2" aria-hidden="true">
+            <div class="win-bar">
+              <i></i><i></i><i></i><b>{m.screen.win}</b>
+              <span class="stw"><span class="live st-b">{m.screen.building}</span><span class="live st-r">{m.screen.ready}</span></span>
+            </div>
+            <div class="mv-body">
+              <div class="mv-side">{m.screen.blocks.map((b, i) => <span style={`--i:${i}`}>{b}</span>)}</div>
+              <div class="mv-main">
+                <div class="mv-k">{[0, 1, 2].map((i) => <div style={`--i:${i}`}></div>)}</div>
+                <div class="mv-rows">{[88, 64, 76].map((w, i) => <i style={`width:${w}%;--i:${i}`}></i>)}</div>
+              </div>
+            </div>
+            <div class="mv-prog"><i></i></div>
+          </div>
+        <div class="wrap relative z-10 ml-auto">
           <article class="receipt" aria-label={m.receiptTitle}>
             <header class="rc-head">
               <span class="rc-brand">c<span class="rc-i">ı</span>365</span>
@@ -100,39 +133,96 @@ const mailto = `mailto:${site.email.general}?subject=${encodeURIComponent(m.mail
             <p class="rc-foot">{site.shortName} · MVP · {m.badge}</p>
           </article>
         </div>
+        </div>
       </div>
     </div>
   </div>
+
+  <LeadForm locale={locale} />
 </section>
 
 <style>
   .wrap {
     width: 100%;
     max-width: 25rem;
-    filter: drop-shadow(0 24px 40px rgb(0 0 0 / 0.45));
+    filter: drop-shadow(0 20px 36px rgb(20 24 31 / 0.2)) drop-shadow(0 0 22px color-mix(in srgb, var(--t-ai) 30%, transparent));
   }
   .receipt {
-    --paper: #f6f4ef;
-    --ink: #0c0f14;
-    --faint: #6b6f78;
     position: relative;
     padding: 1.7rem 1.6rem 2.6rem;
-    background: var(--paper);
-    color: var(--ink);
-    font-family: var(--font-mono);
     transform: rotate(-1.4deg);
     /* Borde inferior dentado, como papel arrancado de la impresora. */
-    -webkit-mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / 16px 100%;
-    mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / 16px 100%;
+    -webkit-mask: conic-gradient(from -45deg at bottom, transparent, black 1deg 89deg, transparent 90deg) 50% / 16px 100%;
+    mask: conic-gradient(from -45deg at bottom, transparent, black 1deg 89deg, transparent 90deg) 50% / 16px 100%;
     padding-bottom: 3rem;
   }
+  /* Botón de WhatsApp: mismo tamaño que el principal, con su etiqueta. */
+  .wa {
+    color: var(--ci-signal-ink);
+  }
+  .wa:hover,
+  .wa:focus-visible {
+    border-color: var(--ci-signal);
+  }
+
+  /* «Cómo funciona»: la barra avanza y cada paso se marca en orden. El cambio de
+     color es instantáneo (sin tonos intermedios) para que el contraste no varíe. */
+  .mprog {
+    height: 3px;
+    margin-top: 12px;
+    border-radius: 99px;
+    background: var(--ci-line);
+    overflow: hidden;
+  }
+  .mprog i {
+    display: block;
+    width: 0;
+    height: 100%;
+    border-radius: 99px;
+    background: linear-gradient(90deg, var(--ci-clay), var(--ci-brand), var(--ci-signal));
+  }
+  :global(html:not(.js)) .mprog i {
+    width: 100%;
+  }
+  :global(.is-visible) .mprog i {
+    animation: mfill 2.6s ease 0.5s forwards;
+  }
+  .mchk {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 50%;
+    border: 2px solid var(--ci-line-strong);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--ci-muted);
+  }
+  :global(.is-visible) .mstep .mchk {
+    animation: mdone 0.01s linear forwards;
+    animation-delay: calc(0.9s + var(--i) * 0.55s);
+  }
+  @keyframes mfill {
+    to {
+      width: 100%;
+    }
+  }
+  @keyframes mdone {
+    to {
+      background: var(--ci-signal);
+      border-color: var(--ci-signal);
+      color: var(--ci-canvas);
+    }
+  }
+
   .rc-head {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
     gap: 1rem;
     padding-bottom: 1.1rem;
-    border-bottom: 1px dashed #b9b4a8;
+    border-bottom: 1px dashed var(--ci-ticket-dash);
   }
   .rc-brand {
     font-family: var(--font-sans);
@@ -153,22 +243,22 @@ const mailto = `mailto:${site.email.general}?subject=${encodeURIComponent(m.mail
     width: 0.17em;
     height: 0.17em;
     border-radius: 50%;
-    background: #0e9f88;
+    background: var(--ci-ticket-mark);
     transform: translateX(-50%);
   }
   .rc-meta {
-    font-size: 0.62rem;
+    font-size: 0.75rem;
     line-height: 1.5;
     text-align: right;
     color: var(--faint);
-    text-transform: uppercase;
+    text-transform: uppercase; /* audit-ok: recibo */
     letter-spacing: 0.04em;
   }
   .rc-title {
     margin: 1.2rem 0 0.9rem;
-    font-size: 0.68rem;
+    font-size: 0.75rem;
     letter-spacing: 0.12em;
-    text-transform: uppercase;
+    text-transform: uppercase; /* audit-ok: recibo */
     color: var(--faint);
   }
   .rc-lines {
@@ -186,11 +276,16 @@ const mailto = `mailto:${site.email.general}?subject=${encodeURIComponent(m.mail
   }
   .rc-lines i {
     flex: 1;
-    border-bottom: 1px dotted #a8a396;
+    border-bottom: 1px dotted var(--ci-ticket-dot);
     transform: translateY(-3px);
   }
+  .rc-lines span {
+    min-width: 0;
+  }
   .rc-lines b {
+    flex: none;
     font-weight: 600;
+    white-space: nowrap;
   }
   .rc-total {
     display: flex;
@@ -198,12 +293,12 @@ const mailto = `mailto:${site.email.general}?subject=${encodeURIComponent(m.mail
     justify-content: space-between;
     margin-top: 1.4rem;
     padding-top: 1.1rem;
-    border-top: 1px dashed #b9b4a8;
+    border-top: 1px dashed var(--ci-ticket-dash);
   }
   .rc-total span {
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     letter-spacing: 0.1em;
-    text-transform: uppercase;
+    text-transform: uppercase; /* audit-ok: recibo */
     padding-bottom: 0.55rem;
   }
   .rc-total strong {
@@ -211,7 +306,7 @@ const mailto = `mailto:${site.email.general}?subject=${encodeURIComponent(m.mail
     font-weight: 500;
     line-height: 0.9;
     letter-spacing: -0.06em;
-    background: linear-gradient(transparent 82%, #2dd4bf 82%);
+    background: linear-gradient(transparent 82%, var(--ci-ticket-hilite) 82%);
     padding: 0 0.1em;
   }
   .rc-code {
@@ -231,9 +326,9 @@ const mailto = `mailto:${site.email.general}?subject=${encodeURIComponent(m.mail
   .rc-foot {
     margin: 0.6rem 0 0;
     text-align: center;
-    font-size: 0.6rem;
+    font-size: 0.75rem;
     letter-spacing: 0.14em;
-    text-transform: uppercase;
+    text-transform: uppercase; /* audit-ok: recibo */
     color: var(--faint);
   }
 
@@ -242,8 +337,12 @@ const mailto = `mailto:${site.email.general}?subject=${encodeURIComponent(m.mail
     clip-path: inset(0 0 100% 0);
   }
   :global(html.js) .print .line {
-    opacity: 0;
     transform: translateY(-6px);
+  }
+  :global(html.js) .print.reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
   :global(html.js) .print.is-visible .receipt {
     animation: printout 1.5s cubic-bezier(0.3, 0.7, 0.2, 1) 0.2s forwards;
@@ -259,7 +358,6 @@ const mailto = `mailto:${site.email.general}?subject=${encodeURIComponent(m.mail
   }
   @keyframes lineIn {
     to {
-      opacity: 1;
       transform: none;
     }
   }

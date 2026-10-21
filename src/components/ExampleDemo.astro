@@ -1,0 +1,539 @@
+---
+/**
+ * Pantalla del hero: el caos se ordena. Una red de nodos (Canvas 2D) cuenta el
+ * camino completo en cinco pasos —«aprobar una compra tarda 3 días»—: primero
+ * desorden, luego una onda de análisis que parte de un núcleo de IA, tres
+ * grupos de opciones entre los que se elige, un flujo ordenado y, al final, una
+ * línea que baja: el tiempo medido. Lo avanza el visitante; con «reducir
+ * movimiento» queda estática y completa.
+ */
+import { t } from '../i18n/ui';
+import type { Locale } from '../i18n/config';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const strings = t(locale);
+const d = strings.demo;
+const c = strings.camino;
+const tones = ['t1', 't2', 't3', 't4', 't5'];
+const sc = d.scenes;
+---
+
+<div class="tx">
+  <div class="tilt" data-tilt>
+    <div
+      class="screen"
+      data-screen
+      data-states={JSON.stringify(d.hud.states)}
+      data-next={d.next}
+      data-restart={d.restart}
+      data-pause-label={d.pause}
+      data-resume-label={d.resume}
+    >
+      <canvas id="field" aria-hidden="true"></canvas>
+
+      <div class="hud">
+        <span>{d.hud.process}</span>
+        <span class="state" data-state>{d.hud.states[0]}</span>
+        {d.hud.connected.map((name) => <span class="conn">{name}</span>)}
+        <span class="live">{d.hud.live}</span>
+        <button type="button" class="pausebtn" data-pause aria-pressed="false" aria-label={d.pause} title={d.pause}>
+          <svg class="i-pause" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"></rect><rect x="14" y="5" width="4" height="14" rx="1"></rect></svg>
+          <svg class="i-play" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg>
+        </button>
+      </div>
+
+      <!-- Cada paso tiene su escena: lo que se anima es lo que dice el texto de abajo. -->
+      <div class="scn" aria-hidden="true">
+        <div class="sc sc1 on" data-scene>
+          <div class="inboxes">
+            {
+              sc.s1.inbox.map((name, k) => (
+                <div class="inbox">
+                  <header><span>{name}</span><b class="cnt" data-cnt={[4, 5, 3][k]}>0</b></header>
+                  <div class="stack">
+                    {Array.from({ length: [4, 5, 3][k] }, (_, m) => m).map((m) => (
+                      <div class="mail" style={`--i:${k * 2 + m}`}>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="m3 7 9 6 9-6"></path></svg>
+                        {sc.s1.mail}
+                      </div>
+                    ))}
+                    <span class="qm">?</span>
+                  </div>
+                  <small>{sc.s1.pending}</small>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+
+        <div class="sc sc2" data-scene>
+          <div class="week">
+            <div class="wk-head"><span></span>{sc.s2.days.map((dd) => <span>{dd}</span>)}<i class="scanline"></i></div>
+            {
+              [
+                [['w', 1], ['q', 2], ['w', 1], ['q', 1]],
+                [['w', 1], ['q', 1], ['w', 1], ['q', 2]],
+                [['w', 2], ['q', 2], ['w', 1]],
+              ].map((row, r) => (
+                <div class="wk-row">
+                  <span class="wk-name">{sc.s2.rows[r]}</span>
+                  <div class="wk-bars">
+                    {row.map(([kind, span], k) => (
+                      <i class={`seg ${kind}`} style={`grid-column:span ${span};--i:${r * 4 + k}`}></i>
+                    ))}
+                  </div>
+                </div>
+              ))
+            }
+            <div class="wk-foot">
+              <span class="lg"><i class="seg w"></i>{sc.s2.legend[0]}</span>
+              <span class="lg"><i class="seg q"></i>{sc.s2.legend[1]}</span>
+              <b class="tot">{sc.s2.total}</b>
+              {sc.s2.lost.map((l) => <em class="lost">{l}</em>)}
+            </div>
+          </div>
+        </div>
+
+        <div class="sc sc3" data-scene>
+          <div class="routes" role="group" aria-label={c.options.aria}>
+            {
+              c.options.items.map((o, k) => (
+                <button type="button" class="route" data-k={k} aria-pressed="false" style={`--i:${k}`}>
+                  <strong>{o.name}</strong>
+                  <svg viewBox="0 0 120 44" class="rt" aria-hidden="true">
+                    {k === 0 && (<><path d="M14 22 H106"></path><circle cx="14" cy="22" r="5"></circle><circle cx="106" cy="22" r="5"></circle></>)}
+                    {k === 1 && (<><path d="M12 22 H108"></path><circle cx="12" cy="22" r="5"></circle><circle cx="60" cy="22" r="5"></circle><circle cx="108" cy="22" r="5"></circle><path d="M60 22 V8"></path><circle cx="60" cy="8" r="3"></circle></>)}
+                    {k === 2 && (<><path d="M10 22 H40 L56 8 H80 M40 22 L56 36 H80 M80 8 L96 22 L80 36 M96 22 H112"></path><circle cx="10" cy="22" r="4"></circle><circle cx="40" cy="22" r="4"></circle><circle cx="56" cy="8" r="4"></circle><circle cx="56" cy="36" r="4"></circle><circle cx="96" cy="22" r="4"></circle><circle cx="112" cy="22" r="4"></circle></>)}
+                  </svg>
+                  <span class="what">{o.what}</span>
+                  <span class="time">{o.time}</span>
+                  <span class="mt"><em>{sc.s3.plazo}</em><i class="trk"><i style={`width:${[30, 48, 90][k]}%`}></i></i></span>
+                  <span class="mt"><em>{sc.s3.impacto}</em><i class="trk"><i style={`width:${[45, 82, 95][k]}%`}></i></i></span>
+                </button>
+              ))
+            }
+          </div>
+        </div>
+
+        <div class="sc sc4" data-scene>
+          <div class="wf">
+            {
+              sc.s4.nodes.map((nm, k) => (
+                <>
+                  <div class={`wf-node n${k}${k === 3 ? ' ok' : ''}`}>
+                    {k === 1 && <span class="ai-chip">IA</span>}
+                    <span>{nm}</span>
+                    {k === 2 && <em class="push">{sc.s4.push}</em>}
+                    {k === 3 && <em class="done">✓ {sc.s4.done}</em>}
+                  </div>
+                  {k < 3 && <span class={`wire w${k + 1}`}><i></i></span>}
+                </>
+              ))
+            }
+          </div>
+        </div>
+
+        <div class="sc sc5" data-scene>
+          <div class="res">
+            <div class="res-nums"><span class="was">{d.compare.days}</span><span class="arr" aria-hidden="true"></span><span class="now">{d.compare.hours}</span></div>
+            <svg viewBox="0 0 300 70" preserveAspectRatio="none" class="spark2"><path pathLength="1" d="M0 8 C40 10 70 18 110 28 S190 52 230 60 S280 64 300 64"></path></svg>
+            <div class="res-loop"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-3-6.7"></path><path d="M21 4v5h-5"></path></svg>{sc.s5.loop}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dock">
+        <div class="pills" data-pills role="group" aria-label={c.indexLabel}>
+          {
+            c.stages.map((st, i) => (
+              <button type="button" class="pill" data-pill={i} style={`--c:${i === 0 ? 'var(--t-warm)' : i < 3 ? 'var(--t-blue)' : 'var(--t-ai)'}`}>
+                <b>{i + 1}</b>
+                {st.short}
+              </button>
+            ))
+          }
+        </div>
+
+        <p class="scenario">{d.scenario}<small>{d.caption}</small></p>
+
+        <div class="stepbox" aria-live="polite">
+          <div class={`step ${tones[0]} on`} data-step>
+            <p class="step-text">{d.steps[0]}</p>
+          </div>
+          <div class={`step ${tones[1]}`} data-step>
+            <p class="step-text">{d.steps[1]}</p>
+            <p class="bubble" data-type={d.ai.analysis}></p>
+          </div>
+          <div class={`step ${tones[2]}`} data-step>
+            <p class="step-text">{d.steps[2]}</p>
+          </div>
+          <div class={`step ${tones[3]}`} data-step>
+            <p class="step-text">{d.steps[3]}</p>
+            <p class="bubble you">{d.ai.ask}</p>
+            <p class="bubble" data-type={d.ai.answer}></p>
+          </div>
+          <div class={`step ${tones[4]}`} data-step>
+            <p class="step-text">{d.steps[4]}</p>
+            <p class="kpi">{d.kpiLabel}: <span data-kpi>0</span> % {d.illustrative}</p>
+          </div>
+        </div>
+
+        <div class="ctrls">
+          <button type="button" class="prv" data-prev disabled>{d.prev}</button>
+          <button type="button" class="nxt" data-nextbtn>{d.next}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  import { motion, onMotion, setPaused, typeEl, tween } from '../lib/tech-fx';
+
+  const root = document.querySelector<HTMLElement>('[data-screen]');
+  if (root) {
+    const cv = root.querySelector<HTMLCanvasElement>('#field')!;
+    const ctx = cv.getContext('2d')!;
+    const tilt = root.closest<HTMLElement>('[data-tilt]')!;
+    const steps = Array.from(root.querySelectorAll<HTMLElement>('[data-step]'));
+    const pills = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-pill]'));
+    const pillsBox = root.querySelector<HTMLElement>('[data-pills]')!;
+    const next = root.querySelector<HTMLButtonElement>('[data-nextbtn]')!;
+    const prev = root.querySelector<HTMLButtonElement>('[data-prev]')!;
+    const stateLabel = root.querySelector<HTMLElement>('[data-state]')!;
+    const stNames: string[] = JSON.parse(root.dataset.states || '[]');
+    const opts = Array.from(root.querySelectorAll<HTMLButtonElement>('.route'));
+    const scenes = Array.from(root.querySelectorAll<HTMLElement>('[data-scene]'));
+    const pauseBtn = root.querySelector<HTMLButtonElement>('[data-pause]')!;
+
+    /* ── campo de nodos ── */
+    let W = 0;
+    let H = 0;
+    const N = 66;
+    const rnd = (() => {
+      let s = 11;
+      return () => (s = (s * 16807) % 2147483647) / 2147483647;
+    })();
+    type Node = { x: number; y: number; vx: number; vy: number; r1: number; r2: number; r3: number; i: number; tx: number; ty: number };
+    const nodes: Node[] = Array.from({ length: N }, (_, i) => ({ x: rnd(), y: rnd() * 0.6 + 0.05, vx: 0, vy: 0, r1: rnd(), r2: rnd(), r3: rnd(), i, tx: 0, ty: 0 }));
+    let state = 0;
+    let picked = -1;
+    let stateT = performance.now();
+    let pulses: { a: number; b: number; t: number; c: string }[] = [];
+    let raf = 0;
+    let visible = true;
+    let mouse: { x: number; y: number } | null = null;
+    const col = { warm: '255,154,107', blue: '91,140,255', ai: '94,234,212', dim: '138,147,168' };
+
+    function targets() {
+      const C = [[0.2, 0.34], [0.5, 0.34], [0.8, 0.34]];
+      nodes.forEach((n) => {
+        if (state <= 1) {
+          n.tx = 0.04 + n.r1 * 0.92;
+          n.ty = 0.08 + n.r2 * 0.5;
+        } else if (state === 2) {
+          const c = C[n.i % 3];
+          n.tx = c[0] + (n.r1 - 0.5) * 0.17;
+          n.ty = c[1] + (n.r2 - 0.5) * 0.2;
+        } else if (state === 3) {
+          const x = 0.05 + (n.i / N) * 0.9;
+          n.tx = x;
+          n.ty = 0.28 + Math.sin(x * 6.2) * 0.08 + ((n.i % 3) - 1) * 0.055;
+        } else {
+          const x = 0.05 + (n.i / N) * 0.9;
+          n.tx = x;
+          n.ty = 0.1 + x * 0.36 + (n.r2 - 0.5) * 0.05;
+        }
+      });
+    }
+    function size() {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      W = root!.offsetWidth;
+      H = root!.offsetHeight;
+      cv.width = W * dpr;
+      cv.height = H * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    const snap = () => nodes.forEach((n) => ((n.x = n.tx), (n.y = n.ty)));
+    const ease = (x: number) => 1 - Math.pow(1 - Math.min(1, Math.max(0, x)), 3);
+
+    function nodeColor(n: Node, time: number) {
+      if (state === 0) return n.r3 < 0.22 ? col.warm : col.dim;
+      if (state === 1) {
+        const cx = W / 2;
+        const cy = H * 0.3;
+        const r = ease((time - stateT) / 2200) * Math.hypot(W, H) * 0.55;
+        const d = Math.hypot(n.x * W - cx, n.y * H - cy);
+        if (Math.abs(d - r) < 46 || (d < r - 46 && d > r - 200)) return col.blue;
+        return n.r3 < 0.12 ? col.warm : col.dim;
+      }
+      if (state === 2) {
+        const k = n.i % 3;
+        if (picked >= 0) return k === picked ? col.blue : col.dim;
+        return k === 0 ? col.blue : k === 1 ? col.ai : col.dim;
+      }
+      return col.ai;
+    }
+
+    function draw(time: number) {
+      ctx.clearRect(0, 0, W, H);
+      const thr = (state <= 1 ? 0.17 : 0.13) * W;
+      for (let a = 0; a < N; a++) {
+        const A = nodes[a];
+        for (let b = a + 1; b < N; b++) {
+          const B = nodes[b];
+          const d = Math.hypot((A.x - B.x) * W, (A.y - B.y) * H);
+          if (d < thr) {
+            const al = (1 - d / thr) * (state >= 3 ? 0.55 : 0.32);
+            const c = state >= 3 ? col.ai : state === 2 ? col.blue : col.dim;
+            ctx.strokeStyle = `rgba(${c},${al})`;
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(A.x * W, A.y * H);
+            ctx.lineTo(B.x * W, B.y * H);
+            ctx.stroke();
+          }
+        }
+      }
+      if (state === 1) {
+        const cx = W / 2;
+        const cy = H * 0.3;
+        const p = (time - stateT) / 2200;
+        const r = ease(p) * Math.hypot(W, H) * 0.55;
+        const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, 70);
+        g.addColorStop(0, 'rgba(91,140,255,.55)');
+        g.addColorStop(1, 'rgba(91,140,255,0)');
+        ctx.fillStyle = g;
+        ctx.beginPath();
+        ctx.arc(cx, cy, 70, 0, 7);
+        ctx.fill();
+        ctx.strokeStyle = `rgba(91,140,255,${Math.max(0, 0.55 * (1 - p))})`;
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.arc(cx, cy, r, 0, 7);
+        ctx.stroke();
+        ctx.strokeStyle = `rgba(94,234,212,${Math.max(0, 0.35 * (1 - p))})`;
+        ctx.beginPath();
+        ctx.arc(cx, cy, r * 0.7, 0, 7);
+        ctx.stroke();
+        ctx.fillStyle = 'white';
+        ctx.shadowColor = 'rgba(91,140,255,1)';
+        ctx.shadowBlur = 22;
+        ctx.beginPath();
+        ctx.arc(cx, cy, 5, 0, 7);
+        ctx.fill();
+        ctx.shadowBlur = 0;
+      }
+      nodes.forEach((n) => {
+        const c = nodeColor(n, time);
+        const hot = (state === 0 && n.r3 < 0.22) || (state === 1 && n.r3 < 0.12);
+        const pu = hot ? 0.5 + 0.5 * Math.sin(time / 280 + n.i) : 0;
+        const r = 2.2 + n.r1 * 1.6 + (hot ? pu * 1.6 : 0);
+        ctx.fillStyle = `rgba(${c},${hot ? 0.95 : 0.88})`;
+        ctx.shadowColor = `rgba(${c},.9)`;
+        ctx.shadowBlur = hot || state >= 3 || c === col.blue ? 12 : 6;
+        ctx.beginPath();
+        ctx.arc(n.x * W, n.y * H, r, 0, 7);
+        ctx.fill();
+      });
+      ctx.shadowBlur = 0;
+      if (!motion.reduce && (state >= 3 || state === 0)) {
+        const rate = state === 3 ? 0.14 : state === 4 ? 0.05 : 0.025;
+        if (Math.random() < rate && pulses.length < 16) {
+          const a = (Math.random() * N) | 0;
+          let best = -1;
+          let bd = 1e9;
+          for (let b = 0; b < N; b++) {
+            if (b === a) continue;
+            const d = Math.hypot((nodes[a].x - nodes[b].x) * W, (nodes[a].y - nodes[b].y) * H);
+            if (d < thr && d < bd && (state >= 3 ? nodes[b].tx > nodes[a].tx : true)) {
+              bd = d;
+              best = b;
+            }
+          }
+          if (best >= 0) pulses.push({ a, b: best, t: 0, c: state >= 3 ? col.ai : col.warm });
+        }
+        pulses = pulses.filter((p) => {
+          p.t += 0.022;
+          const A = nodes[p.a];
+          const B = nodes[p.b];
+          const x = (A.x + (B.x - A.x) * p.t) * W;
+          const y = (A.y + (B.y - A.y) * p.t) * H;
+          ctx.fillStyle = `rgba(${p.c},1)`;
+          ctx.shadowColor = `rgba(${p.c},1)`;
+          ctx.shadowBlur = 14;
+          ctx.beginPath();
+          ctx.arc(x, y, 2.8, 0, 7);
+          ctx.fill();
+          ctx.shadowBlur = 0;
+          return p.t < 1;
+        });
+      }
+      if (state === 4) {
+        ctx.strokeStyle = 'rgba(94,234,212,.55)';
+        ctx.lineWidth = 2;
+        ctx.shadowColor = 'rgba(94,234,212,.8)';
+        ctx.shadowBlur = 14;
+        ctx.beginPath();
+        for (let i = 0; i <= 40; i++) {
+          const x = 0.05 + (i / 40) * 0.9;
+          const y = 0.1 + x * 0.36;
+          if (i) ctx.lineTo(x * W, y * H);
+          else ctx.moveTo(x * W, y * H);
+        }
+        ctx.stroke();
+        ctx.shadowBlur = 0;
+      }
+    }
+    const drawStatic = () => draw(performance.now() + 99999);
+
+    function frame(time: number) {
+      raf = 0;
+      const amp = [0.0016, 0.0011, 0.0006, 0.0003, 0.0002][state];
+      nodes.forEach((n) => {
+        n.vx = (n.vx + (n.tx - n.x) * 0.024 + Math.sin(time / 900 + n.r1 * 40) * amp) * 0.9;
+        n.vy = (n.vy + (n.ty - n.y) * 0.024 + Math.cos(time / 1100 + n.r2 * 40) * amp) * 0.9;
+        if (mouse) {
+          const dx = n.x * W - mouse.x;
+          const dy = n.y * H - mouse.y;
+          const d = Math.hypot(dx, dy);
+          if (d < 100 && d > 0) {
+            n.vx += (dx / d) * 0.0018;
+            n.vy += (dy / d) * 0.0018;
+          }
+        }
+        n.x += n.vx;
+        n.y += n.vy;
+      });
+      draw(time);
+      if (!motion.reduce && !motion.paused && !document.hidden && visible) raf = requestAnimationFrame(frame);
+    }
+    function loop() {
+      if (motion.reduce) {
+        snap();
+        drawStatic();
+        return;
+      }
+      if (!raf && !motion.paused && !document.hidden && visible) raf = requestAnimationFrame(frame);
+    }
+    function setState(s: number) {
+      state = s;
+      stateT = performance.now();
+      pulses = [];
+      targets();
+      stateLabel.textContent = stNames[s] || '';
+      root!.classList.toggle('s34', s >= 3);
+      if (motion.reduce) {
+        snap();
+        drawStatic();
+      }
+    }
+
+    /* ── demo ── */
+    let n = 0;
+    const nextLabel = root.dataset.next || '';
+    const restartLabel = root.dataset.restart || '';
+    function render() {
+      steps.forEach((s, i) => {
+        s.classList.remove('on');
+        if (i === n) {
+          void s.offsetWidth;
+          s.classList.add('on');
+        }
+      });
+      pills.forEach((p, i) => (i === n ? p.setAttribute('aria-current', 'step') : p.removeAttribute('aria-current')));
+      pillsBox.style.setProperty('--pg', ((n + 1) / 5) * 100 + '%');
+      next.textContent = n === 4 ? restartLabel : nextLabel;
+      prev.disabled = n === 0;
+      scenes.forEach((sc2, i) => {
+        sc2.classList.toggle('on', i === n);
+        if (i === n) {
+          sc2.querySelectorAll<HTMLElement>('[data-cnt]').forEach((el) => tween(el, Number(el.dataset.cnt), 500));
+        }
+      });
+      const b = steps[n].querySelector<HTMLElement>('[data-type]');
+      if (b) typeEl(b, b.dataset.type || '', n === 1 ? 1700 : 900);
+      if (n === 4) {
+        const kpi = root!.querySelector('[data-kpi]');
+        if (kpi) tween(kpi, 94, 600);
+      }
+      setState(n);
+    }
+    const mark = () => opts.forEach((x, i) => x.setAttribute('aria-pressed', String(i === picked)));
+    next.addEventListener('click', () => {
+      if (n === 2 && picked < 0) {
+        picked = 1;
+        mark();
+      }
+      n = n === 4 ? 0 : n + 1;
+      render();
+    });
+    prev.addEventListener('click', () => {
+      if (n > 0) {
+        n--;
+        render();
+      }
+    });
+    pills.forEach((p, i) =>
+      p.addEventListener('click', () => {
+        n = i;
+        render();
+      })
+    );
+    opts.forEach((o) =>
+      o.addEventListener('click', () => {
+        picked = Number(o.dataset.k);
+        mark();
+        if (motion.reduce && state === 2) drawStatic();
+      })
+    );
+
+    /* relieve suave y nodos que esquivan el puntero (solo con ratón; nunca con «reducir movimiento») */
+    tilt.addEventListener('pointermove', (e) => {
+      if (motion.reduce || motion.paused || !matchMedia('(hover:hover) and (pointer:fine)').matches) return;
+      const b = tilt.getBoundingClientRect();
+      const px = (e.clientX - b.left) / b.width - 0.5;
+      const py = (e.clientY - b.top) / b.height - 0.5;
+      root.style.transform = `rotateY(${px * 4}deg) rotateX(${-py * 3}deg)`;
+      const r = root.getBoundingClientRect();
+      mouse = { x: e.clientX - r.left, y: e.clientY - r.top };
+    });
+    tilt.addEventListener('pointerleave', () => {
+      root.style.transform = '';
+      mouse = null;
+    });
+
+    new IntersectionObserver(
+      (es) => {
+        visible = es[0].isIntersecting;
+        loop();
+      },
+      { threshold: 0.05 }
+    ).observe(root);
+    document.addEventListener('visibilitychange', loop);
+    window.addEventListener('resize', () => {
+      size();
+      if (motion.reduce) drawStatic();
+    });
+    onMotion(loop);
+
+    /* Pausa del visitante: icono en la esquina de la pantalla (sin texto visible). */
+    pauseBtn.addEventListener('click', () => {
+      setPaused(!motion.paused);
+      pauseBtn.setAttribute('aria-pressed', String(motion.paused));
+      const label = motion.paused ? root.dataset.resumeLabel || '' : root.dataset.pauseLabel || '';
+      pauseBtn.setAttribute('aria-label', label);
+      pauseBtn.title = label;
+    });
+
+    size();
+    targets();
+    nodes.forEach((nd) => ((nd.x = nd.r1), (nd.y = nd.r2 * 0.5 + 0.08)));
+    render();
+    loop();
+  }
+</script>

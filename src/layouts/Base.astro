@@ -6,6 +6,7 @@ import { site } from '../config/site';
 import { LOCALE_META } from '../i18n/config';
 import { alternates, defaultAlternateLocale, localizedPath } from '../i18n/utils';
 import { t } from '../i18n/ui';
+import geistLatin from '@fontsource-variable/geist/files/geist-latin-wght-normal.woff2?url';
 import type { Locale } from '../i18n/config';
 import type { RouteKey } from '../i18n/routes';
 
@@ -14,11 +15,9 @@ interface Props {
   routeKey: RouteKey;
   title: string;
   description: string;
-  /** Cabecera y pie reducidos (sin enlaces a secciones), para el aviso «Muy pronto». */
-  minimal?: boolean;
 }
 
-const { locale, routeKey, title, description, minimal = false } = Astro.props;
+const { locale, routeKey, title, description } = Astro.props;
 const strings = t(locale);
 const meta = LOCALE_META[locale];
 
@@ -31,6 +30,11 @@ const xDefault = new URL(localizedPath(routeKey, defaultAlternateLocale(routeKey
 
 // El título de la home ya incluye la marca; el resto la añade como sufijo.
 const fullTitle = routeKey === 'home' ? title : `${title} — ${site.name}`;
+
+/* Captura de leads y medición: ambas son opcionales y se activan con variables
+   de entorno en el build. Sin ellas el sitio se comporta como antes. */
+const leadsEndpoint = import.meta.env.PUBLIC_LEADS_ENDPOINT as string | undefined;
+const umamiId = import.meta.env.PUBLIC_UMAMI_ID as string | undefined;
 
 /** Datos estructurados: ayudan a Google y sirven de señal de legitimidad
  *  en revisiones manuales (p. ej. verificación de editor de Microsoft). */
@@ -67,11 +71,16 @@ const organizationSchema = {
       (function () {
         var root = document.documentElement;
         root.classList.add('js');
-        var theme = 'light';
+        /* El tema oscuro es el predeterminado (el neón luce más); el visitante puede
+           cambiarlo y su elección se recuerda. */
+        var theme = 'dark';
         try {
-          theme =
-            localStorage.getItem('ci-theme') ||
-            (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+          theme = localStorage.getItem('ci-theme') || 'dark';
+        } catch (e) {}
+        /* ?theme=light|dark fuerza el tema sin guardarlo (útil para compartir y para pruebas). */
+        try {
+          var q = new URLSearchParams(location.search).get('theme');
+          if (q === 'light' || q === 'dark') theme = q;
         } catch (e) {}
         root.dataset.theme = theme;
       })();
@@ -99,8 +108,26 @@ const organizationSchema = {
     <meta name="twitter:card" content="summary_large_image" />
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Tipografía del primer pantallazo, precargada: el texto aparece ya con su
+         fuente definitiva y no «salta» al cargarla (estabilidad visual, CLS). La
+         monoespaciada y la serif solo se usan más abajo y se cargan cuando hacen falta. -->
+    <link rel="preload" as="font" type="font/woff2" href={geistLatin} crossorigin />
     <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f6f4ef" />
-    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0a0c10" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#16171a" />
+
+    {leadsEndpoint && <meta name="ci-leads-endpoint" content={leadsEndpoint} />}
+    {
+      umamiId && (
+        <script
+          is:inline
+          defer
+          src="https://cloud.umami.is/script.js"
+          data-website-id={umamiId}
+          data-do-not-track="true"
+        />
+      )
+    }
 
     <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} is:inline />
   </head>
@@ -113,13 +140,17 @@ const organizationSchema = {
       {strings.nav.skipToContent}
     </a>
 
-    <Header locale={locale} routeKey={routeKey} minimal={minimal} />
+    <Header locale={locale} routeKey={routeKey} />
 
     <main id="main" class="flex-1">
       <slot />
     </main>
 
-    <Footer locale={locale} minimal={minimal} />
+    <Footer locale={locale} />
+
+    <script>
+      import '../lib/track';
+    </script>
 
     <script is:inline>
       /* Una sola aparicion por elemento; se deja de observar tras revelarlo. */
@@ -155,46 +186,5 @@ const organizationSchema = {
       })();
     </script>
 
-    <script is:inline>
-      /* Interaccion ligera, siempre opcional:
-         1) sobre el hero (siempre oscuro) la cabecera se vuelve tinta;
-         2) la luz del hero y los elementos .spot siguen al puntero.
-         Sin JavaScript, la pagina funciona igual. */
-      (function () {
-        var header = document.querySelector('[data-header]');
-        var hero = document.querySelector('[data-hero]');
-        if (header && hero) {
-          var ticking = false;
-          var update = function () {
-            ticking = false;
-            /* Mientras el hero siga bajo la cabecera, esta se ve «tinta». */
-            header.classList.toggle('theme-ink', hero.getBoundingClientRect().bottom > header.offsetHeight);
-          };
-          var onScroll = function () {
-            if (!ticking) { ticking = true; requestAnimationFrame(update); }
-          };
-          window.addEventListener('scroll', onScroll, { passive: true });
-          window.addEventListener('resize', onScroll);
-          update();
-        }
-
-        var finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-        var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        if (!finePointer || reduce) return;
-        var raf = 0, px = 0, py = 0, area = null;
-        document.addEventListener('pointermove', function (ev) {
-          px = ev.clientX; py = ev.clientY;
-          area = ev.target && ev.target.closest ? ev.target.closest('[data-spot-area],.spot') : null;
-          if (raf) return;
-          raf = requestAnimationFrame(function () {
-            raf = 0;
-            if (!area) return;
-            var r = area.getBoundingClientRect();
-            area.style.setProperty('--mx', (px - r.left) + 'px');
-            area.style.setProperty('--my', (py - r.top) + 'px');
-          });
-        }, { passive: true });
-      })();
-    </script>
   </body>
 </html>

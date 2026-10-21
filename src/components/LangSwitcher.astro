@@ -38,7 +38,7 @@ const showSwitcher = options.length > 1;
               aria-current={isCurrent ? 'true' : undefined}
               title={LOCALE_META[l].nativeName}
               class:list={[
-                'block rounded-[0.3rem] px-2.5 py-1 text-xs font-semibold transition-colors',
+                'flex min-h-11 min-w-9 max-[359px]:min-w-7 max-[359px]:px-1 items-center justify-center rounded-lg px-1.5 text-xs font-semibold transition-colors sm:min-h-8',
                 isCurrent
                   ? 'bg-card text-strong shadow-soft'
                   : 'text-muted hover:text-strong',

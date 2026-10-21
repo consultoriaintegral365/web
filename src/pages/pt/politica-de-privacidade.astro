@@ -42,24 +42,37 @@ const strings = t(locale);
 
   <h3>2.1 Dados que você nos fornece</h3>
   <p>
-    Este Site <strong>não contém formulários de captação de dados</strong>. O contato é feito por
-    e-mail ou pelos canais indicados na seção de contato. Quando você nos escreve, tratamos os dados
-    que decidir incluir em sua comunicação, habitualmente:
+    Você pode entrar em contato por e-mail, por WhatsApp ou pelo
+    <strong>formulário «Solicite seu MVP»</strong> deste Site. Quando você nos escreve ou preenche o
+    formulário, tratamos os dados que decidir nos fornecer, habitualmente:
   </p>
   <ul>
     <li>Nome e sobrenome.</li>
     <li>Endereço de e-mail e, se for o caso, número de telefone.</li>
     <li>Empresa ou entidade que representa e cargo.</li>
     <li>O conteúdo da mensagem e a informação que voluntariamente incorporar a ela.</li>
+    <li>
+      As respostas que selecionar no formulário (tipo de projeto, tamanho da empresa e urgência) e a
+      descrição do problema que deseja resolver.
+    </li>
+    <li>
+      A origem da visita que o levou ao formulário (por exemplo, o link ou a campanha de
+      procedência), quando existir.
+    </li>
   </ul>
 
   <h3>2.2 Dados de navegação</h3>
   <p>
-    O Site é estático e <strong>não utiliza cookies, pixels de rastreamento, publicidade nem
-    ferramentas de analytics</strong> que elaborem perfis de seus visitantes.
+    O Site <strong>não utiliza cookies, pixels de rastreamento nem publicidade</strong>, nem
+    elabora perfis de seus visitantes. Para entender como o formulário é usado e melhorá-lo,
+    registramos de forma <strong>anônima</strong> eventos de uso (por exemplo, que o formulário foi
+    aberto ou que uma etapa foi concluída), junto com a página, o idioma e um identificador
+    aleatório que existe apenas enquanto a aba está aberta. <strong>Não registramos seu endereço
+    IP</strong> nesses eventos nem os associamos ao seu nome ou e-mail. Se seu navegador enviar o
+    sinal «Não rastrear» ou «Global Privacy Control», não registramos esses eventos.
   </p>
   <p>
-    Contudo, nosso provedor de hospedagem registra automaticamente dados técnicos inerentes ao
+    Contudo, nossos provedores de hospedagem e de rede registram automaticamente dados técnicos inerentes ao
     funcionamento da internet — endereço IP, data e hora da solicitação, tipo de navegador e página
     solicitada — com a única finalidade de entregar o conteúdo, manter a segurança do serviço e
     prevenir abusos. Não associamos esses registros a pessoas identificadas nem os utilizamos com
@@ -147,13 +160,6 @@ const strings = t(locale);
     aplicação já tiver armazenado</strong>: sua devolução, migração ou eliminação rege-se pelo
     acordado no contrato correspondente.
   </p>
-  <p>
-    Anexos publicados:{' '}
-    <a href={localizedPath('annexAgiAgo', 'es')} hreflang="es-PE">
-      Anexo de tratamento de dados — Sistema AGI/AGO
-    </a>{' '}
-    (em espanhol).
-  </p>
 
   <h3>3.5 Confidencialidade e incidentes</h3>
   <p>
@@ -167,6 +173,11 @@ const strings = t(locale);
   <p>Tratamos seus dados pessoais exclusivamente para:</p>
   <ul>
     <li>Atender e responder às consultas, solicitações de informação e propostas que nos enviar.</li>
+    <li>
+      Gerir as solicitações de MVP sem custo: avaliar sua viabilidade e entrar em contato para
+      coordenar os próximos passos.
+    </li>
+    <li>Medir de forma agregada e anônima o uso do formulário para melhorá-lo.</li>
     <li>Elaborar e enviar cotações ou propostas de serviços quando solicitado.</li>
     <li>
       Gerir a relação pré-contratual e contratual com clientes, fornecedores e colaboradores.
@@ -185,7 +196,8 @@ const strings = t(locale);
   <ul>
     <li>
       <strong>Seu consentimento livre, prévio, expresso, informado e inequívoco</strong>, concedido
-      ao nos enviar voluntariamente uma comunicação.
+      ao nos enviar voluntariamente uma comunicação ou ao marcar a caixa de aceitação do
+      formulário.
     </li>
     <li>
       <strong>A execução de uma relação contratual ou de medidas pré-contratuais</strong> adotadas a
@@ -205,8 +217,11 @@ const strings = t(locale);
   </p>
   <ul>
     <li>
-      <strong>Consultas que não resultam em relação comercial:</strong> até doze (12) meses desde o
-      último contato.
+      <strong>Consultas e solicitações de MVP que não resultam em relação comercial:</strong> até
+      doze (12) meses desde o último contato.
+    </li>
+    <li>
+      <strong>Eventos de uso anônimos do formulário:</strong> até doze (12) meses.
     </li>
     <li>
       <strong>Clientes e fornecedores:</strong> enquanto durar a relação e, depois, durante os
@@ -226,7 +241,17 @@ const strings = t(locale);
   <ul>
     <li><strong>Hospedagem do site:</strong> GitHub, Inc. (GitHub Pages).</li>
     <li>
-      <strong>Correio eletrônico e produtividade:</strong> Microsoft Corporation (Microsoft 365).
+      <strong>Rede e processamento do formulário:</strong> Cloudflare, Inc. (rede de entrega e
+      Cloudflare Workers). Recebe os dados do formulário e os encaminha ao nosso ambiente Microsoft
+      365 sem conservá-los.
+    </li>
+    <li>
+      <strong>Mensageria:</strong> se você optar por nos escrever pelo WhatsApp, a Meta Platforms,
+      Inc. trata a conversa conforme seus próprios termos; essa comunicação é iniciada por você.
+    </li>
+    <li>
+      <strong>Correio eletrônico e produtividade:</strong> Microsoft Corporation (Microsoft 365:
+      e-mail, SharePoint e Teams, onde as solicitações são armazenadas e geridas).
     </li>
   </ul>
   <p>

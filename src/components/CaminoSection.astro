@@ -1,0 +1,314 @@
+---
+/**
+ * «El camino»: la columna vertebral de la portada. Cinco etapas que el cliente
+ * recorre en orden —entender, analizar, proponer opciones, implementar, medir—
+ * y en las que siempre decide él. Es un carrusel: la etapa activa ocupa el foco
+ * con su texto y su pantalla animada, y la anterior y la siguiente se ven
+ * atenuadas a los lados para saber qué viene antes y después. Se maneja con
+ * flechas, teclado, deslizamiento o tocando las etapas. El texto es de negocio;
+ * la pantalla muestra la tecnología trabajando.
+ */
+import Label from './ui/Label.astro';
+import Button from './ui/Button.astro';
+import { t } from '../i18n/ui';
+import { localizedPath } from '../i18n/utils';
+import type { Locale } from '../i18n/config';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const c = t(locale).camino;
+const sc = c.screens;
+
+const home = localizedPath('home', locale);
+const base = home === '/' ? '' : home;
+const total = c.stages.length;
+/* «Primero entendemos. Después proponemos.»: cada frase se subraya cuando el recorrido está en esa fase. */
+const phases = c.title.split(/(?<=\.)\s+/);
+const controlCards = [
+  ...c.control[0].split(/(?<=\.)\s+/), // «Tú mantienes el control.» · «Documentamos y transferimos el conocimiento.»
+  c.control[1],
+];
+
+/* «[[texto]]» marca un fragmento subrayado dentro de una línea de la entrevista. */
+const segments = (line: string) =>
+  line.split(/(\[\[.*?\]\])/g).filter(Boolean).map((p) => (p.startsWith('[[') ? { t: p.slice(2, -2), hl: true } : { t: p, hl: false }));
+const pair = (s: string) => s.split('|') as [string, string];
+---
+
+<section id="camino" class="border-b border-line overflow-hidden">
+  <div class="tx container-page py-24 sm:py-28">
+    <div>
+      <Label>{c.eyebrow}</Label>
+      <h2 class="h-title mt-3 lg:whitespace-nowrap" data-title>
+        <span class="ph ph1 on" data-ph="1">{phases[0]}</span>{' '}
+        <span class="ph ph2" data-ph="2">{phases[1]}</span>
+      </h2>
+      <p class="mt-5 max-w-2xl text-lead text-body">{c.lead}</p>
+    </div>
+
+    <ol class="stepper" data-stepper aria-label={c.indexLabel}>
+      <li class="fill" data-fill aria-hidden="true"></li>
+      {
+        c.stages.map((st, i) => (
+          <li>
+            <button type="button" class={`k${i + 1}`} data-go={i}>
+              <span class="n">{i + 1}</span>
+              <span class="t">{st.short}</span>
+            </button>
+          </li>
+        ))
+      }
+    </ol>
+
+    <div class="viewport" data-car tabindex="0" aria-roledescription="carousel" aria-label={c.indexLabel} data-kick={c.carousel.kick} data-hint={c.carousel.hint} data-total={total} data-names={JSON.stringify(c.stages.map((s) => s.short))}>
+      <button type="button" class="arrow prev" data-cprev aria-label={c.carousel.prev}>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg>
+      </button>
+
+      <div class="track" data-track>
+        {
+          c.stages.map((st, i) => (
+            <article class={`slide k${i + 1}`} data-slide={i}>
+              <div>
+                <p class="kick">{c.carousel.kick.replace('{n}', String(i + 1)).replace('{total}', String(total))}</p>
+                <h3 class="h-sub">{st.title}</h3>
+                <p class="q">{st.line}</p>
+                <p class="d">{st.detail}</p>
+                {
+                  i === 3 && (
+                    <div class="mt-6">
+                      <Button href={`${base}/#mvp`}>{c.mvpCta}</Button>
+                    </div>
+                  )
+                }
+              </div>
+
+              {i === 0 && (
+                <div class="win scr">
+                  <div class="win-bar"><i></i><i></i><i></i><b>{sc.s1.title}</b><span class="live">{sc.s1.live}</span></div>
+                  <div class="win-body">
+                    <div class="tr">
+                      {sc.s1.lines.map((line) => <p>{segments(line).map((s) => (s.hl ? <span class="hl">{s.t}</span> : s.t))}</p>)}
+                    </div>
+                    <p class="mono-note">{sc.s1.tagsLabel}</p>
+                    <div class="tags">{sc.s1.tags.map((tg) => <span class="tg">{tg}</span>)}</div>
+                  </div>
+                </div>
+              )}
+
+              {i === 1 && (
+                <div class="win scr">
+                  <div class="win-bar"><i></i><i></i><i></i><b>{sc.s2.title}</b><span class="live">{sc.s2.live}</span></div>
+                  <div class="win-body">
+                    <svg class="svgmap" viewBox="0 0 400 130" role="img" aria-label={sc.s2.alt}>
+                      <path class="ed" pathLength="1" d="M52 48 H118"></path>
+                      <path class="ed bad" pathLength="1" d="M138 48 H204"></path>
+                      <path class="ed bad" pathLength="1" d="M224 48 H290"></path>
+                      <path class="ed" pathLength="1" d="M310 48 H360"></path>
+                      <circle class="glow" cx="171" cy="48" r="22"></circle>
+                      <circle class="glow" cx="257" cy="48" r="22"></circle>
+                      <circle class="nd" cx="40" cy="48" r="12"></circle>
+                      <circle class="nd" cx="128" cy="48" r="10"></circle>
+                      <circle class="nd" cx="214" cy="48" r="10"></circle>
+                      <circle class="nd" cx="300" cy="48" r="10"></circle>
+                      <circle class="nd" cx="372" cy="48" r="10"></circle>
+                      {[22, 108, 194, 276, 358].map((x, k) => <text x={x} y="86">{sc.s2.nodes[k]}</text>)}
+                      {[78, 160, 246, 324].map((x, k) => <text class="tm" x={x} y="34">{sc.s2.times[k]}</text>)}
+                    </svg>
+                    <div class="sum"><span>{sc.s2.chips[0]}</span><span class="warm">{sc.s2.chips[1]}</span></div>
+                  </div>
+                </div>
+              )}
+
+              {i === 2 && (
+                <div class="win scr">
+                  <div class="win-bar"><i></i><i></i><i></i><b>{sc.s3.title}</b><span class="live">{sc.s3.live}</span></div>
+                  <div class="win-body">
+                    <div class="cmp">
+                      <div class="hd2"><span></span><span>{sc.s3.cols[0]}</span><span>{sc.s3.cols[1]}</span></div>
+                      {[[30, 45], [48, 82], [90, 95]].map((w, k) => (
+                        <div class={`r${k === 1 ? ' sel' : ''}`} data-r>
+                          <b>{['A', 'B', 'C'][k]}</b>
+                          <span class="m"><i style={`width:${w[0]}%`}></i></span>
+                          <span class="m"><i style={`width:${w[1]}%`}></i></span>
+                        </div>
+                      ))}
+                    </div>
+                    <div style="margin-top:12px">
+                      <span class="ai-chip">{sc.s3.reco}</span>
+                      <p class="bubble" data-type={sc.s3.why}></p>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {i === 3 && (
+                <div class="win scr">
+                  <div class="win-bar"><i></i><i></i><i></i><b>{sc.s4.title}</b><span class="live">{sc.s4.live}</span></div>
+                  <div class="win-body">
+                    <div class="flow">
+                      <span class="nodeb">{sc.s4.nodes[0]}</span><span class="wire"><i></i></span>
+                      <span class="nodeb">{sc.s4.nodes[1]}</span><span class="wire w2"><i></i></span>
+                      <span class="nodeb">{sc.s4.nodes[2]}</span><span class="wire w3"><i></i></span>
+                      <span class="nodeb ok">{sc.s4.nodes[3]}</span>
+                    </div>
+                    <div class="log">
+                      {sc.s4.log.map((row, k) => <p class={k >= 3 ? 'ok' : ''}><em>{pair(row)[0]}</em>{pair(row)[1]}</p>)}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {i === 4 && (
+                <div class="win scr">
+                  <div class="win-bar"><i></i><i></i><i></i><b>{sc.s5.title}</b><span class="live">{sc.s5.live}</span></div>
+                  <div class="win-body">
+                    <div class="kp">{sc.s5.kpis.map((k) => <div><small>{pair(k)[0]}</small><b>{pair(k)[1]}</b></div>)}</div>
+                    <svg class="spark" viewBox="0 0 300 56" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M0 10 C40 12 60 18 100 24 S170 38 210 44 S270 50 300 50"></path></svg>
+                    <div class="alert"><span class="ai-chip">IA</span> <span data-type={sc.s5.ai}></span></div>
+                  </div>
+                </div>
+              )}
+            </article>
+          ))
+        }
+      </div>
+
+      <button type="button" class="arrow next" data-cnext aria-label={c.carousel.next}>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg>
+      </button>
+    </div>
+
+    <p class="count" data-count aria-live="polite">{c.carousel.hint}</p>
+
+    <ul class="control" data-control>
+      {
+        controlCards.map((text, i) => (
+          <li style={`--i:${i}`}>
+            <span class="ic" aria-hidden="true">
+              {i === 0 && (
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path pathLength="1" d="M12 3 4 6v6c0 4.5 3.4 7.7 8 9 4.6-1.3 8-4.5 8-9V6l-8-3z"></path><path pathLength="1" d="m9 12 2 2 4-4"></path></svg>
+              )}
+              {i === 1 && (
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path pathLength="1" d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5z"></path><path pathLength="1" d="M14 3v5h5M9 13h6M9 17h6"></path></svg>
+              )}
+              {i === 2 && (
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle pathLength="1" cx="8" cy="15" r="4"></circle><path pathLength="1" d="m11 12 9-9m-3 3 3 3m-6-0 2 2"></path></svg>
+              )}
+            </span>
+            <p>{text}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<script>
+  import { motion, typeEl, replay, whenVisible } from '../lib/tech-fx';
+
+  const car = document.querySelector<HTMLElement>('[data-car]');
+  if (car) {
+    const slides = Array.from(car.querySelectorAll<HTMLElement>('[data-slide]'));
+    const stepper = document.querySelector<HTMLElement>('[data-stepper]')!;
+    const buttons = Array.from(stepper.querySelectorAll<HTMLButtonElement>('[data-go]'));
+    const fill = stepper.querySelector<HTMLElement>('[data-fill]')!;
+    const prev = car.querySelector<HTMLButtonElement>('[data-cprev]')!;
+    const next = car.querySelector<HTMLButtonElement>('[data-cnext]')!;
+    const track = car.querySelector<HTMLElement>('[data-track]')!;
+    const count = document.querySelector<HTMLElement>('[data-count]')!;
+    const names: string[] = JSON.parse(car.dataset.names || '[]');
+    const hint = car.dataset.hint || '';
+    const kick = car.dataset.kick || '';
+    const total = slides.length;
+    let cur = 0;
+
+    function play(win: Element) {
+      replay(win);
+      win.querySelectorAll<HTMLElement>('[data-type]').forEach((el) => typeEl(el, el.dataset.type || '', el.closest('.alert') ? 2800 : 1100));
+    }
+    function goto(i: number, silent = false) {
+      cur = Math.max(0, Math.min(total - 1, i));
+      slides.forEach((s, k) => {
+        const o = k - cur;
+        const a = Math.abs(o);
+        s.classList.toggle('act', o === 0);
+        s.style.setProperty('--o', String(o));
+        s.style.setProperty('--s', String(o === 0 ? 1 : a === 1 ? 0.9 : 0.82));
+        s.style.setProperty('--op', String(o === 0 ? 1 : a === 1 ? 0.42 : 0));
+        s.style.setProperty('--sat', String(o === 0 ? 1 : 0.5));
+        s.style.setProperty('--pe', a <= 1 ? 'auto' : 'none');
+        s.style.setProperty('--cur', o === 0 ? 'default' : 'pointer');
+        s.setAttribute('aria-hidden', String(o !== 0));
+        /* Lo que está oculto a lectores de pantalla no debe poder enfocarse con Tab. */
+        s.querySelectorAll<HTMLElement>('a, button').forEach((el) => (o === 0 ? el.removeAttribute('tabindex') : el.setAttribute('tabindex', '-1')));
+        if (o !== 0) s.querySelector('.scr')?.classList.remove('play');
+      });
+      buttons.forEach((b, k) => {
+        b.classList.toggle('done', k < cur);
+        if (k === cur) b.setAttribute('aria-current', 'step');
+        else b.removeAttribute('aria-current');
+      });
+      fill.style.width = `calc((100% - 36px) * ${cur / (total - 1)})`;
+      prev.disabled = cur === 0;
+      next.disabled = cur === total - 1;
+      count.textContent = `${kick.replace('{n}', String(cur + 1)).replace('{total}', String(total))} · ${names[cur] || ''} · ${hint}`;
+      phase();
+      const win = slides[cur].querySelector('.scr');
+      if (win && !silent) setTimeout(() => play(win), motion.reduce ? 0 : 260);
+      else if (win) win.classList.add('play');
+    }
+
+    slides.forEach((s, k) => s.addEventListener('click', () => k !== cur && goto(k)));
+    const ph1 = document.querySelector<HTMLElement>('[data-ph="1"]');
+    const ph2 = document.querySelector<HTMLElement>('[data-ph="2"]');
+    function phase() {
+      /* Etapas 1 y 2: «Primero entendemos». Etapas 3 a 5: «Después proponemos». */
+      const second = cur >= 2;
+      ph1?.classList.toggle('on', !second);
+      ph1?.classList.toggle('done', second);
+      ph2?.classList.toggle('on', second);
+    }
+    buttons.forEach((b) => b.addEventListener('click', () => goto(Number(b.dataset.go))));
+    prev.addEventListener('click', () => goto(cur - 1));
+    next.addEventListener('click', () => goto(cur + 1));
+    car.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') {
+        goto(cur + 1);
+        e.preventDefault();
+      }
+      if (e.key === 'ArrowLeft') {
+        goto(cur - 1);
+        e.preventDefault();
+      }
+    });
+    let sx: number | null = null;
+    track.addEventListener('pointerdown', (e) => (sx = e.clientX));
+    window.addEventListener('pointerup', (e) => {
+      if (sx === null) return;
+      const dx = e.clientX - sx;
+      sx = null;
+      if (Math.abs(dx) > 60) goto(cur + (dx < 0 ? 1 : -1));
+    });
+    document.querySelectorAll<HTMLElement>('[data-r]').forEach((r) =>
+      r.addEventListener('click', () => document.querySelectorAll('[data-r]').forEach((x) => x.classList.toggle('sel', x === r)))
+    );
+
+    goto(0, true);
+    const ctl = document.querySelector<HTMLElement>('[data-control]');
+    if (ctl) whenVisible(ctl, () => ctl.classList.add('in'), 0.5);
+    new IntersectionObserver(
+      (es, o) => {
+        if (es[0].isIntersecting) {
+          o.disconnect();
+          const win = slides[0].querySelector('.scr');
+          if (win) play(win);
+        }
+      },
+      { threshold: 0.35 }
+    ).observe(car);
+  }
+</script>

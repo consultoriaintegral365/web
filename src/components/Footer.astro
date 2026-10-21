@@ -7,17 +7,16 @@ import type { Locale } from '../i18n/config';
 
 interface Props {
   locale: Locale;
-  minimal?: boolean;
 }
 
-const { locale, minimal = false } = Astro.props;
+const { locale } = Astro.props;
 const strings = t(locale);
 const year = new Date().getFullYear();
 
 const home = localizedPath('home', locale);
 const base = home === '/' ? '' : home;
 
-const col = 'text-body transition-colors hover:text-strong';
+const col = 'inline-block py-3 text-body transition-colors hover:text-strong';
 ---
 
 <!-- El pie continúa la banda de contacto (ambos «tinta»), separado por una
@@ -34,7 +33,7 @@ const col = 'text-body transition-colors hover:text-strong';
           site.social.linkedin && (
             <a
               href={site.social.linkedin}
-              class="mt-5 inline-flex items-center gap-2 text-sm text-body transition-colors hover:text-strong"
+              class="mt-3 inline-flex items-center gap-2 py-3 text-sm text-body transition-colors hover:text-strong"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -47,19 +46,19 @@ const col = 'text-body transition-colors hover:text-strong';
         }
       </div>
 
-      {!minimal && <div>
-        <h2 class="eyebrow">{strings.footer.company}</h2>
-        <ul class="mt-4 space-y-3 text-sm">
-          <li><a href={`${base}/#sistema`} class={col}>{strings.nav.system}</a></li>
+      <div>
+        <h2 class="text-sm font-semibold text-strong">{strings.footer.company}</h2>
+        <ul class="mt-2 text-sm">
+          <li><a href={`${base}/#camino`} class={col}>{strings.nav.camino}</a></li>
           <li><a href={`${base}/#servicios`} class={col}>{strings.nav.services}</a></li>
           <li><a href={`${base}/#mvp`} class={col}>{strings.nav.mvp}</a></li>
           <li><a href={`${base}/#contacto`} class={col}>{strings.nav.contact}</a></li>
         </ul>
-      </div>}
+      </div>
 
       <div>
-        <h2 class="eyebrow">{strings.footer.legal}</h2>
-        <ul class="mt-4 space-y-3 text-sm">
+        <h2 class="text-sm font-semibold text-strong">{strings.footer.legal}</h2>
+        <ul class="mt-2 text-sm">
           <li><a href={localizedPath('terms', locale)} class={col}>{strings.footer.terms}</a></li>
           <li><a href={localizedPath('privacy', locale)} class={col}>{strings.footer.privacy}</a></li>
           <li><a href={`mailto:${site.email.general}`} class={col}>{site.email.general}</a></li>
@@ -67,8 +66,15 @@ const col = 'text-body transition-colors hover:text-strong';
       </div>
     </div>
 
+    <!-- Aviso de marcas: se usan los nombres oficiales de los productos de Microsoft y
+         se aclara que somos una empresa independiente (no socio ni filial). -->
+    <p class="mt-10 max-w-3xl text-xs leading-relaxed text-muted">{strings.footer.trademarks}</p>
+    <p class="mt-3 text-xs leading-relaxed text-muted">
+      {strings.facts.since} {site.foundedYear} · {strings.facts.registered} · {strings.facts.law}
+    </p>
+
     <div
-      class="mt-12 flex flex-col gap-2 border-t border-line pt-6 font-mono text-[0.7rem] uppercase tracking-[0.06em] text-muted sm:flex-row sm:items-center sm:justify-between"
+      class="mt-6 flex flex-col gap-2 border-t border-line pt-6 text-xs text-muted sm:flex-row sm:items-center sm:justify-between"
     >
       <p>&copy; {year} {site.legalName}. {strings.footer.rights}</p>
       <p>

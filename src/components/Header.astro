@@ -10,10 +10,9 @@ import type { RouteKey } from '../i18n/routes';
 interface Props {
   locale: Locale;
   routeKey: RouteKey;
-  minimal?: boolean;
 }
 
-const { locale, routeKey, minimal = false } = Astro.props;
+const { locale, routeKey } = Astro.props;
 const strings = t(locale);
 
 const home = localizedPath('home', locale);
@@ -21,36 +20,31 @@ const home = localizedPath('home', locale);
    navegación también funciona desde las páginas legales. */
 const base = home === '/' ? '' : home;
 const links = [
-  { label: strings.nav.system, href: `${base}/#sistema` },
+  { label: strings.nav.camino, href: `${base}/#camino` },
   { label: strings.nav.services, href: `${base}/#servicios` },
-  { label: strings.nav.approach, href: `${base}/#metodo` },
   { label: strings.nav.about, href: `${base}/#nosotros` },
 ];
 const mvpHref = `${base}/#mvp`;
 const contactHref = `${base}/#contacto`;
 ---
 
-<!-- Sobre el hero (siempre oscuro) la cabecera se vuelve «tinta»; al pasarlo,
-     vuelve al tema elegido. El script está en Base.astro. -->
 <header
-  data-header
-  class="sticky top-0 z-40 border-b border-line backdrop-blur-xl transition-colors duration-300"
-  style="background: color-mix(in srgb, var(--ci-canvas) 78%, transparent);"
+  class="site-header sticky top-0 z-40 border-b border-line backdrop-blur-xl"
 >
   <div class="container-page flex h-16 items-center justify-between gap-3">
-    <a href={home} class="shrink-0" aria-label={`${strings.nav.home} — Consultoría Integral 365`}>
+    <a href={home} class="flex min-h-11 shrink-0 items-center" aria-label={`${strings.nav.home} — Consultoría Integral 365`}>
       <Logo />
     </a>
 
-    <div class="flex items-center gap-2 sm:gap-3">
-      {!minimal && <nav aria-label={strings.nav.home} class="mr-3 hidden lg:block">
+    <div class="flex items-center gap-1 min-[360px]:gap-2 sm:gap-3">
+      <nav aria-label={strings.nav.home} class="mr-3 hidden lg:block">
         <ul class="flex items-center gap-7">
           {
             links.map((link) => (
               <li>
                 <a
                   href={link.href}
-                  class="text-[0.84rem] text-body transition-colors hover:text-strong"
+                  class="text-sm text-body transition-colors hover:text-strong"
                 >
                   {link.label}
                 </a>
@@ -58,21 +52,19 @@ const contactHref = `${base}/#contacto`;
             ))
           }
         </ul>
-      </nav>}
+      </nav>
 
       <LangSwitcher locale={locale} routeKey={routeKey} />
       <ThemeToggle locale={locale} />
 
-      {!minimal && (
-      <a href={mvpHref} class="btn-primary hidden px-4 py-2 sm:inline-flex">
+      <a href={mvpHref} data-open-mvp class="btn-primary hidden px-4 py-2 sm:inline-flex">
         {strings.nav.mvp}
       </a>
-      )}
 
       <!-- Menú móvil: <details> nativo, sin JavaScript. -->
-      {!minimal && <details class="relative lg:hidden">
+      <details class="relative lg:hidden">
         <summary
-          class="surface flex h-9 w-9 cursor-pointer list-none items-center justify-center rounded-lg text-body [&::-webkit-details-marker]:hidden"
+          class="surface flex h-11 w-10 max-[359px]:w-9 cursor-pointer list-none items-center justify-center rounded-lg text-body [&::-webkit-details-marker]:hidden"
           aria-label={strings.nav.menu}
         >
           <svg
@@ -89,11 +81,12 @@ const contactHref = `${base}/#contacto`;
         </summary>
         <ul class="surface absolute right-0 top-11 w-60 rounded-xl p-2 shadow-lift">
           {
-            [...links, { label: strings.nav.mvp, href: mvpHref }, { label: strings.nav.contact, href: contactHref }].map((link) => (
+            [...links, { label: strings.nav.mvp, href: mvpHref, open: true }, { label: strings.nav.contact, href: contactHref }].map((link) => (
               <li>
                 <a
                   href={link.href}
-                  class="block rounded-lg px-3 py-2 text-sm text-body transition-colors hover:bg-canvas-soft hover:text-strong"
+                  data-open-mvp={link.open ? '' : undefined}
+                  class="block rounded-lg px-3 py-3 text-sm text-body transition-colors hover:bg-canvas-soft hover:text-strong"
                 >
                   {link.label}
                 </a>
@@ -101,7 +94,7 @@ const contactHref = `${base}/#contacto`;
             ))
           }
         </ul>
-      </details>}
+      </details>
     </div>
   </div>
 </header>

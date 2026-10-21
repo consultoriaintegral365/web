@@ -1,0 +1,147 @@
+---
+/**
+ * Soluciones con Microsoft Power Platform: un bloque dentro de «Capacidades».
+ * El mensaje —«ya pagas por Microsoft; hagamos que trabaje para ti»— apunta a
+ * aprovechar lo que la empresa ya tiene. A la izquierda, los tres productos con
+ * una línea cada uno; a la derecha, una pantalla del mismo alto con ejemplos:
+ * aplicaciones de Power Apps, flujos de Power Automate con un robot de escritorio
+ * (RPA) y un panel de Power BI. Todo rotulado como ejemplo ilustrativo.
+ */
+import { t } from '../i18n/ui';
+import type { Locale } from '../i18n/config';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const p = t(locale).plat;
+const sc = p.screens;
+const pair = (s: string) => s.split('|');
+---
+
+<div class="tx">
+  <div class="tour" data-plat data-wins={JSON.stringify([sc.apps.win, sc.flows.win, sc.bi.win])}>
+    <div class="tabs three" role="tablist" aria-label={p.tourLabel}>
+      {
+        p.tabs.map(([name, line, tag], i) => (
+          <button type="button" class="tab" role="tab" data-ptab={i} aria-selected={i === 0 ? 'true' : 'false'}>
+            <span class="tg2">{tag}</span>
+            <h3 class="text-lead font-medium">{name}</h3>
+            <p class="biz">{line}</p>
+          </button>
+        ))
+      }
+    </div>
+
+    <div class="stagewrap">
+      <div class="win cs-win">
+        <div class="win-bar"><i></i><i></i><i></i><b data-pwintitle>{sc.apps.win}</b><span class="live">{p.live}</span></div>
+        <div class="win-body">
+
+          <!-- Power Apps: aplicaciones de ejemplo -->
+          <div class="cs on play" data-pcs>
+            <div class="apps">
+              {
+                sc.apps.list.map((a, k) => (
+                  <div class="phone" style={`--i:${k}`}>
+                    <span class="notch"></span>
+                    <p class="ph-t">{a.title}</p>
+                    {a.rows.map((r, j) => <div class="pr" style={`--j:${j}`}><span>{pair(r)[0]}</span><b>{pair(r)[1]}</b></div>)}
+                    <span class="pcta">{a.cta}</span>
+                  </div>
+                ))
+              }
+            </div>
+          </div>
+
+          <!-- Power Automate: flujo en la nube y robot de escritorio -->
+          <div class="cs" data-pcs>
+            <div class="fl">
+              <div class="lane">
+                <p class="lane-t">{sc.flows.cloud}</p>
+                <ol class="pflow four">
+                  {sc.flows.cloudNodes.map((n, k) => <li class="pn" style={`--i:${k}`}><i>{k + 1}</i>{n}</li>)}
+                </ol>
+              </div>
+              <div class="lane rpa">
+                <p class="lane-t">{sc.flows.rpa}</p>
+                <ul class="rsteps">
+                  {sc.flows.rpaSteps.map((st, k) => <li style={`--i:${k}`}><span class="rk" aria-hidden="true"></span>{st}</li>)}
+                </ul>
+              </div>
+              <div class="runs">
+                <span>{sc.flows.runs}</span>
+                <b>{sc.flows.runsVal}</b>
+                <em class="okc">{sc.flows.ok}</em>
+                <em class="rec">{sc.flows.retry}</em>
+              </div>
+            </div>
+          </div>
+
+          <!-- Power BI: panel de gerencia -->
+          <div class="cs" data-pcs>
+            <div class="fd">
+              <div class="fd-top"><div class="fd-chips">{sc.bi.filters.map((f) => <span>{f}</span>)}</div></div>
+              <div class="fd-kpis">
+                {sc.bi.kpis.map((k, i) => <div class="kcard flat" style={`--i:${i}`}><small>{pair(k)[0]}</small><b>{pair(k)[1]}</b></div>)}
+              </div>
+              <div class="fd-row">
+                <div class="fpanel">
+                  <p class="qt">{sc.bi.trend}</p>
+                  <svg class="area" viewBox="0 0 300 120" preserveAspectRatio="none" aria-hidden="true">
+                    <path class="fillp" d="M0 100 C40 92 70 80 110 62 S190 40 230 28 S280 18 300 12 V120 H0 Z"></path>
+                    <path class="linep" pathLength="1" d="M0 100 C40 92 70 80 110 62 S190 40 230 28 S280 18 300 12"></path>
+                  </svg>
+                  <div class="dlbl">{sc.bi.months.map((m) => <span>{m}</span>)}</div>
+                </div>
+                <div class="fpanel">
+                  <p class="qt">{sc.bi.rank}</p>
+                  <div class="hbars">
+                    {sc.bi.sellers.map((s, k) => <div class="hb" style={`--v:${pair(s)[1]}%;--i:${k}`}><span>{pair(s)[0]}</span><span class="hbt"><i></i></span><b>{pair(s)[1]}</b></div>)}
+                  </div>
+                </div>
+              </div>
+              <p class="mono-note" style="margin-top:0">{sc.bi.note}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  import { replay, whenVisible } from '../lib/tech-fx';
+
+  const tour = document.querySelector<HTMLElement>('[data-plat]');
+  if (tour) {
+    const tabs = Array.from(tour.querySelectorAll<HTMLButtonElement>('[data-ptab]'));
+    const screens = Array.from(tour.querySelectorAll<HTMLElement>('[data-pcs]'));
+    const title = tour.querySelector<HTMLElement>('[data-pwintitle]')!;
+    const wins: string[] = JSON.parse(tour.dataset.wins || '[]');
+
+    function show(i: number, animate = true) {
+      tabs.forEach((b, k) => b.setAttribute('aria-selected', String(k === i)));
+      screens.forEach((s, k) => {
+        s.classList.toggle('on', k === i);
+        if (k !== i) s.classList.remove('play');
+      });
+      title.textContent = wins[i] || '';
+      if (animate) replay(screens[i]);
+    }
+    tabs.forEach((b, i) => {
+      b.addEventListener('click', () => show(i));
+      b.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+          const n = (i + (e.key === 'ArrowDown' ? 1 : tabs.length - 1)) % tabs.length;
+          show(n);
+          tabs[n].focus();
+          e.preventDefault();
+        }
+      });
+    });
+    show(0, false);
+    whenVisible(tour, () => show(0), 0.35);
+  }
+</script>

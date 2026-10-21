@@ -1,4 +1,5 @@
 @import 'tailwindcss';
+@import './tech.css';
 
 /* Tipografías autoalojadas: sin peticiones a terceros (mejor rendimiento y no
    se envía la IP del visitante a Google). Geist para la interfaz, Geist Mono
@@ -30,51 +31,78 @@
   --ci-line: #dedad0;
   --ci-line-strong: #c9c4b8;
 
-  --ci-strong: #0c0f14;
-  --ci-body: #454b57;
-  --ci-muted: #666c78;
+  --ci-strong: #14181f;
+  --ci-body: #3f4652;
+  --ci-muted: #5b616c;
 
-  --ci-brand: #1c5ef5;
-  --ci-brand-hover: #1749e1;
-  --ci-brand-ink: #1749e1;
-  --ci-brand-soft: #e8eefc;
+  /* Cielo: la acción (botones, enlaces, foco) y las etapas de analizar y proponer. */
+  --ci-brand: #2563eb;
+  --ci-brand-hover: #1d4fc4;
+  --ci-brand-ink: #1d4fc4;
+  --ci-brand-soft: #e4ecfb;
   --ci-brand-line: #c4d4fb;
   --ci-on-brand: #ffffff;
 
-  --ci-signal: #0e9f88;
-  --ci-signal-ink: #0a7a69;
-  --ci-signal-soft: #def3ee;
+  /* Salvia: lo logrado (sin costo, listo, medido) y las etapas de implementar y medir. */
+  --ci-signal: #1f7a5c;
+  --ci-signal-ink: #165a43;
+  --ci-signal-soft: #dfefe8;
 
-  --ci-ink: #0a0c10;
-  --ci-shadow-sm: 0 1px 0 rgb(12 15 20 / 0.04);
-  --ci-shadow-md: 0 1px 2px rgb(12 15 20 / 0.06), 0 8px 24px rgb(12 15 20 / 0.06);
-  --ci-shadow-lg: 0 2px 4px rgb(12 15 20 / 0.06), 0 24px 56px rgb(12 15 20 / 0.12);
+  /* Arcilla: lo humano; la etapa de entender. */
+  --ci-clay: #b4532a;
+  --ci-clay-ink: #8f3e1c;
+  --ci-clay-soft: #f3e4db;
+
+  /* Estados funcionales (formulario): no forman parte de la paleta de marca. */
+  --ci-danger: #b3261e;
+  --ci-warn: #8a5a00;
+
+  /* Recibo del MVP: «papel térmico», un objeto con colores propios en ambos temas. */
+  --ci-ticket-paper: #f6f4ef;
+  --ci-ticket-ink: #0c0f14;
+  --ci-ticket-faint: #575b64;
+  --ci-ticket-dash: #b9b4a8;
+  --ci-ticket-dot: #a8a396;
+  --ci-ticket-mark: #0e9f88;
+  --ci-ticket-hilite: #2dd4bf;
+
+  --ci-ink: #16171a;
+  --ci-shadow-sm: 0 1px 0 rgb(20 24 31 / 0.04);
+  --ci-shadow-md: 0 1px 2px rgb(20 24 31 / 0.06), 0 8px 24px rgb(20 24 31 / 0.06);
+  --ci-shadow-lg: 0 2px 4px rgb(20 24 31 / 0.06), 0 24px 56px rgb(20 24 31 / 0.12);
 }
 
 [data-theme='dark'],
 .theme-ink {
-  --ci-canvas: #0a0c10;
-  --ci-canvas-soft: #0e1117;
-  --ci-card: #12151c;
-  --ci-line: #222733;
-  --ci-line-strong: #2f3645;
+  --ci-canvas: #16171a;
+  --ci-canvas-soft: #1b1c20;
+  --ci-card: #1e2024;
+  --ci-line: #2d3036;
+  --ci-line-strong: #3a3e46;
 
-  --ci-strong: #eef0f5;
-  --ci-body: #a3abba;
-  --ci-muted: #7b8394;
+  --ci-strong: #edebe6;
+  --ci-body: #c4c6cb;
+  --ci-muted: #a3a6ad;
 
-  /* El cobalto se oscurece un punto para que el texto blanco del botón
-     conserve contraste AA; para texto y enlaces se usa una versión clara. */
+  /* El cielo se oscurece un punto para que el texto blanco del botón conserve
+     contraste AA; para texto y enlaces se usa una versión clara. */
   --ci-brand: #2f66f0;
-  --ci-brand-hover: #4a7bf5;
-  --ci-brand-ink: #93b2ff;
-  --ci-brand-soft: #131d36;
-  --ci-brand-line: #243a6b;
+  --ci-brand-hover: #2556d8;
+  --ci-brand-ink: #8fb2ff;
+  --ci-brand-soft: #18233f;
+  --ci-brand-line: #2a3f73;
   --ci-on-brand: #ffffff;
 
-  --ci-signal: #2dd4bf;
-  --ci-signal-ink: #5eead4;
-  --ci-signal-soft: #0f2a2a;
+  --ci-signal: #2e9e78;
+  --ci-signal-ink: #5fc9a2;
+  --ci-signal-soft: #14261f;
+
+  --ci-clay: #d9774f;
+  --ci-clay-ink: #e59a78;
+  --ci-clay-soft: #2b1d17;
+
+  --ci-danger: #ff8a80;
+  --ci-warn: #f2c14e;
 
   --ci-shadow-sm: 0 1px 0 rgb(0 0 0 / 0.3);
   --ci-shadow-md: 0 1px 2px rgb(0 0 0 / 0.4), 0 8px 24px rgb(0 0 0 / 0.35);
@@ -109,6 +137,11 @@
   --color-signal: var(--ci-signal);
   --color-signal-ink: var(--ci-signal-ink);
   --color-signal-soft: var(--ci-signal-soft);
+  --color-clay: var(--ci-clay);
+  --color-clay-ink: var(--ci-clay-ink);
+  --color-clay-soft: var(--ci-clay-soft);
+  --color-danger: var(--ci-danger);
+  --color-warn: var(--ci-warn);
   --color-ink: var(--ci-ink);
 
   --shadow-soft: var(--ci-shadow-sm);
@@ -173,11 +206,11 @@
    --------------------------------------------------------------------------- */
 @layer components {
   .container-page {
-    @apply mx-auto w-full max-w-[72rem] px-5 sm:px-8;
+    @apply mx-auto w-full max-w-[90rem] px-5 sm:px-8 lg:px-12;
   }
 
   .h-display {
-    font-size: clamp(2.5rem, 5.3vw, 4.5rem);
+    font-size: clamp(2.5rem, 4.6vw, 4rem);
     line-height: 1;
     letter-spacing: -0.045em;
     font-weight: 500;
@@ -190,24 +223,42 @@
     font-weight: 500;
   }
 
-  /* Acento tipográfico: una palabra o frase en serif cursiva por titular. */
-  .accent {
-    font-family: var(--font-serif);
-    font-style: italic;
-    font-weight: 400;
-    letter-spacing: -0.02em;
+  /* Subtítulo (nivel 3): un solo tamaño para todas las etapas y capacidades. */
+  .h-sub {
+    font-size: clamp(1.5rem, 2.6vw, 2rem);
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    font-weight: 500;
+  }
+
+  /* Etiqueta estándar: frase normal, semibold, color de acción. Sustituye a las
+     las antiguas etiquetas monoespaciadas en mayúsculas. */
+  .label {
+    font-size: 0.875rem;
+    line-height: 1.4;
+    font-weight: 600;
     color: var(--ci-brand-ink);
   }
 
-  /* Etiqueta técnica: monoespaciada, en mayúsculas. */
-  .eyebrow,
-  .mono-label {
-    font-family: var(--font-mono);
-    font-size: 0.72rem;
-    font-weight: 500;
-    letter-spacing: 0.09em;
-    text-transform: uppercase;
-    color: var(--ci-muted);
+  /* Recibo del MVP (compartido por la sección y el formulario). */
+  .receipt {
+    --paper: var(--ci-ticket-paper);
+    --ink: var(--ci-ticket-ink);
+    --faint: var(--ci-ticket-faint);
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-mono); /* audit-ok: recibo */
+  }
+
+  /* Cita: el único lugar con serif cursiva. */
+  .quote {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(1.5rem, 2.6vw, 2rem);
+    line-height: 1.25;
+    letter-spacing: -0.015em;
+    color: var(--ci-strong);
   }
 
   .btn,
@@ -219,6 +270,11 @@
       border-color 0.18s ease,
       color 0.18s ease,
       transform 0.18s ease;
+  }
+
+  /* Tamaño grande del botón (acción principal de una sección). */
+  .btn-lg {
+    @apply px-7 py-3.5 text-base;
   }
 
   .btn-primary {
@@ -246,6 +302,11 @@
     border-color: var(--ci-muted);
   }
 
+  /* Cabecera: translúcida sobre el contenido. */
+  .site-header {
+    background: color-mix(in srgb, var(--ci-canvas) 88%, transparent);
+  }
+
   /* Superficie: línea fina, sin sombra. La separación la da el borde. */
   .surface {
     background-color: var(--ci-card);
@@ -255,39 +316,6 @@
 
   .surface-hover:hover {
     border-color: var(--ci-line-strong);
-  }
-
-  /* Rejilla técnica de fondo, desvanecida hacia los bordes. */
-  .bg-grid {
-    background-image:
-      linear-gradient(to right, var(--ci-line) 1px, transparent 1px),
-      linear-gradient(to bottom, var(--ci-line) 1px, transparent 1px);
-    background-size: 56px 56px;
-    mask-image: radial-gradient(ellipse 70% 60% at 50% 35%, #000 20%, transparent 75%);
-    -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 35%, #000 20%, transparent 75%);
-    opacity: 0.55;
-  }
-
-  /* Foco que sigue al puntero: la luz vive en el borde, no en un halo. */
-  .spot {
-    position: relative;
-  }
-  .spot::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    background: radial-gradient(
-      420px circle at var(--mx, 50%) var(--my, 50%),
-      color-mix(in srgb, var(--ci-brand) 16%, transparent),
-      transparent 60%
-    );
-  }
-  .spot:hover::before {
-    opacity: 1;
   }
 
   /* Cuerpo de los documentos legales. */
@@ -369,38 +397,37 @@
 }
 
 /* ---------------------------------------------------------------------------
-   Movimiento: una sola aparición discreta al entrar en pantalla.
-   Sin librerías y sin saltos de layout; si no hay JavaScript, el contenido
-   simplemente se ve, porque el estado por defecto es visible.
+   Movimiento: el contenido siempre está visible; solo se anima lo que explica algo.
+   Sin librerías y sin saltos de layout.
    --------------------------------------------------------------------------- */
 @layer utilities {
   .reveal {
     opacity: 1;
   }
 
-  html.js .reveal {
-    opacity: 0;
-    transform: translateY(18px);
-    transition:
-      opacity 0.7s cubic-bezier(0.2, 0.7, 0.3, 1) var(--d, 0s),
-      transform 0.7s cubic-bezier(0.2, 0.7, 0.3, 1) var(--d, 0s);
-  }
+  /* Las secciones aparecen sin deslizarse ni desvanecerse (decisión de V2: nada
+     invasivo). La clase solo permite que cada pieza anime lo suyo al llegar
+     (la gráfica del camino, el recibo): el script añade .is-visible. */
+}
 
-  html.js .reveal.is-visible {
-    opacity: 1;
-    transform: none;
+/* Entrada «suave» para lo que se ve al cargar: solo se mueve, nunca parte de
+   opacidad 0. Así el texto cuenta para el primer pintado (LCP) y las pruebas de
+   contraste nunca lo ven medio transparente. */
+@keyframes rise-soft {
+  from {
+    transform: translateY(12px);
+  }
+}
+@layer utilities {
+  .rise {
+    animation: rise-soft 0.8s cubic-bezier(0.2, 0.7, 0.3, 1) both;
+    animation-delay: var(--d, 0s);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
-  }
-
-  html.js .reveal {
-    opacity: 1;
-    transform: none;
-    transition: none;
   }
 
   *,

@@ -1,0 +1,23 @@
+---
+/**
+ * Cabecera estándar de sección: etiqueta + titular + párrafo. Toda sección usa
+ * esta pieza, así el tamaño y el espaciado no se definen en cada lugar.
+ */
+import Label from './Label.astro';
+
+interface Props {
+  label?: string;
+  title: string;
+  lead?: string;
+  id?: string;
+  class?: string;
+}
+
+const { label, title, lead, id, class: className } = Astro.props;
+---
+
+<div class:list={['max-w-3xl', className]}>
+  {label && <Label>{label}</Label>}
+  <h2 id={id} class:list={['h-title', label && 'mt-3']}>{title}</h2>
+  {lead && <p class="mt-5 max-w-2xl text-lead text-body">{lead}</p>}
+</div>

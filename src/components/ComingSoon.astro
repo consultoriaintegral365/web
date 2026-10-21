@@ -8,7 +8,7 @@
  * hay cuenta atrás ni fecha inventada; el contacto sigue disponible para quien
  * quiera ver lo nuevo antes que nadie.
  */
-import { site } from '../config/site';
+import { site, whatsappUrl } from '../config/site';
 import { t } from '../i18n/ui';
 import type { Locale } from '../i18n/config';
 
@@ -23,14 +23,13 @@ const s = strings.soon;
 const before = s.titleBefore.split(' ');
 const accent = s.titleAccent.split(' ');
 const mailto = `mailto:${site.email.general}?subject=${encodeURIComponent(s.mailSubject)}&body=${encodeURIComponent(s.mailBody)}`;
-const wa = `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(s.whatsappMessage)}`;
+const wa = whatsappUrl(s.whatsappMessage);
 /* Anchos distintos y fijos: sugieren un trabajo a medias sin dar cifras. */
 const widths = [100, 100, 64, 28];
 ---
 
 <section class="theme-ink relative isolate overflow-hidden bg-canvas">
   <div class="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
-    <div class="bg-grid absolute inset-0"></div>
     <div
       class="absolute inset-0"
       style="background: radial-gradient(640px circle at 72% 30%, color-mix(in srgb, var(--ci-brand) 15%, transparent), transparent 62%);"
@@ -41,7 +40,7 @@ const widths = [100, 100, 64, 28];
   <div class="container-page flex min-h-[calc(100svh-4rem)] items-center py-16 sm:py-20">
     <div class="grid w-full items-center gap-14 lg:grid-cols-[1.12fr_0.88fr] lg:gap-16">
       <div>
-        <p class="eyebrow flex items-center gap-2.5">
+        <p class="label flex items-center gap-2.5">
           <span class="relative flex h-1.5 w-1.5">
             <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-signal opacity-60"></span>
             <span class="relative inline-flex h-1.5 w-1.5 rounded-full bg-signal"></span>
@@ -56,7 +55,7 @@ const widths = [100, 100, 64, 28];
           <span class="block">
             {
               accent.map((w, i) => (
-                <span class="wm"><span class="w accent" style={`--i:${before.length + i}`}>{w}&nbsp;</span></span>
+                <span class="wm"><span class="w" style={`--i:${before.length + i}`}>{w}&nbsp;</span></span>
               ))
             }
           </span>

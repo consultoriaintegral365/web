@@ -1,0 +1,14 @@
+---
+/**
+ * Panel o tarjeta estándar: línea fina, un solo radio (12 px), sin sombra.
+ */
+interface Props {
+  as?: 'div' | 'li' | 'article' | 'section';
+  class?: string;
+  [attr: string]: unknown;
+}
+
+const { as: Tag = 'div', class: className, ...rest } = Astro.props;
+---
+
+<Tag {...rest} class:list={['surface rounded-xl', className]}><slot /></Tag>

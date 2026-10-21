@@ -45,7 +45,7 @@ const { class: className = '', compact = false } = Astro.props;
     <span class="wordmark text-strong" aria-label="ci365">c<span class="idot" aria-hidden="true">ı</span>365</span>
     {
       !compact && (
-        <span class="mt-[3px] hidden font-mono text-[0.58rem] font-medium uppercase leading-none tracking-[0.2em] text-muted sm:block">
+        <span class="mt-[3px] hidden font-mono text-[0.58rem] font-medium uppercase leading-none tracking-[0.2em] text-muted sm:block"> <!-- audit-ok: el eslogan es parte del logotipo -->
           Consultoría Integral
         </span>
       )

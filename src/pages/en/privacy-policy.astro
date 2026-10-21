@@ -42,24 +42,37 @@ const strings = t(locale);
 
   <h3>2.1 Data you provide</h3>
   <p>
-    This Site <strong>contains no data collection forms</strong>. Contact takes place by email or
-    through the channels listed in the contact section. When you write to us, we process the data
-    you choose to include in your message, typically:
+    You can contact us by email, by WhatsApp or through the
+    <strong>“Request your MVP” form</strong> on this Site. When you write to us or complete the
+    form, we process the data you choose to give us, typically:
   </p>
   <ul>
     <li>First name and surname.</li>
     <li>Email address and, where applicable, telephone number.</li>
     <li>The company or entity you represent and your role.</li>
     <li>The content of your message and any information you voluntarily include in it.</li>
+    <li>
+      The answers you select in the form (type of project, company size and urgency) and the
+      description of the problem you want to solve.
+    </li>
+    <li>
+      The origin of the visit that brought you to the form (for example, the referring link or
+      campaign), where there is one.
+    </li>
   </ul>
 
   <h3>2.2 Browsing data</h3>
   <p>
-    The Site is static and <strong>does not use cookies, tracking pixels, advertising or analytics
-    tools</strong> that build profiles of its visitors.
+    The Site <strong>does not use cookies, tracking pixels or advertising</strong>, and does not
+    build profiles of its visitors. To understand how the form is used and improve it, we record
+    usage events <strong>anonymously</strong> (for example, that the form was opened or a step was
+    completed), together with the page, the language and a random identifier that exists only while
+    the tab is open. <strong>We do not record your IP address</strong> in those events or link them
+    to your name or email. If your browser sends the “Do Not Track” or “Global Privacy Control”
+    signal, we do not record those events.
   </p>
   <p>
-    However, our hosting provider automatically logs technical data inherent to the operation of the
+    However, our hosting and network providers automatically log technical data inherent to the operation of the
     internet — IP address, date and time of the request, browser type and requested page — for the
     sole purpose of delivering the content, maintaining service security and preventing abuse. We do
     not link those logs to identified individuals or use them for commercial purposes.
@@ -145,13 +158,6 @@ const strings = t(locale);
     already have stored</strong>: its return, migration or deletion is governed by what has been
     agreed in the corresponding contract.
   </p>
-  <p>
-    Published annexes:{' '}
-    <a href={localizedPath('annexAgiAgo', 'es')} hreflang="es-PE">
-      Data processing annex — AGI/AGO system
-    </a>{' '}
-    (in Spanish).
-  </p>
 
   <h3>3.5 Confidentiality and incidents</h3>
   <p>
@@ -165,6 +171,10 @@ const strings = t(locale);
   <p>We process your personal data solely to:</p>
   <ul>
     <li>Handle and respond to enquiries, information requests and proposals you send us.</li>
+    <li>
+      Manage free MVP requests: assess their feasibility and contact you to coordinate next steps.
+    </li>
+    <li>Measure, in aggregate and anonymously, how the form is used in order to improve it.</li>
     <li>Prepare and send quotations or service proposals when you request them.</li>
     <li>Manage pre-contractual and contractual relationships with clients, suppliers and partners.</li>
     <li>Comply with applicable legal, accounting and tax obligations.</li>
@@ -180,7 +190,7 @@ const strings = t(locale);
   <ul>
     <li>
       <strong>Your free, prior, express, informed and unequivocal consent</strong>, given when you
-      voluntarily send us a communication.
+      voluntarily send us a communication or tick the acceptance box on the form.
     </li>
     <li>
       <strong>Performance of a contract or pre-contractual measures</strong> taken at your request.
@@ -197,8 +207,11 @@ const strings = t(locale);
   <p>We keep data for as long as necessary to fulfil the purpose for which it was collected:</p>
   <ul>
     <li>
-      <strong>Enquiries that do not lead to a commercial relationship:</strong> up to twelve (12)
-      months from the last contact.
+      <strong>Enquiries and MVP requests that do not lead to a commercial relationship:</strong> up
+      to twelve (12) months from the last contact.
+    </li>
+    <li>
+      <strong>Anonymous form usage events:</strong> up to twelve (12) months.
     </li>
     <li>
       <strong>Clients and suppliers:</strong> for the duration of the relationship and thereafter
@@ -216,7 +229,19 @@ const strings = t(locale);
   </p>
   <ul>
     <li><strong>Website hosting:</strong> GitHub, Inc. (GitHub Pages).</li>
-    <li><strong>Email and productivity:</strong> Microsoft Corporation (Microsoft 365).</li>
+    <li>
+      <strong>Network and form processing:</strong> Cloudflare, Inc. (delivery network and
+      Cloudflare Workers). It receives the form data and forwards it to our Microsoft 365
+      environment without retaining it.
+    </li>
+    <li>
+      <strong>Messaging:</strong> if you choose to write to us on WhatsApp, Meta Platforms, Inc.
+      processes the conversation under its own terms; that communication is initiated by you.
+    </li>
+    <li>
+      <strong>Email and productivity:</strong> Microsoft Corporation (Microsoft 365: email,
+      SharePoint and Teams, where requests are stored and managed).
+    </li>
   </ul>
   <p>
     We may also disclose data to administrative or judicial authorities where legally required to do

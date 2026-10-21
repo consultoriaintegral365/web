@@ -1,0 +1,25 @@
+---
+/**
+ * Botón estándar: dos variantes (principal y secundario) y dos tamaños
+ * (normal y grande). Sin flechas: el texto ya dice la acción.
+ */
+interface Props {
+  href?: string;
+  variant?: 'primary' | 'secondary';
+  size?: 'md' | 'lg';
+  class?: string;
+  [attr: string]: unknown;
+}
+
+const { href, variant = 'primary', size = 'md', class: className, ...rest } = Astro.props;
+const Tag = href ? 'a' : 'button';
+const attrs = href ? { href } : { type: 'button' };
+---
+
+<Tag
+  {...attrs}
+  {...rest}
+  class:list={[variant === 'primary' ? 'btn-primary' : 'btn-secondary', size === 'lg' && 'btn-lg', className]}
+>
+  <slot />
+</Tag>

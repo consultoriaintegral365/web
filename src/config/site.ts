@@ -55,8 +55,12 @@ export const site = {
 
   phone: '+51 947 148 320',
 
+  /** Mismo número que el teléfono publicado, en formato wa.me (solo dígitos).
+   *  Confirmado por el usuario (2026-10-19) como línea con WhatsApp. */
+  whatsapp: '51947148320',
+
   url: 'https://consultoriaintegral365.com',
-  foundedYear: 2024,
+  foundedYear: 2023,
 
   social: {
     /** Perfil del fundador: la E.I.R.L. no tiene página de empresa propia. */
@@ -65,10 +69,23 @@ export const site = {
   },
 
   /** Fecha de última actualización de los documentos legales (ISO 8601). */
-  legalLastUpdated: '2026-09-18',
+  legalLastUpdated: '2026-10-19',
 } as const;
 
 export type Site = typeof site;
+
+/**
+ * Enlace de WhatsApp con mensaje precargado.
+ *
+ * Se usa `api.whatsapp.com/send/` y NO `wa.me`: el redireccionamiento de wa.me
+ * sustituye los emojis por «�» (comprobado el 2026-10-20: wa.me → %EF%BF%BD),
+ * mientras que este destino conserva los bytes UTF-8 del mensaje. Sin argumento
+ * devuelve el prefijo (termina en `&text=`) para completarlo en el navegador
+ * con `encodeURIComponent`.
+ */
+export function whatsappUrl(message = ''): string {
+  return `https://api.whatsapp.com/send/?phone=${site.whatsapp}&type=phone_number&app_absent=0&text=${encodeURIComponent(message)}`;
+}
 
 /**
  * Línea de domicilio ya compuesta, omitiendo las partes sin valor. Evita que

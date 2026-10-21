@@ -9,7 +9,8 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "audit:design": "node scripts/audit-design.mjs --strict"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.4",

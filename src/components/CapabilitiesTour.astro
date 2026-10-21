@@ -1,0 +1,248 @@
+---
+/**
+ * Capacidades como un recorrido: a la izquierda, cuatro bloques de texto breve
+ * (qué ganas, no cómo se hace); a la derecha, una pantalla del mismo alto que los
+ * muestra funcionando con un caso real: homologar proveedores, un tablero claro
+ * y amigable, una aplicación que se construye en tiempo real (el código se
+ * escribe y la pantalla de la app se arma al mismo ritmo) y un asistente de IA
+ * que lee documentos, encuentra lo que falta y redacta la sección pendiente.
+ */
+import { t } from '../i18n/ui';
+import type { Locale } from '../i18n/config';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const cap = t(locale).cap;
+const sc = cap.screens;
+const pair = (s: string) => s.split('|');
+const c2 = sc.c2;
+const donut = c2.zones.map((z) => pair(z));
+---
+
+<div class="tx">
+  <div class="tour" data-tour data-wins={JSON.stringify([sc.c1.win, sc.c2.win, sc.c3.win, sc.c4.win])}>
+    <div class="tabs" role="tablist" aria-label={cap.tourLabel}>
+      {
+        cap.items.map((item, i) => (
+          <button type="button" class="tab" role="tab" data-tab={i} aria-selected={i === 0 ? 'true' : 'false'}>
+            <span class="tg2">{cap.tags[i]}</span>
+            <h3 class="text-lead font-medium">{item.title}</h3>
+            <p class="biz">{item.business}</p>
+          </button>
+        ))
+      }
+    </div>
+
+    <div class="stagewrap">
+      <div class="win cs-win">
+        <div class="win-bar"><i></i><i></i><i></i><b data-wintitle>{sc.c1.win}</b><span class="live">{cap.live}</span></div>
+        <div class="win-body">
+
+          <!-- a · Homologación de proveedores -->
+          <div class="cs on play" data-cs>
+            <ol class="pflow">
+              {sc.c1.flow.map((step, k) => <li class="pn" style={`--i:${k}`}><i>{k + 1}</i>{step}</li>)}
+            </ol>
+            <div class="ptable">
+              <div class="row3 hd3">{sc.c1.head.map((h) => <span>{h}</span>)}</div>
+              {
+                sc.c1.rows.map((r, k) => (
+                  <div class="row3">
+                    <span>{pair(r)[0]}</span>
+                    <span>{pair(r)[1]}</span>
+                    <span class="pbar"><i style={`--v:${pair(r)[2]}%;--i:${k}`}></i></span>
+                  </div>
+                ))
+              }
+            </div>
+            <div class="pfeed">
+              {sc.c1.feed.map((line, k) => <p class={line.startsWith('…') ? '' : 'ok'} style={`--i:${k}`}>{line}</p>)}
+            </div>
+            <p class="pkpi">{sc.c1.kpi}: <s>{sc.c1.before}</s> <b>{sc.c1.after}</b> <small>{sc.c1.illus}</small></p>
+          </div>
+
+          <!-- b · Tablero claro y amigable -->
+          <div class="cs" data-cs>
+            <div class="fd">
+              <div class="fd-top">
+                <p class="hello">{c2.hello}</p>
+                <div class="fd-chips">{c2.filters.map((f) => <span>{f}</span>)}<span class="ill">{c2.illus}</span></div>
+              </div>
+              <div class="fd-kpis">
+                {
+                  c2.kpis.map((k, i) => {
+                    const [label, value, delta, note] = pair(k);
+                    const up = delta.startsWith('▲');
+                    return (
+                      <div class="kcard" style={`--i:${i}`}>
+                        <span class={`ico ${up ? 'up' : 'dn'}`} aria-hidden="true">
+                          {i === 0 && <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M14.8 9.2c-.5-.8-1.5-1.2-2.8-1.2-1.6 0-2.7.8-2.7 2 0 3 5.6 1.2 5.6 4.2 0 1.2-1.1 2-2.9 2-1.4 0-2.4-.5-3-1.4M12 6.5V8m0 8v1.5"></path></svg>}
+                          {i === 1 && <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M19 5 5 19"></path><circle cx="7" cy="7" r="2.5"></circle><circle cx="17" cy="17" r="2.5"></circle></svg>}
+                          {i === 2 && <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8 12 3 3 8v8l9 5 9-5V8z"></path><path d="m3 8 9 5 9-5M12 13v8"></path></svg>}
+                        </span>
+                        <small>{label}</small>
+                        <b>{value}</b>
+                        <span class={`dl ${up ? 'up' : 'dn'}`}>{delta}</span>
+                        <span class="nt">{note}</span>
+                      </div>
+                    );
+                  })
+                }
+              </div>
+              <div class="fd-row">
+                <div class="fpanel">
+                  <p class="qt">{c2.chartTitle}</p>
+                  <div class="fbars">
+                    <span class="fgoal"><em>{c2.goal}</em></span>
+                    {
+                      c2.weeks.map((w, k) => (
+                        <div class={`fbar${k === 3 ? ' best' : ''}`} style={`--h:${[58, 70, 64, 92][k]}%;--i:${k}`}>
+                          <span class="v">{c2.vals[k]}</span>
+                          {k === 3 && <em class="bt">{c2.best}</em>}
+                          <i></i>
+                          <span class="l">{w}</span>
+                        </div>
+                      ))
+                    }
+                  </div>
+                </div>
+                <div class="fpanel">
+                  <p class="qt">{c2.donutTitle}</p>
+                  <div class="dwrap">
+                    <div class="donutbox">
+                      <svg class="donut" viewBox="0 0 42 42" aria-hidden="true">
+                        <circle cx="21" cy="21" r="15.915" pathLength="100" stroke="var(--t-blue)" style={`--d:${donut[0][1]}`}></circle>
+                        <circle cx="21" cy="21" r="15.915" pathLength="100" stroke="var(--t-ai)" style={`--d:${donut[1][1]};stroke-dashoffset:-${donut[0][1]}`}></circle>
+                        <circle cx="21" cy="21" r="15.915" pathLength="100" stroke="var(--t-warm)" style={`--d:${donut[2][1]};stroke-dashoffset:-${Number(donut[0][1]) + Number(donut[1][1])}`}></circle>
+                      </svg>
+                      <div class="dc"><b>{donut[0][0]}</b><small>{donut[0][1]} %</small></div>
+                    </div>
+                    <ul class="dleg">
+                      {donut.map((z, k) => <li><i style={`background:var(${['--t-blue', '--t-ai', '--t-warm'][k]})`}></i>{z[0]} <b>{z[1]} %</b></li>)}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="insight">
+                <span class="ai-chip">IA</span>
+                <div>
+                  <p class="it1">{c2.insightTitle}</p>
+                  <p class="it2" data-type={c2.insight} data-delay="2400"></p>
+                </div>
+                <div class="acts">{c2.actions.map((a) => <span>{a}</span>)}</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- c · Aplicación a medida: el código se escribe y la app se arma al mismo ritmo -->
+          <div class="cs" data-cs>
+            <div class="live3">
+              <div class="ed">
+                <div class="edbox">
+                  <p class="edt">{sc.c3.editor}</p>
+                  {sc.c3.code.map((line, k) => <p class="cl" data-n={k + 1} style={`--i:${k}`}>{line}</p>)}
+                </div>
+                <div class="srvbox">
+                  <p class="edt">{sc.c3.server}</p>
+                  {sc.c3.logs.map((line, k) => <p class={`sl${line.startsWith('✓') ? ' ok' : ''}`} style={`--i:${k}`}>{line}</p>)}
+                </div>
+              </div>
+              <div class="pv">
+                <div class="pv-bar"><i></i><i></i><i></i><span>{sc.c3.preview}</span></div>
+                <div class="pv-body">
+                  <p class="pv-t">{sc.c3.appTitle}</p>
+                  {
+                    sc.c3.fields.map((f, k) => (
+                      <div class="pf" style={`--i:${k}`}>
+                        <small>{pair(f)[0]}</small>
+                        <span>{pair(f)[1]}</span>
+                      </div>
+                    ))
+                  }
+                  <span class="pv-b">{sc.c3.save}</span>
+                  <div class="pv-toast">{sc.c3.toast}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- d · Asistente de IA: lee documentos, encuentra lo que falta y redacta -->
+          <div class="cs" data-cs>
+            <div class="ai4">
+              <div class="att">
+                {
+                  sc.c4.docs.map((d) => (
+                    <span>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5z"></path><path d="M14 3v5h5"></path></svg>
+                      {d}
+                    </span>
+                  ))
+                }
+              </div>
+              <p class="bubble you ask">{sc.c4.ask}</p>
+              <p class="reading"><i class="dots" aria-hidden="true"></i>{sc.c4.reading}</p>
+              <div class="docs">
+                <i class="docscan"></i>
+                <div class="doc">
+                  <p class="wt">{sc.c4.docs[0]}</p>
+                  {sc.c4.req.map((r, k) => <p class={k === 3 ? 'gap' : 'ok'} style={`--i:${k}`}>{r}</p>)}
+                </div>
+                <div class="doc">
+                  <p class="wt">{sc.c4.docs[1]}</p>
+                  {sc.c4.prop.map((r, k) => <p class={k === 3 ? 'gap' : 'ok'} style={`--i:${k}`}>{r}</p>)}
+                </div>
+              </div>
+              <p class="bubble ans" data-type={sc.c4.answer} data-delay="5200"></p>
+              <div class="actrow"><span class="actbtn">{sc.c4.action}</span></div>
+              <div class="draft">
+                <p class="dt">{sc.c4.draftTitle}</p>
+                <p class="dtx" data-type={sc.c4.draft} data-delay="8200"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  import { replay, typeEl, whenVisible } from '../lib/tech-fx';
+
+  const tour = document.querySelector<HTMLElement>('[data-tour]');
+  if (tour) {
+    const tabs = Array.from(tour.querySelectorAll<HTMLButtonElement>('[data-tab]'));
+    const screens = Array.from(tour.querySelectorAll<HTMLElement>('[data-cs]'));
+    const title = tour.querySelector<HTMLElement>('[data-wintitle]')!;
+    const wins: string[] = JSON.parse(tour.dataset.wins || '[]');
+
+    function show(i: number, animate = true) {
+      tabs.forEach((b, k) => b.setAttribute('aria-selected', String(k === i)));
+      screens.forEach((s, k) => {
+        s.classList.toggle('on', k === i);
+        if (k !== i) s.classList.remove('play');
+      });
+      title.textContent = wins[i] || '';
+      const s = screens[i];
+      if (!animate) return;
+      replay(s);
+      s.querySelectorAll<HTMLElement>('[data-type]').forEach((el) => typeEl(el, el.dataset.type || '', Number(el.dataset.delay ?? 900)));
+    }
+    tabs.forEach((b, i) => {
+      b.addEventListener('click', () => show(i));
+      b.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+          const n = (i + (e.key === 'ArrowDown' ? 1 : tabs.length - 1)) % tabs.length;
+          show(n);
+          tabs[n].focus();
+          e.preventDefault();
+        }
+      });
+    });
+    show(0, false);
+    whenVisible(tour, () => show(0), 0.35);
+  }
+</script>
